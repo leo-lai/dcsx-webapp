@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="车方案">
+  <meta name="description" content="车方案">
+  <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="renderer" content="webkit">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
+  <link rel="stylesheet" href="../static/css/webapp.css">
+  <link rel="shortcut icon" href="../static/favicon.ico" />
+  <title>车方案</title>
+</head>
+<body>
+  <div class="page-group">
+    <!-- 车牌省 -->
+    <div class="page" id="pageCarPrefix">
+      <header class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left"></a>
+        <h1 class="title">选择车牌城市</h1>
+      </header>
+      <div class="content">
+        <ul class="l-car-prefix-list">
+          <li v-for="item in carNumPrefixList" @click="sltCarNumProvince(item)">
+            <span v-text="item.oldName"></span>
+            (<span v-text="item.province"></span>)
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 车牌省 end-->
+  </div>
+  <div class="panel-overlay"></div>
+  <!-- 车牌城市 -->
+  <div class="panel panel-right panel-cover l-panel-big" id="panelCarCity">
+    <header class="bar bar-nav">
+      <h1 class="title" v-text="sltedCarNumPrefix.province"></h1>
+    </header>
+    <ul class="l-car-prefix-list">
+      <li v-for="item in sltedCarNumPrefix.city" @click="sltCarNumCity(item)">
+        <span v-text="item.oldName"></span>
+      </li>
+    </ul>
+  </div>
+  <!-- 车牌城市 end-->
+  <script src="../static/plugs/require.min.js" data-main="../static/js/main.js"></script>
+</body>
+</html>
