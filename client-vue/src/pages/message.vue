@@ -56,22 +56,7 @@ export default {
     return {
     }
   },
-  computed: {
-    
-  },
-  watch: {
-    
-  },
   created() {
-    
-  },
-  mounted() {
-    
-  },
-  updated() {
-
-  },
-  methods: {
     
   }
 }

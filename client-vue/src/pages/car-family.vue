@@ -30,12 +30,6 @@ export default {
       family: []   // 车系
     }
   },
-  computed: {
-    
-  },
-  watch: {
-    
-  },
   created() {
     this.$server.car.getFamily(this.$route.params.id)
     .then((response)=>{
@@ -43,12 +37,6 @@ export default {
         this.family = response.list
       }, 600)
     })
-  },
-  mounted() {
-
-  },
-  updated() {
-
   },
   methods: {
     sltFamily(item) {

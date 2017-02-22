@@ -44,21 +44,6 @@ export default {
       sltedCarCity: {}
     }
   },
-  computed: {
-    
-  },
-  watch: {
-    
-  },
-  created() {
-    
-  },
-  mounted() {
-
-  },
-  updated() {
-
-  },
   methods: {
     sltProvince(item) {
       this.sltedCarCity = item
@@ -72,7 +57,8 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
+.content{background-color: #fff; }
 /* 车牌城市 */
 .l-car-prefix-list{padding: 0.375rem;margin: 0;overflow: hidden;background: #fff;}
 .l-car-prefix-list li{float: left;width: 33%;padding: 0.375rem;text-align: center;list-style: none;}

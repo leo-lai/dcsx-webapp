@@ -75,22 +75,11 @@ export default {
     return {
     }
   },
-  computed: {
-    
-  },
-  watch: {
-    
-  },
   created() {
     
   },
   mounted() {
     $('.swiper-container').swiper()
-  },
-  updated() {
-
-  },
-  methods: {
   }
 }
 </script>

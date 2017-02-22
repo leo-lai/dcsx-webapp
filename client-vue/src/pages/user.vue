@@ -102,20 +102,8 @@ export default {
       isShowQrcode: false  // 显示二维码
     }
   },
-  computed: {
-    
-  },
-  watch: {
-    
-  },
   created() {
     
-  },
-  mounted() {
-    
-  },
-  updated() {
-
   },
   methods: {
     exit: function(){

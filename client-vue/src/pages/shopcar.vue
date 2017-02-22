@@ -65,20 +65,8 @@ export default {
       checkAll: false
     }
   },
-  computed: {
-    
-  },
-  watch: {
-    
-  },
   created() {
     
-  },
-  mounted() {
-    
-  },
-  updated() {
-
   },
   methods: {
     edit: function(){

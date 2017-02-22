@@ -108,30 +108,17 @@ export default {
       let sltedBrand = this.$storage.local.get('sltedBrand') || {}
       let sltedFamily = this.$storage.local.get('sltedFamily') || {}
       let sltedPailiang = this.$storage.local.get('sltedPailiang') || {}
-      return (sltedBrand.name || '') + ' ' + (sltedFamily.name || '') + ' ' + (sltedPailiang.name || '')
+      let carModel = (sltedBrand.name || '') + ' ' + (sltedFamily.name || '') + ' ' + (sltedPailiang.name || '')
+      return sltedBrand.name ? carModel : '' 
     },
     carNumPrefix() {
       let sltCarCity = this.$storage.local.get('sltCarCity') || {}
       return sltCarCity.oldName || '粤A'
     }
-  },
-  watch: {
-    
-  },
-  created() {
-    
-  },
-  mounted() {
-
-  },
-  updated() {
-
-  },
-  methods: {
   }
 }
 </script>
 <style>
-.l-car-prefix{min-width: 5.0rem; margin-left: 0.25rem; }
+.l-car-prefix{min-width: 3.0rem; margin-left: 0.25rem; }
 .l-car-prefix:after{content: '\e609'; font-family: 'l-iconfont'; margin-left: 0.25rem; color: #ccc; vertical-align: -0.1rem;}
 </style>
