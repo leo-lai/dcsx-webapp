@@ -1,66 +1,75 @@
 <template>
-  <div class="content">
-    <!-- Slider -->
-    <div class="swiper-container" data-space-between='0'>
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <img src="~assets/banner-002.jpg" alt="">
+  <div class="l-app">
+    <div class="page page-current">
+      <l-header></l-header>
+      <l-tabbar></l-tabbar>
+      <div class="content">
+        <!-- Slider -->
+        <div class="swiper-container" data-space-between='0' style="height: 8.5rem;">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <img width="100%" height="100%" src="~assets/banner-002.jpg" alt="">
+            </div>
+            <div class="swiper-slide">
+              <img width="100%" height="100%" src="~assets/banner-002.jpg" alt="">
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
         </div>
-        <div class="swiper-slide">
-          <img src="~assets/banner-002.jpg" alt="">
-        </div>
-      </div>
-      <div class="swiper-pagination"></div>
-    </div>
-    <!-- Slider end-->
-    <!-- 车辆信息 -->
-    <div class="l-index-carinfo l-margin-b">
-      <!-- 没有车辆信息 -->
-      <router-link class="l-padding l-margin-b l-text-center l-index-carinfo-has l-link" to="/car/info">
-        <p class="l-margin-tb l-text-gray l-fs-s">您还没添加车辆</p>
-      </router-link>
+        <!-- Slider end-->
+        <!-- 车辆信息 -->
+        <div class="l-index-carinfo l-margin-b">
+          <!-- 没有车辆信息 -->
+          <router-link class="l-padding l-margin-b l-text-center l-index-carinfo-has l-link" to="/car/info">
+            <p class="l-margin-tb l-text-gray l-fs-s">您还没添加车辆</p>
+          </router-link>
 
-      <!-- 已有车辆信息 -->
-      <router-link class="l-flex-h l-padding l-margin-b l-index-carinfo-has l-link" to="/car/info">
-        <img class="l-thumb-circle l-margin-r-s" src="https://placeholdit.imgix.net/~text?txtsize=28&bg=0894ec&txtclr=fff&txt=Logo&w=120&h=120">
-        <div class="l-rest l-margin-r-s">
-          <h4 class="l-margin-0 l-text-clamp">宝马 WRANGLER RUBICON 3.6L越野的飞机的扩大解放车</h4>
-          <i class="_carnum">粤A · 38343</i>
+          <!-- 已有车辆信息 -->
+          <router-link class="l-flex-h l-padding l-margin-b l-index-carinfo-has l-link" to="/car/info">
+            <img class="l-thumb-circle l-margin-r-s" src="https://placeholdit.imgix.net/~text?txtsize=28&bg=0894ec&txtclr=fff&txt=Logo&w=120&h=120">
+            <div class="l-rest l-margin-r-s">
+              <h4 class="l-margin-0 l-text-clamp">宝马 WRANGLER RUBICON 3.6L越野的飞机的扩大解放车</h4>
+              <i class="_carnum">粤A · 38343</i>
+            </div>
+          </router-link>
         </div>
-      </router-link>
-    </div>
-    <!-- 车辆信息 end-->
-    <!-- 首页菜单 -->
-    <div class="l-index-menu">
-      <div class="row no-gutter">
-        <a class="col-50 l-text-default l-link l-border-r" href="coupons.html">
-          <p><img src="~assets/img-019.jpg"></p>
-          <p>优惠中心</p>
-        </a>
-        <a class="col-50 l-text-default l-link">
-          <p><img src="~assets/img-020.jpg"></p>
-          <p>套餐年卡<span class="badge">8</span></p>
-        </a>
+        <!-- 车辆信息 end-->
+        <!-- 首页菜单 -->
+        <div class="l-index-menu">
+          <div class="row no-gutter">
+            <a class="col-50 l-text-default l-border-r" href="coupons.html">
+              <p><img src="~assets/img-019.jpg"></p>
+              <p>优惠中心</p>
+            </a>
+            <a class="col-50 l-text-default">
+              <p><img src="~assets/img-020.jpg"></p>
+              <p>套餐年卡<span class="badge">8</span></p>
+            </a>
+          </div>
+          <div class="row no-gutter">
+            <a class="col-50 l-text-default l-border-r l-border-t">
+              <p><img src="~assets/img-021.jpg"></p>
+              <p>阿里车码头</p>
+            </a>
+            <a class="col-50 l-text-default l-border-t" href="shop.html">
+              <p><img src="~assets/img-022.jpg"></p>
+              <p>特价商城</p>
+            </a>
+          </div>
+        </div>
+        <!-- 首页菜单 end-->
       </div>
-      <div class="row no-gutter">
-        <a class="col-50 l-text-default l-link l-border-r l-border-t">
-          <p><img src="~assets/img-021.jpg"></p>
-          <p>阿里车码头</p>
-        </a>
-        <a class="col-50 l-text-default l-link l-border-t" href="shop.html">
-          <p><img src="~assets/img-022.jpg"></p>
-          <p>特价商城</p>
-        </a>
-      </div>
     </div>
-    <!-- 首页菜单 end-->
   </div>
 </template>
 
 <script>
+import lHeader from 'components/l-header'
+import lTabbar from 'components/l-tabbar'
 
 export default {
   components: {
+    lHeader, lTabbar
   },
   data () {
     return {

@@ -17,7 +17,23 @@
     	// 关闭SUI的路由
 	    $.config = {
 	      router: false
-	    }
+	    };
+
+      var toptipTimeid = null;
+      $.toptip = function(text, ms){
+        if(!text) return;
+        ms = ms || 3000;
+
+        var $toptip = $('#l-toptip');
+        if($toptip.length === 0){
+          $toptip = $('<div id="l-toptip" class="l-toptip">').appendTo(document.body);
+        }
+        clearTimeout(toptipTimeid)
+        $toptip.text(text).addClass('l-show');
+        toptipTimeid = setTimeout(function(){
+          $toptip.text('').removeClass('l-show')
+        }, ms);
+      }
     </script>
 		<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/??sm.js,sm-extend.js' charset='utf-8'></script>
     <!-- built files will be auto injected -->

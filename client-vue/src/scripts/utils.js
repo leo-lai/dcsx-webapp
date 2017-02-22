@@ -304,10 +304,8 @@ export let utils = {
       return src.replace(/\/0$/, '/64')
     }
   }
-  
 }
 
-export default utils
 
 
 
