@@ -1,34 +1,53 @@
 import Vue from 'vue'
 import { storage, utils } from 'src/scripts/utils'
 
-
 const baseUrl = 'http://twww.dongcheshixiong.com'
 const _http = {
-  get(url = '', ...params) {
-    url = baseUrl + url + '/' + params.join('/')
+  ajax(url = '', data = {}, type  = 'GET') {
+    url = baseUrl + url
+    let headers = {
+      'Token': storage.local.get('token') || '',
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+    if(type === 'PUT'){
+      headers['Content-Type'] = 'text/plain'
+      data = JSON.stringify(data)
+    }
     return new Promise((resolve, reject)=>{
-      $.getJSON(url, (response)=>{
-        if(response.status_code !== 0){
-          $.alert(response.status_msg)
-          reject(response.status_msg)
-        }else{
-          resolve(response)
+      $.ajax({
+        url,
+        data,
+        type,
+        headers,
+        dataType: 'json',
+        timeout: 30000,
+        success(response, status, xhr) {
+          if(response.status_code !== 0){
+            $.alert(response.status_msg)
+            reject(response.status_msg)
+          }else{
+            resolve(response)
+          }
+        },
+        error(xhr, errorType, error){
+          $.alert('服务器响应失败')
         }
       })
     })
   },
-  post(url = '', params = {}) {
-    url = baseUrl + url
-    return new Promise((resolve, reject)=>{
-      $.post(url, params, (response)=>{
-        if(response.status_code !== 0){
-          $.alert(response.status_msg)
-          reject(response.status_msg)
-        }else{
-          resolve(response)
-        }
-      })
-    })
+  get(url = '', ...data) {
+    url = url + '/' + data.join('/')
+    return this.ajax(url)
+  },
+  delete(url = '', ...data){
+    url = url + '/' + data.join('/')
+    return this.ajax(url, undefined, 'DELETE')
+  },
+  post(url, data) {
+    return this.ajax(url, data, 'POST')
+  },
+  put(url, data) {
+    return this.ajax(url, data, 'PUT')
   }
 }
 
@@ -423,7 +442,7 @@ const _server = {
     return promise
   },
   // 登录
-  login(formData = {}) {
+  login(formData) {
     return _http.post('/Member/login', formData)
   },
   // 车主资料
@@ -432,13 +451,28 @@ const _server = {
       return _http.get('/Member/User/get_info')  
     }
   },
+  // 活动信息
+  activity: {
+    getList() {
+      return _http.get('/Member/Activity/list')
+    }
+  },
   // 有关车辆接口
   car: {
     getList() {
       return _http.get('/Member/Car/list')
     },
-    getInfo() {
-      return _http.get('/Member/Car/info')
+    getInfo(id) {
+      return _http.get('/Member/Car/info', id)
+    },
+    edit(id, formData) {
+      return _http.put(`/Member/Car/set/${id}`, formData)
+    },
+    add(formData) {
+      return _http.post('Member/Car/add', formData)
+    },
+    del(id){
+      return _http.delete(`/Member/Car/delete/${id}`)
     },
     getBrands() {
       return _http.get('/Member/Car/brand')

@@ -70,7 +70,7 @@ export default {
         $.toast('登录成功', 2000, 'l-toast')
         this.$storage.local.set('token', response.obj.token)
         this.$router.replace(this.$route.query.to || '/user')
-      }).finally(()=>{
+      }).catch(()=>{
         $.hideIndicator()
         this.submiting = false
       })

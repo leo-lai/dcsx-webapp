@@ -38,11 +38,11 @@ export default {
       brands: {}   // 品牌
     }
   },
-  computed: {
-    
-  },
-  watch: {
-    
+  methods: {
+    sltBrand(item) {
+      this.$storage.local.set('sltedBrand', item)
+      this.$router.push(`/car/family/${item.id}`)
+    }
   },
   created() {
     this.$server.car.getBrands().then((response)=>{
@@ -53,15 +53,6 @@ export default {
   },
   mounted() {
 
-  },
-  updated() {
-
-  },
-  methods: {
-    sltBrand(item) {
-      this.$storage.local.set('sltedBrand', item)
-      this.$router.push(`/car/family/${item.id}`)
-    }
   }
 }
 

@@ -11,12 +11,12 @@
                 <div class="item-inner">
                   <div class="item-title label">车型</div>
                   <div class="item-input">
-                    <input readonly type="text" placeholder="请选择" :value="carModel">
+                    <input readonly type="text" placeholder="请选择" v-model="formData.model_name">
                   </div>
                 </div>
               </div>
             </li>
-            <li>
+            <!-- <li>
               <div class="item-content item-link">
                 <div class="item-inner">
                   <div class="item-title label">车辆性质</div>
@@ -28,14 +28,14 @@
                   </div>
                 </div>
               </div>
-            </li>
+            </li> -->
             <li>
               <div class="item-content">
                 <div class="item-inner">
                   <div class="item-title label">车牌号码</div>
                   <div class="l-car-prefix" v-text="carNumPrefix" @click="$router.push('/car/city')">粤A</div>
                   <div class="item-input">
-                    <input type="tel" placeholder="请填写">
+                    <input type="url" placeholder="请填写" maxlength="7" v-model="carNum">
                   </div>
                 </div>
               </div>
@@ -45,7 +45,7 @@
                 <div class="item-inner">
                   <div class="item-title label">行驶里程</div>
                   <div class="item-input">
-                    <input type="tel" placeholder="请填写">
+                    <input type="tel" placeholder="请填写" v-model="formData.mileage">
                   </div>
                   <div class="item-after">km</div>
                 </div>
@@ -56,7 +56,7 @@
                 <div class="item-inner">
                   <div class="item-title label">上路时间</div>
                   <div class="item-input">
-                    <input id="date-on-road" type="text" placeholder="请选择" readonly>
+                    <input id="date-on-road" type="text" placeholder="请选择" readonly :value="formData.license_date">
                   </div>
                 </div>
               </div>
@@ -66,7 +66,7 @@
                 <div class="item-inner">
                   <div class="item-title label">发动机号</div>
                   <div class="item-input">
-                    <input type="url" placeholder="请填写">
+                    <input type="tel" maxlength="6" placeholder="请填写" v-model="formData.engine_sn">
                   </div>
                 </div>
               </div>
@@ -76,7 +76,20 @@
                 <div class="item-inner">
                   <div class="item-title label">车架号</div>
                   <div class="item-input">
-                    <input type="url" placeholder="请填写">
+                    <input type="tel" maxlength="6" placeholder="请填写" v-model="formData.frame_sn">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li v-if="isEdit">
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-title label">默认车辆</div>
+                  <div class="item-input l-text-right">
+                    <label class="label-switch">
+                      <input ref="defaultBtn" type="checkbox"  v-model="isDefault">
+                      <div class="checkbox"></div>
+                    </label>
                   </div>
                 </div>
               </div>
@@ -85,7 +98,7 @@
         </div>
         <p class="l-margin l-fs-s l-text-gray">注：如您需要查询并办理违章，则必须填写发动机号及车架号，懂车师兄将保障您的信息安全。</p>
         <div class="l-margin">
-          <a class="button l-btn-bg1">保存车辆信息</a>
+          <a class="button l-btn-bg1" @click="submit">保存车辆信息</a>
         </div>
       </div>
     </div>
@@ -100,21 +113,104 @@ export default {
   },
   data () {
     return {
-      formData: {}
+      carNum: '',
+      carNumPrefix: '',
+      isEdit: false,
+      isDefault: false,
+      formData: {
+        carid: '',
+        model_name: '',
+        car_license: '',
+        mileage: '',
+        frame_sn: '',
+        engine_sn: '',
+        license_date: '',
+        insurance_date: '',
+        examination_date: '',
+        is_default: 0
+      },
+      submiting: false
     }
   },
-  computed: {
-    carModel() {
+  methods: {
+    submit() {
+      const self = this
+
+      self.formData.car_license = self.carNumPrefix + self.carNum
+
+      $.showIndicator()
+      self.submiting = true
+
+      let promise = null
+      if(self.isEdit){
+        self.formData.is_default = self.$refs.defaultBtn.checked ? 1 : 0
+        promise = this.$server.car.edit(this.carInfo.id, this.formData)
+        .then(()=>{
+          $.toast('保存成功', 1500, 'l-toast')
+        })
+      }else{
+        promise = this.$server.car.add(this.formData)
+        .then(()=>{
+          $.toast('添加成功', 1500, 'l-toast')
+        })
+      }
+
+      promise.then(()=>{
+        $.hideIndicator()
+        setTimeout(()=>{
+          this.$router.back()  
+        }, 2000)
+      }).catch(()=>{
+        $.hideIndicator()
+        this.submiting = false
+      })
+    }
+  },
+  created() {
+    const self = this
+    const id = self.$route.params.id
+    if(id){
+      self.isEdit = true
+      self.$server.car.getInfo(id).then(({ obj })=>{
+        self.carInfo = obj
+        self.formData.carid = obj.carid
+        self.formData.model_name = obj.model_name
+        self.formData.car_license = obj.car_license
+        self.formData.mileage = obj.mileage
+        self.formData.license_date = obj.license_date
+        self.formData.engine_sn = obj.engine_sn
+        self.formData.frame_sn = obj.frame_sn
+        self.formData.is_default = obj.is_default
+        
+        self.isDefault = obj.is_default == 1
+
+        if(obj.car_license){
+          self.carNumPrefix = obj.car_license.substring(0, 2)
+          self.carNum = obj.car_license.substring(2)
+        }
+      })
+    }else{ 
       let sltedBrand = this.$storage.local.get('sltedBrand') || {}
       let sltedFamily = this.$storage.local.get('sltedFamily') || {}
       let sltedPailiang = this.$storage.local.get('sltedPailiang') || {}
       let carModel = (sltedBrand.name || '') + ' ' + (sltedFamily.name || '') + ' ' + (sltedPailiang.name || '')
-      return sltedBrand.name ? carModel : '' 
-    },
-    carNumPrefix() {
+      self.formData.model_name = sltedBrand.name ? carModel : ''
+
       let sltCarCity = this.$storage.local.get('sltCarCity') || {}
-      return sltCarCity.oldName || '粤A'
+      self.carNumPrefix = sltCarCity.oldName || '粤A'
     }
+  },
+  mounted() {
+    const self = this
+    this.$nextTick(()=>{
+      // 日期
+      $('#date-on-road').calendar({
+        // value: ['2017-02-23' || self.formData.license_date],
+        onChange(p, values, displayValues) {
+          self.formData.license_date = displayValues[0]
+        }
+      })  
+    })
   }
 }
 </script>

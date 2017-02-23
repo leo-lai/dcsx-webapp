@@ -26,8 +26,10 @@ export default {
 	},
 	mounted() {
     this.initSui()
+    this.checkLogin()
 	},
 	updated() {
+    
 	},
   methods: {
     // sui mobile 初始化
@@ -37,6 +39,10 @@ export default {
           $.init()  
         }, 500)  
       })
+    },
+    // 检测是否已登录
+    checkLogin() {
+
     }
   }
 }
