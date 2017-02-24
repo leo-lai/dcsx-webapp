@@ -47,16 +47,17 @@ storage.session.set('wx_url', window.location.href)
 
 
 // 验证登陆
-router.beforeEach((to, from, next) => {
-  let isCheckLogin = to.meta.auth
-  if(isCheckLogin === undefined) {
-    isCheckLogin = true
-  }
-  if(isCheckLogin && !storage.local.get('token')){
-    next('/login')
-  }
-  next()
-})
+// router.beforeEach((to, from, next) => {
+//   let isCheckLogin = to.meta.auth
+      
+//   if(isCheckLogin === undefined) {
+//     isCheckLogin = true
+//   }
+//   if(isCheckLogin && !storage.local.get('token')){
+//     next('/login')
+//   }
+//   next()
+// })
 
 // 记录页面浏览顺序，用来判断动画方向
 let _history = {  count: 0 , prevPath: '/', currPath: '' }

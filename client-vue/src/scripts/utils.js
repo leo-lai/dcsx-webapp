@@ -72,17 +72,21 @@ export let storage = {
     }
   },
   session: {
-    set(key, value) {
+    set(key, value = '') {
       if(!key) return false
-      window.sessionStorage.setItem(STORE_PREFIX + key, JSON.stringify(value || {}))
+      window.sessionStorage.setItem(STORE_PREFIX + key, JSON.stringify(value))
     },
     get(key) {
       if(!key) return ''
       return JSON.parse(window.sessionStorage.getItem(STORE_PREFIX + key))
-    } 
+    },
+    remove(key) {
+      if(!key) return false
+      return window.sessionStorage.removeItem(STORE_PREFIX + key)
+    }
   },
   local: {
-    set(key, value, ms = 1000*3600*24*365) {
+    set(key, value = '', ms = 1000*3600*24*365) {
       if(!key) return false
       
       key = STORE_PREFIX + key
@@ -104,7 +108,11 @@ export let storage = {
         value = ''
       }
       return value
-    } 
+    },
+    remove(key) {
+      if(!key) return false
+      return window.localStorage.removeItem(STORE_PREFIX + key)
+    }
   }
 }
 /*========utils小工具===========*/
@@ -196,7 +204,7 @@ export let utils = {
     return !isNaN( parseFloat(value) ) && isFinite( value )
   },
 	setTitle(title) {
-		document.title = title || '艾臣安全智能门窗'
+		document.title = title || '懂车师兄'
     // 判断是否为ios设备的微信浏览器，加载iframe来刷新title
     if (isWechat && isIphone) {
     	let iframe = document.createElement('iframe')

@@ -27,10 +27,10 @@
             <p><img src="~assets/img-026.jpg"></p>
             <p>套餐</p>
           </a>
-          <a class="col-33 l-text-default">
+          <router-link class="col-33 l-text-default" to="/user/coupons">
             <p><img src="~assets/img-027.jpg"></p>
             <p>优惠券</p>
-          </a>
+          </router-link>
           <a class="col-33 l-text-default">
             <p><img src="~assets/img-028.jpg"></p>
             <p>商品</p>

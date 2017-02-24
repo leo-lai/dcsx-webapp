@@ -3,6 +3,7 @@
     <div class="page page-current">
       <l-header></l-header>
       <div class="content">
+        <!-- 车品牌列表 -->
         <div class="list-block contacts-block l-car-model-list">
           <div class="list-group" v-cloak v-for="(brandList, letter) in brands">
             <ul>
@@ -20,8 +21,34 @@
             </ul>
           </div>
         </div>
+        <!-- 车品牌列表 end-->
       </div>
     </div>
+    <div class="panel-overlay"></div>
+    <!-- 车系列 -->
+    <div class="panel panel-right panel-cover l-panel-big" id="panel-right">
+      <div class="l-flex-v l-panel-inner">
+        <header class="l-panel-hd">
+          <div class="l-flex-hvc l-padding-s">
+            <img style="height: 2rem;" class="l-thumb l-margin-r-s" :src="sltedBrand.icon">
+            <h3 v-text="sltedBrand.name">车品牌</h3>
+          </div>
+          <div class="_sub-tit">车系</div>
+        </header>
+        <div class="l-panel-bd l-rest">
+          <div class="list-block l-margin-0">
+            <ul>
+              <li class="item-content item-link" v-for="item in family" @click="sltFamily(item)">
+                <div class="item-inner">
+                  <div class="item-title" v-text="item.name"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 车系列 end-->
   </div>
     
 </template>
@@ -35,13 +62,26 @@ export default {
   },
   data () {
     return {
-      brands: {}   // 品牌
+      brands: {},     // 品牌
+      family: [],     // 车系
+      sltedBrand: {}
     }
   },
   methods: {
     sltBrand(item) {
-      this.$storage.local.set('sltedBrand', item)
-      this.$router.push(`/car/family/${item.id}`)
+      this.sltedBrand = item
+      $.showIndicator()
+      this.$server.car.getFamily(item.id)
+      .then((response)=>{
+        $.hideIndicator()
+        this.family = response.list
+        this.$nextTick(()=>{
+          $.openPanel('#panel-right')
+        })
+      })
+    },
+    sltFamily(item) {
+      this.$router.push(`/car/group/${item.id}`)  
     }
   },
   created() {
@@ -51,8 +91,9 @@ export default {
       }, 600)
     })  
   },
-  mounted() {
-
+  beforeRouteLeave(to, from, next) {
+    $.closePanel('#panel-right')
+    next()
   }
 }
 

@@ -7,7 +7,7 @@
         <div class="l-panel-carinfo l-bg-full">
           <div class="l-flex-hc l-margin">
             <img class="l-thumb-circle l-margin-r" src="http://placeholdit.imgix.net/~text?txtsize=16&bg=0894ec&txtclr=fff&txt=Logo&w=64&h=64">
-            <h3 class="l-text-wrap2">梅赛德斯奔驰 2017款 S500L 4MATIC豪华至尊五座版 4.0L双涡轮增压</h3>
+            <h3 class="l-rest l-text-wrap2">梅赛德斯奔驰 2017款 S500L 4MATIC豪华至尊五座版 4.0L双涡轮增压</h3>
           </div>
           <div class="l-flex-h _info">
             <div class="_item l-rest l-flex-hc l-margin-r">

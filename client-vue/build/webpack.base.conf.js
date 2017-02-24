@@ -64,6 +64,14 @@ let webpackConfig = {
         ],
         exclude: /node_modules/
       },
+      // {
+      //   test: /\.css$/, 
+      //   loader: 'style!css'
+      // },
+      // {
+      //   test: /\.less$/, 
+      //   loader: 'style!css!less'
+      // },
       {
         test: /\.json$/,
         loader: 'json',

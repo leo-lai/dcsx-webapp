@@ -25,7 +25,7 @@ export default {
   },
   data () {
     return {
-      pailiang: []   // 车系
+      pailiang: []   // 车排量
     }
   },
   created() {

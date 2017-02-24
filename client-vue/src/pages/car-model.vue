@@ -5,7 +5,7 @@
       <div class="content">
         <div class="list-block l-car-model-list">
           <ul>
-            <li class="item-content" v-for="item in family" @click="sltFamily(item)">
+            <li class="item-content" v-for="item in model" @click="sltModel(item)">
               <div class="item-inner">
                 <div class="item-title" v-text="item.name"></div>
               </div>
@@ -15,34 +15,32 @@
       </div>
     </div>
   </div>
-  
 </template>
 
 <script>
 import lHeader from 'components/l-header'
-
 export default {
   components: {
     lHeader
   },
   data () {
     return {
-      family: []   // 车系
-    }
-  },
-  methods: {
-    sltFamily(item) {
-      this.$storage.local.set('sltedFamily', item)
-      this.$router.push(`/car/pailiang/${item.id}`)
+      model: []   // 车排量
     }
   },
   created() {
-    this.$server.car.getFamily(this.$route.params.id)
+    this.$server.car.getModel(this.$route.params.id)
     .then((response)=>{
       setTimeout(()=>{
-        this.family = response.list
+        this.model = response.list
       }, 600)
     })
+  },
+  methods: {
+    sltModel(item) {
+      this.$storage.session.set('sltedModel', item)
+      this.$router.go(-3)
+    }
   }
 }
 </script>

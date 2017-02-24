@@ -50,7 +50,7 @@ export default {
       $.openPanel('#panelCarCity')
     },
     sltCarCity(item) {
-      this.$storage.local.set('sltCarCity', item)
+      this.$storage.session.set('sltCarCity', item)
       $.closePanel('#panelCarCity')
       this.$router.go(-1)
     }

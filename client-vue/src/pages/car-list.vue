@@ -8,7 +8,7 @@
       <div class="content">
         <p class="l-margin l-fs-s l-text-gray">注：最多只能添加5辆车辆信息</p>
         <transition-group class="l-car-list" tag="div" name="l-car-list">
-          <div class="l-flex-hc l-padding l-car-list-item l-link" v-for="item in carList" :key="item.id" v-if="!item.isDel">
+          <div class="l-flex-hc l-padding l-car-list-item l-link" v-for="item in carList" :key="item.id" v-if="!item.isDel" @click="editCar(item.id)">
             <img class="l-thumb-circle l-margin-r" :src="item.logo">
             <div class="l-rest">
               <h4 class="l-margin-0 l-text-wrap2 l-fs-m" v-text="item.model_name"></h4>
@@ -16,8 +16,8 @@
               <i v-if="item.is_default == 1" class="_default">默认</i>
             </div>
             <div class="_del_edit">
-              <i @click="delCar(item)">删除</i>
-              <i @click="editCar(item.id)">编辑</i>
+              <i @click.stop="delCar(item)">删除</i>
+              <i>编辑</i>
             </div>
           </div>
         </transition-group>
@@ -59,7 +59,7 @@ export default {
       this.carList = response.list.map((item)=>{
         item.isDel = false
         return item
-      })
+      })  
     })
   },
   mounted() {
@@ -73,11 +73,10 @@ export default {
   opacity: 0;
   transform: translateY(-30px);
 }
-.l-car-list-leave-active {
-  position: absolute;
-}
+.l-car-list-leave-active {position: absolute; left:0; right: 0; }
 
-.l-car-list .l-car-list-item{margin: 0.75rem; transition: all 1s;}
+.l-car-list{margin:0 0.75rem; position: relative;}
+.l-car-list .l-car-list-item{margin-bottom: 0.75rem; transition: all 1s;}
 .l-car-list-item ._del_edit{
   position: absolute;
   right: 0;

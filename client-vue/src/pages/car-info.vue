@@ -35,7 +35,7 @@
                   <div class="item-title label">车牌号码</div>
                   <div class="l-car-prefix" v-text="carNumPrefix" @click="$router.push('/car/city')">粤A</div>
                   <div class="item-input">
-                    <input type="url" placeholder="请填写" maxlength="7" v-model="carNum">
+                    <input type="url" placeholder="请填写" maxlength="6" v-model="carNum">
                   </div>
                 </div>
               </div>
@@ -45,7 +45,7 @@
                 <div class="item-inner">
                   <div class="item-title label">行驶里程</div>
                   <div class="item-input">
-                    <input type="tel" placeholder="请填写" v-model="formData.mileage">
+                    <input type="tel" placeholder="请填写" maxlength="8" v-model="formData.mileage">
                   </div>
                   <div class="item-after">km</div>
                 </div>
@@ -114,7 +114,7 @@ export default {
   data () {
     return {
       carNum: '',
-      carNumPrefix: '',
+      carNumPrefix: '粤A',
       isEdit: false,
       isDefault: false,
       formData: {
@@ -135,6 +135,16 @@ export default {
   methods: {
     submit() {
       const self = this
+      
+      if(!self.formData.carid){
+        $.toptip('请选择车型')
+        return
+      }
+
+      if(!self.carNum){
+        $.toptip('车牌号码不能为空')
+        return
+      }
 
       self.formData.car_license = self.carNumPrefix + self.carNum
 
@@ -160,6 +170,9 @@ export default {
         setTimeout(()=>{
           this.$router.back()  
         }, 2000)
+
+        this.$storage.session.remove('sltedModel')
+        this.$storage.session.remove('sltCarCity')
       }).catch(()=>{
         $.hideIndicator()
         this.submiting = false
@@ -169,12 +182,22 @@ export default {
   created() {
     const self = this
     const id = self.$route.params.id
+
+    let sltedModel = this.$storage.session.get('sltedModel')
+    if(sltedModel){
+      self.formData.carid = sltedModel.carid
+      self.formData.model_name = sltedModel.name
+    }
+
+    let sltCarCity = this.$storage.session.get('sltCarCity')
+    if(sltCarCity){
+      self.carNumPrefix = sltCarCity.oldName
+    }
+
     if(id){
       self.isEdit = true
       self.$server.car.getInfo(id).then(({ obj })=>{
         self.carInfo = obj
-        self.formData.carid = obj.carid
-        self.formData.model_name = obj.model_name
         self.formData.car_license = obj.car_license
         self.formData.mileage = obj.mileage
         self.formData.license_date = obj.license_date
@@ -184,20 +207,17 @@ export default {
         
         self.isDefault = obj.is_default == 1
 
+        if(!sltedModel){
+          self.formData.carid = obj.carid
+          self.formData.model_name = obj.model_name  
+        }
+        
+
         if(obj.car_license){
-          self.carNumPrefix = obj.car_license.substring(0, 2)
+          !sltCarCity && (self.carNumPrefix = obj.car_license.substring(0, 2))
           self.carNum = obj.car_license.substring(2)
         }
       })
-    }else{ 
-      let sltedBrand = this.$storage.local.get('sltedBrand') || {}
-      let sltedFamily = this.$storage.local.get('sltedFamily') || {}
-      let sltedPailiang = this.$storage.local.get('sltedPailiang') || {}
-      let carModel = (sltedBrand.name || '') + ' ' + (sltedFamily.name || '') + ' ' + (sltedPailiang.name || '')
-      self.formData.model_name = sltedBrand.name ? carModel : ''
-
-      let sltCarCity = this.$storage.local.get('sltCarCity') || {}
-      self.carNumPrefix = sltCarCity.oldName || '粤A'
     }
   },
   mounted() {

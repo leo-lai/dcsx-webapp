@@ -62,7 +62,7 @@ export default {
         return
       }
 
-      this.$router.replace(this.$route.query.to || '/user')
+      // this.$router.replace(this.$route.query.to || '/user')
 
       $.showIndicator()
       this.submiting = true

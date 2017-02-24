@@ -9,7 +9,7 @@
 @media screen and (min-width: 360px) and (max-width: 374px) {
   html { font-size: 19.2px; }
 }
-html,body{background: #f3f3f3; cursor: default; color: #333; height: 100%; overflow: hidden;}
+html,body{background: #f3f3f3; cursor: default; color: #333; height: 100%; overflow: hidden; user-select: none;}
 body{max-width: 750px;margin:auto;}
 i{font-style: normal;}
 img{max-width: 100%}
@@ -267,23 +267,20 @@ body.with-panel-right-cover .panel-overlay{
 a.l-link:not([class*='l-flex-']){display: block;}
 /*边框*/
 hr.l-line{
-  -webkit-transform: scale(0.5);transform: scale(0.5); 
-  -webkit-transform-origin: 0 0;transform-origin: 0 0; 
-  border:none;background-color: #d7d7d7;width: 200%;height: 1px;
+ transform: scale(0.5); transform-origin: 0 0; 
+  border:1px solid #f3f3f3; width: 200%; height: 0; font-size: 0;
 }
 .l-border{border: 1px solid rgba(255, 255, 255, 0.5);}
 .l-border-t, .l-border-b, .l-border-l, .l-border-r{ position: relative; }
 .l-border-t:before, .l-border-b:after,
 .l-border-l:before, .l-border-r:after{
-  content: " "; position: absolute; background-color: #d7d7d7; /* border: 1px solid #d7d7d7;  */
-  -webkit-transform: scale(0.5);transform: scale(0.5); 
-  -webkit-transform-origin: 0 0;transform-origin: 0 0; 
-  box-sizing: border-box;
+  content:''; position: absolute;  border: 1px solid #f3f3f3; width: 0; height: 0; font-size: 0;
+  transform: scale(0.5); transform-origin: 0 0; box-sizing: border-box;
 }
-.l-border-t:before, .l-border-b:after{width: 200%; height: 1px;}
+.l-border-t:before, .l-border-b:after{width: 200%;}
 .l-border-t:before{ left: 0; top: 0; }
 .l-border-b:after{ left: 0; bottom: -1px; }
-.l-border-l:before, .l-border-r:after{width: 1px; height: 200%;}
+.l-border-l:before, .l-border-r:after{height: 200%;}
 .l-border-l:before{ top:0; left: 0; }
 .l-border-r:after{ top:0; right: 0; }
 /*按钮*/
@@ -374,7 +371,10 @@ div.l-table-tr.l-border-b{padding-bottom: 0.375rem; margin-bottom: 0.375rem;}
 .l-footer-fixed ~ .content{
   bottom: 3.0rem;
 }
-
+.l-panel-inner{background-color: #fff;}
+.l-panel-hd{position: relative; position: -webkit-sticky; position: sticky; top: 0; z-index: 20; background-color: #fff;} 
+.l-panel-hd ._sub-tit{padding: 0.375rem 0.75rem;background-color: #f3f3f3; font-size: 0.75rem;} 
+.l-panel-bd{overflow-x: hidden; overflow-y: auto;-webkit-overflow-scrolling: touch;}
 /*组件样式*/
 .l-toptip {
   position: fixed; top: 0; right: 0; left:0; z-index: 2000;
@@ -433,31 +433,6 @@ div.l-table-tr.l-border-b{padding-bottom: 0.375rem; margin-bottom: 0.375rem;}
 .l-taocan-name h3{margin: 0.5rem; }
 .l-taocan-record{}
 
-/* 优惠券 */
-.l-coupon{
-  border-radius: 3px;overflow: hidden; color: #fff; position: relative;
-  background: linear-gradient(143deg, #f8614d, #e0274a); margin: 0.75rem;
-}
-.l-coupon:before,
-.l-coupon:after{content: ''; position: absolute; top: 0; bottom: 0; width: 10px;
-  background: radial-gradient(#efeff4 10px, transparent 0, transparent 0) no-repeat;
-  background-size: 20px 20px;
-}
-.l-coupon:before{left: 0; background-position: -10px 50%; }
-.l-coupon:after{right:0; background-position: 0 50%; }
-.l-coupon p{line-height: 1.2;}
-.l-coupon-value{
-  min-width: 5.0rem; max-width: 50%;padding: 0.25rem; font-size: 1.6rem;
-  border-right: 2px dotted rgba(255, 255, 255, 0.6);
-}
-.l-coupon-value i{font-size: 1rem;}
-.l-coupon-value .button{background-color: #ffbb28; color: #d0072b; border-radius: 2px;}
-.l-coupon-desc{padding:0.5rem;position: relative;}
-.l-coupon-tip{position: absolute;top: 0; right: 0.25rem; font-size: 1.1rem;}
-.l-disabled{
-  -webkit-filter:grayscale(100%);filter:grayscale(100%);
-  opacity: 0.6;
-}
 /* 消费记录 */
 .l-buy-total{
   background: linear-gradient(124deg, #f98856, #f3543f);
@@ -531,19 +506,61 @@ div.l-table-tr.l-border-b{padding-bottom: 0.375rem; margin-bottom: 0.375rem;}
 .l-check-expand .l-check-item-desc{display: block;}
 
 
-/* 特惠商场 */
-.l-shop-goods-list{margin: 0.75rem 0.75rem 0 0.75rem}
-.l-shop-goods-item{background-color: #fff;margin-bottom: 4%;}
-.l-shop-goods-item .l-thumb{display: block; width: 100%; height: 8.6rem; margin:auto;}
-.l-shop-goods-price{margin: 0.375rem 0;}
-.l-shop-goods-price .l-icon{margin:0 0 0 -0.175rem}
-.l-shop-goods-coupon{
-  float: right;background-color: #e3243a;color: #fff;position: relative;
-  font-size: 0.6rem;padding:0.2rem 0.25rem 0.2rem 0.5rem; margin-right: -0.375rem;
+/* 特惠商城、套餐年卡 */
+.l-goods-list{margin: 0.75rem 0.75rem 0 0.75rem}
+.l-goods-item{background-color: #fff;margin-bottom: 4%; position: relative;}
+.l-goods-item .l-thumb{display: block; width: 100%; height: 8.6rem; margin:auto;border-radius: 0;}
+.l-goods-price{margin: 0.375rem 0;}
+.l-goods-price .l-icon{margin:0 0 0 -0.175rem}
+.l-goods-coupon{
+  background-color: #ff9100 ;color: #fff;position: absolute; top: 0.5rem; left: 0;
+  font-size: 0.6rem; padding:0.2rem 0.5rem 0.2rem 0.25rem; margin-right: -0.375rem;
+  -webkit-clip-path: polygon(0% 0%, 100% 0%, 95% 50%, 100% 100%, 0% 100%);
+  clip-path: polygon(0% 0%, 100% 0%, 95% 50%, 100% 100%, 0% 100%);
 }
-.l-shop-goods-coupon:before{
-  content: '';background: #fff;
-  width: 0.25rem; position: absolute; left: 0; top: 0; bottom: 0; 
-  -webkit-clip-path: polygon(100% 50%, 0 0, 0 100%);
-  clip-path: polygon(100% 50%, 0 0, 0 100%);
+
+/*优惠券*/
+.l-coupon-list{
+  margin: 0.75rem;
+}
+.l-coupon-invalid .l-coupon-item{
+  filter: grayscale(100%);
+}
+.l-coupon-item{
+  background-color: #fff;
+  ._bd{
+    padding: 0.75rem 0;
+    position: relative;
+  }
+  ._bd:before, ._bd:after{
+    content: ''; position: absolute; top: 0; bottom: -0.5rem; width: 10px;
+    background: radial-gradient(#efeff4 10px, transparent 0, transparent 0) no-repeat;
+    background-size: 20px 20px;
+  }
+  ._bd:before{left: 0; background-position: -10px 100%; }
+  ._bd:after{right:0; background-position: 0 100%; }
+  ._val{
+    padding: 0 0.75rem;
+    color: #ffac0c;
+    min-width: 5rem;
+    text-align: center;
+    span{
+      font-size: 1.5rem;
+    }
+  }
+  ._desc{
+    padding: 0 0.75rem;
+    h3{
+      color: #ffac0c;
+    }
+  }
+  ._ft{
+    position: relative;
+    margin: 0 1.0rem;
+    padding: 0.75rem 0;
+    font-size: 0.7rem;
+  }
+  ._ft:before{
+    border-style: dashed;
+  }
 }

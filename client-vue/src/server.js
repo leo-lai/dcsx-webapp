@@ -26,11 +26,13 @@ const _http = {
             $.alert(response.status_msg)
             reject(response.status_msg)
           }else{
+            !response.list && (response.list = [])
+            !response.obj && (response.obj = {})
             resolve(response)
           }
         },
         error(xhr, errorType, error){
-          $.alert('服务器响应失败')
+          // $.alert('服务器响应失败')
         }
       })
     })
@@ -63,11 +65,11 @@ class List {
     this.page = 0                   // 当前页数
     this.gotoPage = 1               // 跳转到第几页
     this.pageList = [1]             // 分页数组
-    this.rowsList = [10, 20, 50]    // 每页条数
+    this.rowList = [10, 20, 50]    // 每页条数
     this.total = 1                  // 总条数
     this.totalPage = 1              // 总页数
 
-    this.rows = 10                  // 条数
+    this.row = 10                  // 条数
     this.isPage = true              // 是否分页
     this.params = {}                // 异步发送数据
     this.beforeAjax = utils.noop
@@ -110,33 +112,12 @@ class List {
       case 'news':              // 新闻列表
         url = 'owner/visitor/getPublishList'
         break
-      case 'activity':          // 活动列表
-        url = 'owner/visitor/getCouponActivity'
-        break
-      case 'appointment':       // 预约列表
-        url = 'owner/visitor/getAppointList'
-        break
-      case 'order':             // 订单列表
-        url = 'owner/visitor/getOrderList'
-        break
-      case 'faq':               // 常见问题列表
-        url = 'owner/visitor/getHelpList'
-        break
-      case 'feedback':          // 反馈问题列表
-        url = 'owner/getMyFeedBackList'
-        break
-      case 'feedbackReply':     // 反馈详情回复列表
-        url = 'owner/getMyFeedBackReply'
-        break
-      case 'store':             // 门店列表
-        url = 'owner/visitor/getStoreList'
-        break
     }
     this.params.page = this.page
-    this.params.rows = this.rows
+    this.params.rows = this.row
     this.isLoading = true
     this.beforeAjax(this.isLoading)
-    Vue.http.get(url, {
+    _http.get(url, {
       params: this.params
     }).then(function({ body }){
       this.isAjax = true
@@ -311,41 +292,6 @@ const _server = {
     })
     return promise
   },
-  // 发送手机验证码
-  sendMobiCode(phone, btn) {
-    if(!phone) {
-      $.alert('请输入正确手机号码')
-      return
-    }
-
-    let time = 30
-    let oldtext = ''
-    let timeid = 0
-    if(btn){
-      btn.setAttribute('disabled', true)
-      oldtext = btn.textContent
-      timeid = setInterval(()=>{
-        if(--time >= 0){
-          btn.textContent = `${time}s后重新获取`
-        }else{
-          clearInterval(timeid)
-          btn.removeAttribute('disabled')
-          btn.textContent = oldtext
-        }
-      }, 1000)
-    }
-
-    let promise = _http.get(`/Member/verify/sms/${phone}`)
-    promise.then((response)=>{
-      $.toast('验证码已发送到您的手机上', 2000, 'l-toast')
-    }).catch(()=>{
-      clearInterval(timeid)
-      btn.removeAttribute('disabled')
-      btn.textContent = oldtext
-    })
-
-    return promise
-  },
   // 获取当前经纬度
   getPosition() {
     // let position = storage.local.get('position') || {}
@@ -419,7 +365,7 @@ const _server = {
         resolve(address)
       }else{
         self.getPosition().then( position => {
-          Vue.http.jsonp('http://apis.map.qq.com/ws/geocoder/v1/', {
+          $.getJSONP('http://apis.map.qq.com/ws/geocoder/v1/', {
             params: {
               location: position.latitude + ',' + position.longitude,
               key: 'GPIBZ-V7YH3-CD735-3HDQM-CNM3F-4PFQP',
@@ -441,6 +387,41 @@ const _server = {
     })
     return promise
   },
+  // 发送手机验证码
+  sendMobiCode(phone, btn) {
+    if(!phone) {
+      $.alert('请输入正确手机号码')
+      return
+    }
+
+    let time = 30
+    let oldtext = ''
+    let timeid = 0
+    if(btn){
+      btn.setAttribute('disabled', true)
+      oldtext = btn.textContent
+      timeid = setInterval(()=>{
+        if(--time >= 0){
+          btn.textContent = `${time}s后重新获取`
+        }else{
+          clearInterval(timeid)
+          btn.removeAttribute('disabled')
+          btn.textContent = oldtext
+        }
+      }, 1000)
+    }
+
+    let promise = _http.get(`/Member/verify/sms/${phone}`)
+    promise.then((response)=>{
+      $.toast('验证码已发送到您的手机上', 2000, 'l-toast')
+    }).catch(()=>{
+      clearInterval(timeid)
+      btn.removeAttribute('disabled')
+      btn.textContent = oldtext
+    })
+
+    return promise
+  },
   // 登录
   login(formData) {
     return _http.post('/Member/login', formData)
@@ -449,6 +430,9 @@ const _server = {
   user: {
     getInfo() {
       return _http.get('/Member/User/get_info')  
+    },
+    getCoupons(page = 1, row = 10, type = 1) {
+      return _http.get('/Member/coupon/My', page, row, type)
     }
   },
   // 活动信息
@@ -469,7 +453,7 @@ const _server = {
       return _http.put(`/Member/Car/set/${id}`, formData)
     },
     add(formData) {
-      return _http.post('Member/Car/add', formData)
+      return _http.post('/Member/Car/add', formData)
     },
     del(id){
       return _http.delete(`/Member/Car/delete/${id}`)
@@ -480,17 +464,62 @@ const _server = {
     getFamily(id) {
       return _http.get('/Member/car/family', id)
     },
+    getGroup(id) {
+      return _http.get('/Member/car/group', id)
+    },
     getPailiang(id) {
       return _http.get('/Member/car/pailiang', id)
+    },
+    getModel(id) {
+      return _http.get('/Member/car/model', id)
+    }
+  },
+  // 优惠券
+  coupon: {
+    getList(page = 1, row = 10) {
+      return _http.get('/Member/coupon/list', page, row)
+    },
+    pick(coupon_id) {
+      return _http.get('/Member/coupon/pick/', coupon_id)
+    }
+  },
+  // 套餐年卡
+  combo: {
+    getList(page = 1, row = 10) {
+      return _http.get('/Member/combo/list', page, row)
+    },
+    getInfo(suit_id) {
+      return _http.get('/Member/combo/info', suit_id)
+    }
+  },
+  // 商城
+  shop: {
+    // 一级分类
+    getCategory1(page = 1, row = 10) { 
+      return _http.get('/Member/shopping/fist_category_list', page, row)
+    },
+    // 二级分类
+    getCategory2(category1_id) {
+      return _http.get('/Member/shopping/second_category_list', category1_id)
+    },
+    // 商品列表
+    getGoodsList(page = 1, row = 10, desc = 'DESC', category1_id, category2_id = 0) {
+      return _http.get('/Member/shopping/goods_list', page, row, desc, category1_id, category2_id)
+    },
+    // 商品详情
+    getGoodsInfo(goods_id){
+      return _http.get('/Member/shopping/goods_detail', goods_id)
     }
   }
-
 }
 
 Vue.mixin({
   created() {
     // 异步通信
     // this.$http = _http
+
+    // 判断设备
+    this.$device = utils.device
 
     // 接口
     this.$server = _server

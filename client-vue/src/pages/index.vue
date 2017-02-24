@@ -35,24 +35,24 @@
         <!-- 首页菜单 -->
         <div class="l-index-menu">
           <div class="row no-gutter">
-            <a class="col-50 l-text-default l-border-r" href="coupons.html">
+            <router-link class="col-50 l-text-default l-border-r" to="/coupons">
               <p><img src="~assets/img-019.jpg"></p>
               <p>优惠中心</p>
-            </a>
-            <a class="col-50 l-text-default">
+            </router-link>
+            <router-link class="col-50 l-text-default" to="/combo">
               <p><img src="~assets/img-020.jpg"></p>
               <p>套餐年卡<span class="badge">8</span></p>
-            </a>
+            </router-link>
           </div>
           <div class="row no-gutter">
-            <a class="col-50 l-text-default l-border-r l-border-t">
+            <router-link class="col-50 l-text-default l-border-r l-border-t" to="/alicar">
               <p><img src="~assets/img-021.jpg"></p>
               <p>阿里车码头</p>
-            </a>
-            <a class="col-50 l-text-default l-border-t" href="shop.html">
+            </router-link>
+            <router-link class="col-50 l-text-default l-border-t" to="/shop">
               <p><img src="~assets/img-022.jpg"></p>
               <p>特惠商城</p>
-            </a>
+            </router-link>
           </div>
         </div>
         <!-- 首页菜单 end-->

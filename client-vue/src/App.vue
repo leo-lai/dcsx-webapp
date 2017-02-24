@@ -49,7 +49,7 @@ export default {
 
 </script>
 
-<style>
+<style lang="less">
 @import '~src/styles/global.less';
 @import '~src/styles/transition.css';
 .l-app{position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow-x: hidden;}
