@@ -22,10 +22,15 @@ const _http = {
         dataType: 'json',
         timeout: 30000,
         success(response, status, xhr) {
-          if(response.status_code !== 0){
+          if(response.status_code == 80001){ // 登录失效
+            $.alert(response.status_msg)
+            _server.logout()
+            reject(response.status_msg)
+          }else if(response.status_code !== 0){
             $.alert(response.status_msg)
             reject(response.status_msg)
           }else{
+            // 修正接口数据规范
             !response.list && (response.list = [])
             !response.obj && (response.obj = {})
             resolve(response)
@@ -160,34 +165,12 @@ const _server = {
   getGrantUrl(url, params) {
     if(!url) return ''
 
-    let appid = config.getAppid()
-    url = utils.url.setArgs(url, params)
-    utils.device.isWechat && (url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`)
-    return url
+    url = window.location.origin + utils.url.setArgs(url, params)
+    return `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8069d2775c2f68ab&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=dcsx#wechat_redirect`
   },
   // 获取微信信息
-  getWxByCode(code) {
-    let ret = {}
-    let promise = new Promise( (resolve) => {
-      if(!code){
-        resolve(ret)
-      }else{
-        Vue.http.get('owner/getByCode', {
-          params: { code }
-        }).then(({ body })=>{
-          if(body.success && body.data){
-            resolve(body.data)
-          }else{
-            resolve(ret)
-            utils.alert.call(Vue, body.message)
-          }
-        }, (error)=>{
-          resolve(ret)
-          utils.alert.call(Vue, ERROR_MSG.api)
-        })
-      }
-    })
-    return promise
+  getWxByCode(code = '') {
+    return _http.get('/Member/login', code)
   },
   // 获取jssdk授权配置
   getWxConfig(url) {
@@ -422,6 +405,15 @@ const _server = {
 
     return promise
   },
+  // 注销
+  logout(isRemote) {
+    storage.local.remove('token')
+    if(utils.device.isWechat){
+      window.location.replace(_server.getGrantUrl('/login' , {to: window.location.pathname}))  
+    }else{
+      Vue._router.push('/login')
+    }
+  },
   // 登录
   login(formData) {
     return _http.post('/Member/login', formData)
@@ -503,12 +495,23 @@ const _server = {
       return _http.get('/Member/shopping/second_category_list', category1_id)
     },
     // 商品列表
-    getGoodsList(page = 1, row = 10, desc = 'DESC', category1_id, category2_id = 0) {
+    getGoodsList(page = 1, row = 10, category1_id = 0, category2_id = 0, desc = 'DESC') {
       return _http.get('/Member/shopping/goods_list', page, row, desc, category1_id, category2_id)
     },
     // 商品详情
     getGoodsInfo(goods_id){
       return _http.get('/Member/shopping/goods_detail', goods_id)
+    }
+  },
+  // 购物车
+  shopcar: {
+    getList() {
+      return _http.get('/Member/cart/list')
+    },
+    add(goods_id, goods_number) {
+      return _http.post('/Member/cart/add', {
+        goods_id, goods_number
+      })
     }
   }
 }

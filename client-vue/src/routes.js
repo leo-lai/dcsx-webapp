@@ -10,8 +10,23 @@ const routes = [
   },
   {
     path: '/index',
-    meta: { mainPage: true, title: '首页' },
+    meta: { title: '首页', mainPage: true },
     component: (resolve) => require(['./pages/index'], resolve)
+  },
+  {
+    path: '/message',
+    meta: { title: '动态', mainPage: true },
+    component: (resolve) => require(['./pages/message'], resolve)
+  },
+  {
+    path: '/shopcar',
+    meta: { title: '购物车', mainPage: true },
+    component: (resolve) => require(['./pages/shopcar'], resolve)
+  },
+  {
+    path: '/user',
+    meta: { title: '我的', mainPage: true },
+    component: (resolve) => require(['./pages/user'], resolve)
   },
   {
     path: '/combo',
@@ -29,6 +44,16 @@ const routes = [
     component: (resolve) => require(['./pages/shop'], resolve)
   },
   {
+    path: '/shop/goods/:id',
+    meta: { title: '商品列表' },
+    component: (resolve) => require(['./pages/goods'], resolve)
+  },
+  {
+    path: '/shop/goods/info/:id',
+    meta: { title: '商品详情' },
+    component: (resolve) => require(['./pages/goods-info'], resolve)
+  },
+  {
     path: '/alicar',
     meta: { title: '阿里车码头' },
     component: (resolve) => require(['./pages/alicar'], resolve)
@@ -37,21 +62,6 @@ const routes = [
     path: '/coupons',
     meta: { title: '优惠券中心' },
     component: (resolve) => require(['./pages/coupons'], resolve)
-  },
-  {
-    path: '/message',
-    meta: { mainPage: true, title: '动态' },
-    component: (resolve) => require(['./pages/message'], resolve)
-  },
-  {
-    path: '/shopcar',
-    meta: { mainPage: true, title: '购物车' },
-    component: (resolve) => require(['./pages/shopcar'], resolve)
-  },
-  {
-    path: '/user',
-    meta: { mainPage: true, title: '我的' },
-    component: (resolve) => require(['./pages/user'], resolve)
   },
   {
     path: '/user/coupons',
@@ -102,6 +112,11 @@ const routes = [
     path: '/car/city',
     meta: { title: '车牌城市' },
     component: (resolve) => require(['./pages/car-city'], resolve)
+  },
+  {
+    path: '/order/add/:id',
+    meta: { title: '创建订单' },
+    component: (resolve) => require(['./pages/order-add'], resolve)
   }
 ]
 

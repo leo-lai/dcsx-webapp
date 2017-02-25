@@ -41,7 +41,7 @@
             </router-link>
             <router-link class="col-50 l-text-default" to="/combo">
               <p><img src="~assets/img-020.jpg"></p>
-              <p>套餐年卡<span class="badge">8</span></p>
+              <p>套餐年卡<!-- <span class="badge">8</span> --></p>
             </router-link>
           </div>
           <div class="row no-gutter">
@@ -104,5 +104,4 @@ export default {
 .l-index-menu{background-color: #fff; margin: 0.75rem 0; text-align: center; }
 .l-index-menu .col-50{padding: 1.25rem 0; font-size: 0.75rem; }
 .l-index-menu img{display: block; width: 3.75rem; height: 3.25rem; margin: 0 auto 0.25rem; }
-.l-index-menu .badge{color: white; background: red; height: .8rem; min-width: .8rem; padding: 0 .2rem; font-size: .6rem; line-height: .8rem; margin-left: 0.25rem; }
 </style>

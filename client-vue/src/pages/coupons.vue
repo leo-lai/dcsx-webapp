@@ -40,6 +40,7 @@ export default {
   },
   methods: {
     pick(item) {
+      const self = this
       $.showIndicator()
       this.$server.coupon.pick(item.coupon_id).then((response)=>{
         $.hideIndicator()
@@ -54,7 +55,7 @@ export default {
               text: '查看',
               bold: true,
               onClick() {
-                
+                self.$router.push('/user/coupons')
               }
             },
           ]

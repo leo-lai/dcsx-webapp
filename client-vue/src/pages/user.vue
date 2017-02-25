@@ -108,7 +108,7 @@ export default {
   methods: {
     exit: function(){
       $.confirm('确定退出登录？', ()=>{
-        this.$router.replace('/login')
+        this.$server.logout(true)
       })
     },
     showQrcode() {

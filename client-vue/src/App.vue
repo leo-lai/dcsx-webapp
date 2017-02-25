@@ -26,7 +26,6 @@ export default {
 	},
 	mounted() {
     this.initSui()
-    this.checkLogin()
 	},
 	updated() {
     
@@ -39,10 +38,6 @@ export default {
           $.init()  
         }, 500)  
       })
-    },
-    // 检测是否已登录
-    checkLogin() {
-
     }
   }
 }
@@ -50,6 +45,7 @@ export default {
 </script>
 
 <style lang="less">
+@import '~src/styles/base.less';
 @import '~src/styles/global.less';
 @import '~src/styles/transition.css';
 .l-app{position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow-x: hidden;}

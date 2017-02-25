@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     delCar(item) {
-      $.confirm(`确定删除车辆(${item.car_license})？`, ()=>{
+      $.confirm(`确定删除车辆(${item.car_license}) ?`, ()=>{
         item.isDel = true
         this.$server.car.del(item.id).catch((errMsg)=>{
           item.isDel = false

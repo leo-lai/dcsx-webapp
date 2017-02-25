@@ -10,7 +10,7 @@
           <span>全选</span>
         </label>
         <div class="l-rest l-text-center">
-          合计：<span class="l-text-warn"><i class="l-icon">&#xe6cb;</i>200.00</span>
+          合计：<span class="l-text-warn"><i class="l-icon">&#xe6cb;</i>0.00</span>
         </div>
         <a v-if="!isEdit" class="button button-fill l-btn" style="width: 4.0rem;" href="shopcar-order.html">去结算</a>
         <a v-else class="button button-fill l-btn l-btn-error" style="width: 4.0rem;">删除</a>
@@ -22,23 +22,23 @@
         </div>
         <!-- 列表 -->
         <div class="l-shopcar-list">
-          <div class="l-shopcar-item l-flex-h l-border-b" v-for="item in 10">
+          <div class="l-shopcar-item l-flex-h l-border-b" v-for="item in goodsList">
             <label class="l-checkbox">
               <input type="checkbox" :checked="checkAll">
               <i class="l-icon l-icon-radio"></i>
             </label>
             <img class="l-thumb" src="https://placeholdit.imgix.net/~text?txtsize=28&bg=0894ec&txtclr=fff&txt=120x120&w=120&h=120">
             <div class="l-rest">
-              <h4 class="l-text-clamp">商品名称商品名称商</h4>
+              <h4 class="l-text-clamp" v-text="item.goods_name"></h4>
               <div class="l-shopcar-item-disc">
-                <span v-if="!isEdit" class="pull-right l-num">x1</span>
+                <span v-if="!isEdit" class="pull-right l-num">x{{item.goods_number}}</span>
                 <span v-else class="pull-right l-number">
                   <i class="l-icon">&#xe635;</i>
-                  <input type="tel" value="1">
+                  <input type="tel" v-model="item.goods_number">
                   <i class="l-icon">&#xe62a;</i>
                 </span>
                 <span class="l-text-warn">
-                  <i class="l-icon">&#xe6cb;</i>200.00
+                  <i class="l-icon">&#xe6cb;</i>{{item.goods_price}}
                 </span>
               </div>
             </div>
@@ -62,11 +62,17 @@ export default {
   data () {
     return {
       isEdit: false,
-      checkAll: false
+      checkAll: false,
+      goodsList: []
     }
   },
   created() {
-    
+    $.showIndicator()
+    this.$server.shopcar.getList().then(({list})=>{
+      this.goodsList= list
+    }).finally(()=>{
+      $.hideIndicator()
+    })
   },
   methods: {
     edit: function(){
@@ -79,16 +85,5 @@ export default {
 }
 </script>
 <style>
-/* 购物车 */
-.l-shopcar-hd{padding: 0.375rem 0.75rem;background-color: #fff;}
-.l-shopcar-list{background: #fff;}
-.l-shopcar-item{padding: 0.75rem 0.75rem;}
-.l-shopcar-item h4{line-height: 1.2;margin:0;height: 1.75rem; font-size: 0.8rem;font-weight: 400;}
-.l-shopcar-item .l-thumb{/*width: 3.25rem;height: 3.25rem;*/margin-right: 0.5rem;}
-.l-shopcar-item .l-checkbox{width: 2.0rem;margin-left: -0.25rem;}
-.l-shopcar-item .l-checkbox .l-icon-radio{line-height: 3rem;}
-.l-shopcar-item-disc{height: 1.5rem; line-height: 1.5rem;}
-.l-shopcar-order-list{background-color: #fff;padding: 0.75rem 0.75rem 0.375rem;}
-.l-shopcar-order-list .l-thumb{width: 3.0rem;height: 3.0rem;border-radius: 3px;margin:0 0.375rem 0.375rem 0; float: left;}
-.l-discount-list{background-color: #fff;}
+
 </style>

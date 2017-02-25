@@ -4,7 +4,7 @@
       <l-header></l-header>
       <div class="content">
         <div class="l-login">
-          <div class="l-avatar"></div>
+          <img class="l-avatar" :src="headimgurl" alt="">
           <div class="l-login-form">
             <div class="l-login-ipt l-flex-hc">
               <input class="l-rest" type="tel" maxlength="11" placeholder="请输入您手机号码" v-model="formData.username">
@@ -30,6 +30,7 @@
 
 <script>
 import lHeader from 'components/l-header'
+const avatar = require('assets/avatar.jpg')
 
 export default {
   components: {
@@ -38,9 +39,12 @@ export default {
   data() {
     return{
       submiting: false,
+      nickname: '',
+      headimgurl: '',
       formData: {
-        username: '13922214744',
-        code: ''
+        username: '',
+        code: '',
+        openid: ''
       }
     }
   },
@@ -63,7 +67,6 @@ export default {
       }
 
       // this.$router.replace(this.$route.query.to || '/user')
-
       $.showIndicator()
       this.submiting = true
       this.$server.login(this.formData).then((response)=>{
@@ -75,21 +78,43 @@ export default {
         this.submiting = false
       })
     }
+  },
+  created() {
+    let code = this.$route.query.code
+    if(code){
+      this.$server.getWxByCode(code).then(({obj})=>{
+        this.formData.openid = obj.openid
+        this.headimgurl = wxHead(obj.headimgurl)
+        this.nickname = obj.nickname
+      })
+    }else{
+      this.$device.isWechat && $.alert('微信授权失败，请重新进入本页面')
+    }
   }
+}
+
+function wxHead(src) {
+  if(!src) {
+    return avatar
+  }
+  if(src.indexOf('wx.qlogo.cn') === -1){
+    return src
+  }
+  return src.replace(/\/0$/, '/64')
 }
 </script>
 <style>
 /* 登录 */
 .l-login{
-  height: 100%;text-align: center;
+  height: 100%;text-align: center; overflow: hidden;
   background:#fff url('../assets/login-bg.jpg') no-repeat 0 bottom;
   background-size: contain;
 }
 .l-login .l-avatar{
-  width: 4.0rem; height: 4.0rem; margin:3rem auto 2rem;
+  display:block;width: 4.0rem; height: 4.0rem; margin:3rem auto 2rem;
   border-color: rgba(255,255,255, 0.1);
   background-color: rgba(0, 0, 0, 0.2);
-  background-image: url('../assets/temp-002.jpg')
+  /*background-image: url('../assets/temp-002.jpg');*/
 }
 .l-login-form{width: 18.5rem;margin:auto;}
 .l-login-ipt{

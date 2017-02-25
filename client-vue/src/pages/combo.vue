@@ -9,7 +9,7 @@
               <span class="l-goods-coupon" v-text="item.charge"></span>
               <img class="l-thumb" :src="item.banner">
               <div class="l-padding-xs">
-                <h4 class="l-text-wrap2" v-text="item.name"></h4>
+                <h4 class="l-text-wrap1" v-text="item.name"></h4>
               </div>
             </router-link>
           </div>
