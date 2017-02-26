@@ -19,7 +19,7 @@
 
 .page-in-enter-active {
   animation: pageFromRightToCenter 0.5s forwards;
-  z-index: 2002;
+  z-index: 999;
 }
 .page-in-leave-active {
   animation: pageFromCenterToLeft 0.5s forwards;
@@ -29,7 +29,7 @@
 }
 .page-out-leave-active {
   animation: pageFromCenterToRight 0.5s forwards;
-  z-index: 2002;
+  z-index: 999;
 }
 
 @keyframes pageFromRightToCenter {

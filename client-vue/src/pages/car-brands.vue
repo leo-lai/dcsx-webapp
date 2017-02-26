@@ -24,7 +24,7 @@
         <!-- 车品牌列表 end-->
       </div>
     </div>
-    <div class="panel-overlay"></div>
+    
     <!-- 车系列 -->
     <div class="panel panel-right panel-cover l-panel-big" id="panel-right">
       <div class="l-flex-v l-panel-inner">
@@ -92,7 +92,7 @@ export default {
     })  
   },
   beforeRouteLeave(to, from, next) {
-    $.closePanel('#panel-right')
+    $.closePanel()
     next()
   }
 }

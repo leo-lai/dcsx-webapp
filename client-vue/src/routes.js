@@ -114,9 +114,14 @@ const routes = [
     component: (resolve) => require(['./pages/car-city'], resolve)
   },
   {
-    path: '/order/add/:id',
-    meta: { title: '创建订单' },
-    component: (resolve) => require(['./pages/order-add'], resolve)
+    path: '/order/confirm/:id',
+    meta: { title: '订单确认' },
+    component: (resolve) => require(['./pages/order-confirm'], resolve)
+  },
+  {
+    path: '/order/pay',
+    meta: { title: '订单支付' },
+    component: (resolve) => require(['./pages/order-pay'], resolve)
   }
 ]
 

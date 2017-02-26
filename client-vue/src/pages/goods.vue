@@ -32,7 +32,7 @@
       </div>
     </div>
     <!-- 二级分类 -->
-    <div class="panel-overlay"></div>
+    
     <div class="panel panel-right panel-cover l-panel-big" id="panelCategory2">
       <header class="bar bar-nav">
         <h1 class="title">选择商品分类</h1>
@@ -102,7 +102,7 @@ export default {
     }, 600)
   },
   beforeRouteLeave(to, from, next) {
-    $.closePanel('#panelCategory2')
+    $.closePanel()
     next()
   }
 }

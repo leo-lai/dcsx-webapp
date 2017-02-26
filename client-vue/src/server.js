@@ -3,13 +3,14 @@ import { storage, utils } from 'src/scripts/utils'
 
 const baseUrl = 'http://twww.dongcheshixiong.com'
 const _http = {
-  ajax(url = '', data = {}, type  = 'GET') {
+  ajax(url = '', data = {}, type  = 'GET', contentType = 'form') {
     url = baseUrl + url
     let headers = {
       'Token': storage.local.get('token') || '',
       'Content-Type': 'application/x-www-form-urlencoded'
     }
-    if(type === 'PUT'){
+
+    if(contentType === 'json' || type === 'PUT'){
       headers['Content-Type'] = 'text/plain'
       data = JSON.stringify(data)
     }
@@ -27,6 +28,7 @@ const _http = {
             _server.logout()
             reject(response.status_msg)
           }else if(response.status_code !== 0){
+            $.hideIndicator()
             $.alert(response.status_msg)
             reject(response.status_msg)
           }else{
@@ -37,6 +39,7 @@ const _http = {
           }
         },
         error(xhr, errorType, error){
+          $.hideIndicator()
           // $.alert('服务器响应失败')
         }
       })
@@ -50,11 +53,11 @@ const _http = {
     url = url + '/' + data.join('/')
     return this.ajax(url, undefined, 'DELETE')
   },
-  post(url, data) {
-    return this.ajax(url, data, 'POST')
+  post(url, data, contentType = 'form') {
+    return this.ajax(url, data, 'POST', contentType)
   },
-  put(url, data) {
-    return this.ajax(url, data, 'PUT')
+  put(url, data, contentType = 'json') {
+    return this.ajax(url, data, 'PUT', contentType)
   }
 }
 
@@ -164,7 +167,6 @@ const _server = {
   // 获取微信授权路径 url为绝对路径
   getGrantUrl(url, params) {
     if(!url) return ''
-
     url = window.location.origin + utils.url.setArgs(url, params)
     return `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8069d2775c2f68ab&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=dcsx#wechat_redirect`
   },
@@ -172,10 +174,10 @@ const _server = {
   getWxByCode(code = '') {
     return _http.get('/Member/login', code)
   },
-  // 获取jssdk授权配置
-  getWxConfig(url) {
-    url = url || storage.session.get('wx_url')
-    let self = this
+  // 获取jssdk授权配置 promise返回一个对象(wx or {})
+  getWxConfig(url) { 
+    url = url || storage.session.get('wx_url') || window.location.href
+    const self = this
     let config = {
       debug: false,
       appId: '',
@@ -185,114 +187,61 @@ const _server = {
       jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'openLocation', 'getLocation', 'hideOptionMenu', 'showOptionMenu']
     }
 
-    let promise = new Promise((resolve) => {
+    let promise = new Promise((resolve, reject) => {
       if(!window.wx){
-        utils.alert.call(Vue, '没有引入jweixin')
-        resolve({})
+        reject('找不到wx对象')
       }else{
-        window.wx._ready = false
-        Vue.http.get('wx/frame/getWxSignature', {
-          params: { url, t: new Date().getTime() }
-        }).then(({ body })=>{
-          if(body.success){
-            config.appId = body.data.appId
-            config.timestamp = body.data.timestamp
-            config.nonceStr = body.data.noncestr
-            config.signature = body.data.signature
+        if(!utils.device.isWechat || window.wx._ready){
+          resolve(window.wx)
+        }
 
-            window.wx.config(config)
+        _http.get('/getWxSignature', url).then(({ obj })=>{
+          config.appId = obj.appId
+          config.timestamp = obj.timestamp
+          config.nonceStr = obj.noncestr
+          config.signature = obj.signature
 
-            window.wx.ready(()=>{
-              wx.checkJsApi({
-                jsApiList: config.jsApiList,
-                success(res) {
-                  utils.debug(res)
-                  config.jsApiList.forEach((item)=>{
-                    if(window.wx._try){
-                      resolve(window.wx)
-                    }
+          window.wx.config(config)
 
-                    if(res.checkResult[item]){
-                      window.wx._ready = true
-                      window.wx._try = false
-                      resolve(window.wx)
-                      return true
-                    }
-                  })
-                }
-              })
-            })
-
-            window.wx.error((error)=>{
-              window.wx._ready = false
-              utils.debug(error)
-              if(!window.wx._try){
-                window.wx._try = true
-                self.getWxConfig(window.location.href)
-              }else{
+          window.wx.error((error)=>{
+            if(!window.wx._tried){        // 第一次权限验证失败再利用当前地址尝试一下
+              window.wx._tried = true     // 标识已经尝试验证过，不再尝试
+              if(url === window.location.href){
                 resolve(window.wx) 
+              }else{
+                window.wx._ready = false
+                resolve(self.getWxConfig(window.location.href))
               }
-            })
-
-            if(!utils.device.isWechat){
-              resolve(window.wx)
+            }else{
+              resolve(window.wx) 
             }
-          }else{
+          })
+
+          window.wx.ready(()=>{
+            window.wx._ready = true
             resolve(window.wx)
-          }
-        }, (error)=>{
+          })
+        }).catch(()=>{
           resolve(window.wx)
         })
       }
     })
     return promise
   },
-  // 获取临时二维码
-  getWxTempQrCode(inviterWxOpenId, inviterWxUnionId, channel = 'NewWelfare') {
-    let ret = ''
-    let promise = new Promise((resolve) => {
-      if(!inviterWxOpenId || !inviterWxUnionId){
-        resolve(ret)
-      }else{
-        Vue.http.get('wx/frame/getActivityQrCodeUrl', { 
-          params: {
-            channel,
-            inviterWxOpenId,
-            inviterWxUnionId  
-          }
-        }).then(({ body })=>{
-          if(body.success && body.data){
-            resolve(body.data)
-          }else{
-            resolve(ret)
-            utils.alert.call(Vue, body.message)
-          }
-        }, (error)=>{
-          resolve(ret)
-          utils.alert.call(Vue, ERROR_MSG.api)
-        })
-      }
-    })
-    return promise
-  },
-  // 获取当前经纬度
+  // 获取当前经纬度 成功失败都返回一个对象
   getPosition() {
-    // let position = storage.local.get('position') || {}
-    let position = {}
-    // 方圆E时光
-    // position = { 
-    //   latitude: 23.1292,
-    //   longitude: 113.3671,
-    //   speed: -1,
-    //   accuracy: 105.7295
-    // }
-    storage.local.set('position', position, 1000 * 1800)
+    let position = storage.local.get('position')
+    const _defualt = { // 获取位置失败返回默认坐标
+      error: '获取地理位置失败',
+      longitude: 113.531406,
+      latitude: 22.808019
+    }
 
     let promise = new Promise((resolve)=>{
-      if(position.latitude){
+      if(position){ // 先取缓存
         resolve(position)
       }else{
-        if(utils.device.isWechat){
+        if(utils.device.isWechat){ // 调取微信地址位置接口
           this.getWxConfig().then((wx)=>{
             wx.getLocation({
               type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
@@ -300,14 +249,16 @@ const _server = {
                 position = res
                 storage.local.set('position', position, 1000 * 1800)
                 resolve(position)
+              },
+              fail(err) {
+                resolve(_defualt)
               }
             })
-            if(wx._try && !wx._ready){
-              resolve(position)
-            }
+          }).catch(()=>{
+            resolve(_defualt)
           })
-        }else{
-          navigator.geolocation.getCurrentPosition( (response) => {
+        }else{ // h5获取位置
+          navigator.geolocation.getCurrentPosition((response)=>{
             position.latitude = response.coords.latitude
             position.longitude = response.coords.longitude
             storage.local.set('position', position, 1000 * 1800)
@@ -328,42 +279,37 @@ const _server = {
                 errHtml = "未知错误。" 
                 break
             } 
-            console.log('获取当前地理位置失败:'+ errHtml)
-            position.error = errHtml
-            resolve(position)
+            _defualt.error = errHtml
+            resolve(_defualt)
           })
         }
       }
     })
-
     return promise
   },
   // 获取当前地址 使用腾讯地图WebService API
   getAddress() {
     const self = this
-    let ret = {}
+    let ret = ''
     let promise = new Promise((resolve) => {
       let address = storage.local.get('address')
       if(address){
         resolve(address)
       }else{
-        self.getPosition().then( position => {
-          $.getJSONP('http://apis.map.qq.com/ws/geocoder/v1/', {
+        self.getPosition().then((position)=>{
+          $.ajaxJSONP('http://apis.map.qq.com/ws/geocoder/v1/', {
             params: {
               location: position.latitude + ',' + position.longitude,
               key: 'GPIBZ-V7YH3-CD735-3HDQM-CNM3F-4PFQP',
               output: 'jsonp'
             }
-          }).then(({ body })=>{
+          }, function({body}){
             if(body.status == 0){
               storage.local.set('address', body.result, 1000 * 1800);
               resolve(body.result)
             }else{
               resolve(ret)
             }
-          }, (error) => {
-            console.log('获取当前地址失败', error)
-            resolve(ret)
           })
         })
       }
@@ -501,7 +447,12 @@ const _server = {
     // 商品详情
     getGoodsInfo(goods_id){
       return _http.get('/Member/shopping/goods_detail', goods_id)
+    },
+    // 获取立即购买信息
+    getBuyInfo(goods_id, longitude, latitude) {
+      return _http.get('/Member/Shopping/order_info', goods_id, longitude, latitude)
     }
+
   },
   // 购物车
   shopcar: {
@@ -512,6 +463,19 @@ const _server = {
       return _http.post('/Member/cart/add', {
         goods_id, goods_number
       })
+    },
+    del(goods_ids) {
+      
+    },
+    // 获取购物车结算信息
+    getBuyInfo(jsonData) {
+      return _http.post('/Member/cart/cart_info', jsonData, 'json')
+    }
+  },
+  // 订单
+  order: {
+    add(formData) {
+      return _http.post('/Member/order/goods', formData)
     }
   }
 }

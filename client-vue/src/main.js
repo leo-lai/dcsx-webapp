@@ -113,6 +113,10 @@ router.afterEach((route) => {
   storage.session.set('_history', _history)
 })
 
+router.onReady(()=>{
+  console.log(333)
+})
+
 Vue._router = router
 /* eslint-disable no-new */
 new Vue({
