@@ -10,21 +10,11 @@
       </footer>
       <div class="content">
         <!-- 购买的商品 -->
-        <div class="l-shopcar-item l-flex-h l-border-t l-bg">
-          <img class="l-thumb" :src="buyInfo.picpath">
-          <div class="l-rest">
-            <h4 class="l-text-wrap2" v-text="buyInfo.goods_name"></h4>
-            <div class="l-shopcar-item-disc">
-              <span class="pull-right l-number">
-                <i class="l-icon" @click="minus">&#xe635;</i>
-                <input type="tel" v-model="buyNum">
-                <i class="l-icon" @click="add">&#xe62a;</i>
-              </span>
-              <span class="l-text-warn">
-                <i class="l-icon">&#xe6cb;</i>{{buyInfo.market_price}}
-              </span>
-            </div>
-          </div>
+        <div class="l-panel-title l-link-arrow" onclick="$.openPanel('#panelGoodsList')">
+          <span class="l-text-gray">购买商品({{goodsList.length}})</span>
+        </div>
+        <div class="l-goods-thumbs l-border-t">
+          <img v-for="item in goodsList" class="l-thumb" :src="item.picpath">
         </div>
         <!-- 购买的商品 end-->
 
@@ -34,13 +24,13 @@
             <li class="item-content">
               <div class="item-inner">
                 <div class="item-title l-text-gray">配送方式</div>
-                <div class="item-after" v-text="buyInfo.shopping"></div>
+                <div class="item-after" v-text="buyInfo.deliver"></div>
               </div>
             </li>
             <li class="item-content">
               <div class="item-inner">
                 <div class="item-title l-text-gray">支持取货时间</div>
-                <div class="item-after" v-text="buyInfo.receive_time"></div>
+                <div class="item-after" v-text="buyInfo.time"></div>
               </div>
             </li>
           </ul>
@@ -50,17 +40,17 @@
         <!-- 选择门店 -->
         <div class="l-panel-title l-link-arrow" onclick="$.openPanel('#panelStoreList')">
           <a class="pull-right">更换</a>
-          <h3 class="l-text-gray">选择门店</h3>
+          <span class="l-text-gray">选择门店</span>
         </div>
         <div class="l-store-item l-border-t l-margin-b">
           <a class="l-store-item-bd l-flex-h" href="store-details.html">
-            <img class="l-thumb" src="https://placeholdit.imgix.net/~text?txtsize=28&bg=0894ec&txtclr=fff&txt=120x120&w=120&h=120">
+            <img class="l-thumb" :src="sltedStore.picpath">
             <div class="l-rest l-flex-v">
               <div class="l-rest">
                 <span class="pull-right l-fs-s l-text-gray"><i class="l-icon">&#xe634;</i>{{toFixed(sltedStore.distance)}}km</span>
                 <h4 v-text="sltedStore.store_name"></h4>
               </div>
-              <p v-text="sltedStore.store_address"></p>
+              <p v-text="sltedStore.address"></p>
             </div>
           </a>
         </div>
@@ -68,7 +58,7 @@
 
         <!-- 优惠选项 -->
         <div class="l-panel-title l-margin-t">
-          <h3 class="l-text-gray">优惠选项</h3>
+          <span class="l-text-gray">优惠选项</span>
         </div>
         <div class="list-block media-list">
           <ul>
@@ -93,7 +83,7 @@
     <!-- 门店列表 -->
     <div class="panel panel-right panel-cover l-panel-bigger" id="panelStoreList">
       <header class="bar bar-nav">
-        <h1 class="title">选择门店</h1>
+        <h3 class="title">选择门店</h3>
       </header>
       <div class="content">
         <div class="list-block media-list" style="margin:-1px 0;">
@@ -103,20 +93,41 @@
                 <input type="radio" name="store" :checked="item.store_id === sltedStore.store_id">
                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                 <div class="item-media l-margin-l-s">
-                  <img class="l-thumb-s" src="https://placeholdit.imgix.net/~text?txtsize=28&bg=0894ec&txtclr=fff&txt=120x120&w=120&h=120">
+                  <img class="l-thumb-s" :src="item.picpath">
                 </div>
                 <div class="item-inner l-margin-l-s">
-                  <div class="item-title-row">
-                    <div class="item-title" v-text="item.store_name"></div>
-                    <div class="item-after">
-                      <span class="l-fs-s l-text-gray"><i class="l-icon">&#xe634;</i>{{toFixed(item.distance)}}km</span>
-                    </div>
+                  <div class="item-subtitle">
+                    <span class="l-fs-s l-text-gray pull-right"><i class="l-icon">&#xe634;</i>{{toFixed(item.distance)}}km</span>
+                    <span v-text="item.store_name"></span>
                   </div>
-                  <div class="item-subtitle" v-text="item.store_address"></div>
+                  <div class="item-text l-fs-xs" v-text="item.address"></div>
                 </div>
               </label>
             </li>
           </ul>
+        </div>
+      </div>
+    </div>
+    <!-- 门店列表end -->
+    <!-- 门店列表 -->
+    <div class="panel panel-right panel-cover l-panel-bigger" id="panelGoodsList">
+      <header class="bar bar-nav">
+        <h3 class="title">购买的商品</h3>
+      </header>
+      <div class="content">
+        <div class="l-shopcar-list">
+          <div class="l-shopcar-item l-flex-h l-border-b" v-for="item in goodsList">
+            <img class="l-thumb" :src="item.picpath">
+            <div class="l-rest">
+              <h4 class="l-text-clamp" v-text="item.goods_name"></h4>
+              <div class="l-shopcar-item-disc">
+                <span class="pull-right">x{{item.goods_number}}</span>
+                <span class="l-text-warn">
+                  <i class="l-icon">&#xe6cb;</i>{{item.goods_price}}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -137,24 +148,18 @@ export default {
       submiting: false,
       storeList: [],
       sltedStore: {},
+      goodsList: [],
       buyInfo: {},
-      buyNum: 1,
       pointMoney: 0,
       pointType: 1
     }
   },
   computed: {
     buyPay() {
-      return this.buyNum * this.buyInfo.market_price - this.pointMoney
+      return this.buyInfo.sum - this.pointMoney
     }
   },
   methods: {
-    minus() {
-      this.buyNum = --this.buyNum > 0 ? this.buyNum : 1
-    },
-    add() {
-      this.buyNum++
-    },
     toFixed(num = 0, point = 1) {
       return (num - 0).toFixed(point)
     },
@@ -165,7 +170,7 @@ export default {
     usePoint() { // 使用积分
       if(this.pointType !== 1){
         this.pointType = 1
-        this.pointMoney = sltedStore.pointMoney || 0 
+        this.pointMoney = this.buyInfo.point_money || 0 
       }else{
         this.pointType = 2
         this.pointMoney = 0
@@ -174,15 +179,13 @@ export default {
     submit() { // 提交订单
       $.showIndicator()
       this.submiting = true
-      this.$server.order.add({
-        goods_id: this.buyInfo.goods_id,
-        orgid: this.sltedStore.store_id,
-        num: this.buyNum,
-        point_type: this.pointType
-      }).then(({obj})=>{
-        this.submiting = false
+      this.jsonData.point_type = this.pointType
+      this.jsonData.orgid = this.sltedStore.store_id
+      this.$server.order.add2(this.jsonData).then(({obj})=>{
         $.hideIndicator()
+        this.submiting = false
         this.$storage.session.set('temp_pay_info', obj)
+        this.$storage.session.remove('temp_buy_info')
         this.$router.replace('/order/pay')
       }).catch(()=>{
         this.submiting = false
@@ -190,18 +193,30 @@ export default {
     }
   },
   created() {
-    const goods_id = this.$route.params.id
-    this.$server.getPosition().then((position)=>{
-      $.showIndicator()
-      this.$server.shop.getBuyInfo(goods_id, position.longitude, position.latitude)
-      .then(({obj, list})=>{
-        this.buyInfo = obj
-        this.storeList = list
-        this.sltedStore = list[0] || {}
-      }).finally(()=>{
-        $.hideIndicator()
-      })
-    })
+    const jsonData = this.$storage.session.get('temp_buy_info')
+    if(jsonData){
+      this.$server.getPosition().then(({longitude, latitude})=>{
+        $.showIndicator()
+        jsonData.longitude = longitude
+        jsonData.latitude = latitude
+        this.$server.shopcar.getBuyInfo(jsonData)
+        .then(({obj, list, goods_list})=>{
+          this.goodsList = goods_list
+          this.buyInfo = obj
+          this.pointMoney = this.buyInfo.point_money
+          this.storeList = list
+          this.sltedStore = list[0] || {}
+          this.jsonData = {
+            goods: jsonData.goods
+          }
+        }).finally(()=>{
+          $.hideIndicator()
+        })
+      }) 
+    }else{
+      $.alert('没有获取到要购买的商品信息')
+    }
+    
   },
   beforeRouteLeave(to, from, next) {
     $.closePanel()
@@ -209,3 +224,7 @@ export default {
   }
 }
 </script>
+<style scoped>
+.l-goods-thumbs{background-color: #fff;padding:0.5rem; overflow: hidden;}
+.l-goods-thumbs .l-thumb{width: 3.0rem;height: 3.0rem;border-radius: 2px;margin:0.25rem; float: left;}
+</style>

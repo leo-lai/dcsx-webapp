@@ -29,14 +29,14 @@ const routes = [
     component: (resolve) => require(['./pages/user'], resolve)
   },
   {
-    path: '/combo',
+    path: '/combos',
     meta: { title: '套餐年卡' },
-    component: (resolve) => require(['./pages/combo'], resolve)
+    component: (resolve) => require(['./pages/combos'], resolve)
   },
   {
-    path: '/combo/info/:id',
-    meta: { title: '套餐年卡' },
-    component: (resolve) => require(['./pages/combo-info'], resolve)
+    path: '/combos/info/:id',
+    meta: { title: '套餐详情' },
+    component: (resolve) => require(['./pages/combos-info'], resolve)
   },
   {
     path: '/shop',
@@ -67,6 +67,16 @@ const routes = [
     path: '/user/coupons',
     meta: { title: '我的优惠券' },
     component: (resolve) => require(['./pages/user-coupons'], resolve)
+  },
+  {
+    path: '/user/combos',
+    meta: { title: '我的套餐' },
+    component: (resolve) => require(['./pages/user-combos'], resolve)
+  },
+  {
+    path: '/user/order',
+    meta: { title: '我的商品' },
+    component: (resolve) => require(['./pages/user-order'], resolve)
   },
   {
     path: '/car/list',
@@ -119,9 +129,24 @@ const routes = [
     component: (resolve) => require(['./pages/order-confirm'], resolve)
   },
   {
+    path: '/order/confirm2',
+    meta: { title: '订单确认' },
+    component: (resolve) => require(['./pages/order-confirm2'], resolve)
+  },
+  {
     path: '/order/pay',
     meta: { title: '订单支付' },
     component: (resolve) => require(['./pages/order-pay'], resolve)
+  },
+  {
+    path: '/user/stores',
+    meta: { title: '附近门店' },
+    component: (resolve) => require(['./pages/stores'], resolve)
+  },
+  {
+    path: '/user/stores/info/:id',
+    meta: { title: '附近门店' },
+    component: (resolve) => require(['./pages/stores-info'], resolve)
   }
 ]
 

@@ -46,17 +46,16 @@ const router = new VueRouter({
 storage.session.set('wx_url', window.location.href)
 
 // 验证登陆
-storage.local.set('token', 'QM6RhCq_ayTbINJR6q4wenRBnnDUpx8q_bdlyPfZ39cM6qDKgjPIRKR6ggb3zGzhh4nACD35XsvfQQTL1033MAcmE7MIN4WW6zirQtdwV0dLM_c')
+// storage.local.set('token', 'QM6RhCq_ayTbINJR6q4wenRBnnDUpx8q_bdlyPfZ39cM6qDKgjPIRKR6ggb3zGzhh4nACD35XsvfQQTL1033MAcmE7MIN4WW6zirQtdwV0dLM_c')
 router.beforeEach((to, from, next) => {
   let isCheckLogin = to.meta.auth
-      
+  
   if(isCheckLogin === undefined) {
     isCheckLogin = true
   }
   if(isCheckLogin && !storage.local.get('token')){
     server.logout()
     return
-    // next('/login')
   }
   next()
 })
@@ -114,12 +113,15 @@ router.afterEach((route) => {
 })
 
 router.onReady(()=>{
-  console.log(333)
+  setTimeout(()=>{
+    $.init()
+  }, 50) 
 })
 
 Vue._router = router
 /* eslint-disable no-new */
-new Vue({
+const vm = new Vue({
   router,
   render: h => h(App)
 }).$mount('#app')
+

@@ -12,6 +12,7 @@
     <router-link class="tab-item" to="/shopcar" replace active-class="active">
       <span class="icon l-icon">&#xe60a;</span>
       <span class="tab-label">购物车</span>
+      <!-- <span class="badge">0</span> -->
     </router-link>
     <router-link class="tab-item" to="/user" replace active-class="active">
       <span class="icon l-icon">&#xe740;</span>

@@ -16,20 +16,7 @@ export default {
     this.$eventHub.$on('APP-DIRECTION', (data)=>{
       this.direction = data
     })
-    console.log(122221111)
-
-    // this.$nextTick(()=>{
-    //   setTimeout(()=>{
-    //     $.init()
-    //   }, 50)  
-    // })
-	},
-  mounted() {
-    console.log(11111)
-  },
-  activated() {
-    
-  }
+	}
 }
 </script>
 <style lang="less">

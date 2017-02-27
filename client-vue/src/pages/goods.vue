@@ -18,7 +18,7 @@
       <div class="content">
         <div class="l-goods-list">
           <div class="row">
-            <router-link class="col-50 l-goods-item l-text-default" :to="'/shop/goods/info/' + item.goods_id " v-for="item in goodsList">
+            <router-link class="col-50 l-goods-item l-text-default" :to="'/shop/goods/info/' + item.id " v-for="item in goodsList">
               <img class="l-thumb" :src="item.picpath">
               <div class="l-margin-xs">
                 <h4 class="l-text-wrap1" v-text="item.goods_name"></h4>
@@ -107,7 +107,8 @@ export default {
   }
 }
 </script>
-<style lang="less">
+<style scoped lang="less">
+.l-goods-item{height: 11.5rem; overflow: hidden;}
 .l-goods-category2{overflow: hidden; list-style: none; margin: 0; padding: 4%;}
 .l-goods-category2 li{float: left; border: 1px solid rgba(0,0,0,0.1); padding: 0.375rem 0.25rem; width: 48%;margin-bottom: 4%;text-align: center; font-size: 0.75rem;}
 .l-goods-category2 li:nth-child(odd){margin-right: 4%;}

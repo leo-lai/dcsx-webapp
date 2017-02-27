@@ -69,9 +69,9 @@ export default {
       // this.$router.replace(this.$route.query.to || '/user')
       $.showIndicator()
       this.submiting = true
-      this.$server.login(this.formData).then((response)=>{
+      this.$server.login(this.formData).then(({obj})=>{
         $.toast('登录成功', 2000, 'l-toast')
-        this.$storage.local.set('token', response.obj.token)
+        this.$storage.local.set('token', obj.token)
         this.$router.replace(this.$route.query.to || '/user')
       }).catch(()=>{
         $.hideIndicator()
@@ -80,9 +80,12 @@ export default {
     }
   },
   created() {
+
     let code = this.$route.query.code
     if(code){
+      $.showPreloader('微信授权中')
       this.$server.getWxByCode(code).then(({obj})=>{
+        $.hidePreloader()
         this.formData.openid = obj.openid
         this.headimgurl = wxHead(obj.headimgurl)
         this.nickname = obj.nickname

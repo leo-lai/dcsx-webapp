@@ -53,14 +53,14 @@
           <h3 class="l-text-gray">选择门店</h3>
         </div>
         <div class="l-store-item l-border-t l-margin-b">
-          <a class="l-store-item-bd l-flex-h" href="store-details.html">
-            <img class="l-thumb" src="https://placeholdit.imgix.net/~text?txtsize=28&bg=0894ec&txtclr=fff&txt=120x120&w=120&h=120">
+          <a class="l-store-item-bd l-flex-h">
+            <img class="l-thumb" :src="sltedStore.picpath">
             <div class="l-rest l-flex-v">
               <div class="l-rest">
                 <span class="pull-right l-fs-s l-text-gray"><i class="l-icon">&#xe634;</i>{{toFixed(sltedStore.distance)}}km</span>
                 <h4 v-text="sltedStore.store_name"></h4>
               </div>
-              <p v-text="sltedStore.store_address"></p>
+              <p v-text="sltedStore.address"></p>
             </div>
           </a>
         </div>
@@ -103,16 +103,14 @@
                 <input type="radio" name="store" :checked="item.store_id === sltedStore.store_id">
                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                 <div class="item-media l-margin-l-s">
-                  <img class="l-thumb-s" src="https://placeholdit.imgix.net/~text?txtsize=28&bg=0894ec&txtclr=fff&txt=120x120&w=120&h=120">
+                  <img class="l-thumb-s" :src="item.picpath">
                 </div>
                 <div class="item-inner l-margin-l-s">
-                  <div class="item-title-row">
-                    <div class="item-title" v-text="item.store_name"></div>
-                    <div class="item-after">
-                      <span class="l-fs-s l-text-gray"><i class="l-icon">&#xe634;</i>{{toFixed(item.distance)}}km</span>
-                    </div>
+                  <div class="item-subtitle">
+                    <span class="l-fs-s l-text-gray pull-right"><i class="l-icon">&#xe634;</i>{{toFixed(item.distance)}}km</span>
+                    <span v-text="item.store_name"></span>
                   </div>
-                  <div class="item-subtitle" v-text="item.store_address"></div>
+                  <div class="item-text l-fs-xs" v-text="item.address"></div>
                 </div>
               </label>
             </li>
@@ -165,7 +163,7 @@ export default {
     usePoint() { // 使用积分
       if(this.pointType !== 1){
         this.pointType = 1
-        this.pointMoney = sltedStore.pointMoney || 0 
+        this.pointMoney = this.buyInfo.point_money || 0 
       }else{
         this.pointType = 2
         this.pointMoney = 0
@@ -175,9 +173,9 @@ export default {
       $.showIndicator()
       this.submiting = true
       this.$server.order.add({
-        goods_id: this.buyInfo.goods_id,
+        id: this.buyInfo.id,
+        goods_number: this.buyNum,
         orgid: this.sltedStore.store_id,
-        num: this.buyNum,
         point_type: this.pointType
       }).then(({obj})=>{
         this.submiting = false
@@ -190,10 +188,10 @@ export default {
     }
   },
   created() {
-    const goods_id = this.$route.params.id
+    const id = this.$route.params.id
     this.$server.getPosition().then((position)=>{
       $.showIndicator()
-      this.$server.shop.getBuyInfo(goods_id, position.longitude, position.latitude)
+      this.$server.shop.getBuyInfo(id, position.longitude, position.latitude)
       .then(({obj, list})=>{
         this.buyInfo = obj
         this.storeList = list

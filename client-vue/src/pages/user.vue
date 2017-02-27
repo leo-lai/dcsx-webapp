@@ -7,40 +7,41 @@
       <div class="content">
         <!-- user info -->
         <div class="l-panel-user l-flex-v">
-          <div class="l-panel-user-bg" :style="{'background-image': 'url('+ images.temp1 +')'}"></div>
+          <div class="l-panel-user-bg" :style="{'background-image': 'url('+ userInfo.avator +')'}"></div>
           <div class="l-panel-user-avatar l-rest l-flex-vhc">
             <img class="l-icon-qrcode" src="~assets/icon-qrcode.png" @click="showQrcode" alt="">
-            <div class="l-avatar l-user-level" :style="{'background-image': 'url('+ images.temp2 +')'}"></div>
-            <h3>胡杨树</h3>
+            <div class="l-avatar" :style="{'background-image': 'url('+ userInfo.avator +')'}"></div>
+            <h3 v-text="userInfo.username"></h3>
+            <p class="l-fs-s" v-text="userInfo.level_name"></p>
           </div>
           <div class="l-panel-user-bar l-flex-h l-border-t l-fs-s">
             <div class="l-rest l-flex-hvc l-border-r">
-              账户余额：<strong>3899.00</strong>
+              账户余额：<strong v-text="userInfo.total_amount"></strong>
             </div>
             <div class="l-rest l-flex-hvc">
-              账户积分：<strong>3899.00</strong>
+              账户积分：<strong v-text="userInfo.point"></strong>
             </div>
           </div>  
         </div>
         <div class="row no-gutter l-user-menu l-margin-b">
-          <a class="col-33 l-text-default">
+          <router-link class="col-33 l-text-default" to="/user/combos">
             <p><img src="~assets/img-026.jpg"></p>
             <p>套餐</p>
-          </a>
+          </router-link>
           <router-link class="col-33 l-text-default" to="/user/coupons">
             <p><img src="~assets/img-027.jpg"></p>
             <p>优惠券</p>
           </router-link>
-          <a class="col-33 l-text-default">
+          <router-link class="col-33 l-text-default" to="/user/order">
             <p><img src="~assets/img-028.jpg"></p>
             <p>商品</p>
-          </a>
+          </router-link>
         </div>
         <div class="row no-gutter l-user-menu">
-          <a class="col-33 l-text-default">
+          <router-link class="col-33 l-text-default" to="/user/stores">
             <p><img src="~assets/img-029.jpg"></p>
             <p>查看门店</p>
-          </a>
+          </router-link>
           <a class="col-33 l-text-default">
             <p><img src="~assets/img-030.jpg"></p>
             <p>消费记录</p>
@@ -71,10 +72,10 @@
       <div class="l-layer l-flex-vhc" v-cloak v-show="isShowQrcode">
         <div class="l-panel-user-qrcode">
           <div class="l-flex-hc l-margin-b">
-            <div class="l-avatar l-margin-r" :style="{'background-image': 'url('+ images.temp2 +')'}"></div>
-            <h3>胡杨树</h3>
+            <div class="l-avatar l-margin-r" :style="{'background-image': 'url('+ userInfo.avator +')'}"></div>
+            <h3 v-text="userInfo.username"></h3>
           </div>
-          <div class="l-qrcode l-bg-cover l-mask" :style="{'background-image': 'url('+ images.temp1 +')'}">
+          <div class="l-qrcode l-bg-cover l-mask" :style="{'background-image': 'url('+ userInfo.avator +')'}">
             <img src="~assets/temp-003.jpg" alt="">
           </div>
         </div>
@@ -99,11 +100,14 @@ export default {
         temp1: require('assets/temp-001.jpg'),
         temp2: require('assets/temp-002.jpg'),
       },
+      userInfo: {},
       isShowQrcode: false  // 显示二维码
     }
   },
   created() {
-    
+    this.$server.user.getInfo().then(({obj})=>{
+      this.userInfo = obj
+    })
   },
   methods: {
     exit: function(){

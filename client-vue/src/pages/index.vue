@@ -39,7 +39,7 @@
               <p><img src="~assets/img-019.jpg"></p>
               <p>优惠中心</p>
             </router-link>
-            <router-link class="col-50 l-text-default" to="/combo">
+            <router-link class="col-50 l-text-default" to="/combos">
               <p><img src="~assets/img-020.jpg"></p>
               <p>套餐年卡<!-- <span class="badge">8</span> --></p>
             </router-link>

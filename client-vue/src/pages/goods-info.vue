@@ -10,13 +10,13 @@
           </router-link>
         </div>
         <button style="width: 6.0rem;" class="button button-fill l-btn l-btn-blue2" @click="addToShopcar">加入购物车</button>
-        <router-link style="width: 6.0rem;" class="button button-fill l-btn l-btn-blue" :to="'/order/add/' + goodsInfo.goods_id">
+        <router-link style="width: 6.0rem;" class="button button-fill l-btn l-btn-blue" :to="'/order/confirm/' + goodsInfo.id">
           立即购买
         </router-link>
       </footer>
       <div class="content" v-show="goodsInfo.id">
         <!-- Slider -->
-        <div class="swiper-container" data-space-between='10'>
+        <div class="swiper-container" data-space-between='0'>
           <div class="swiper-wrapper">
             <div class="swiper-slide">
               <img :src="goodsInfo.picpath" alt="">
@@ -61,9 +61,9 @@ export default {
   methods: {
     addToShopcar() {
       $.showIndicator()
-      this.$server.shopcar.add(this.goodsInfo.goods_id, 1).then(()=>{
+      this.$server.shopcar.add(this.goodsInfo.id, 1).then(({obj})=>{
         $.hideIndicator()
-        this.shopcarNum++
+        this.shopcarNum = obj.total
         $.toast('加入购物车成功', 2000, 'l-toast')
       }).catch(()=>{
         $.hideIndicator()
@@ -71,11 +71,11 @@ export default {
     }
   },
   created() {
-    const goods_id = this.$route.params.id
     setTimeout(()=>{
       $.showIndicator()
       // 获取商品详情
-      this.$server.shop.getGoodsInfo(goods_id).then(({obj, list})=>{
+      this.$server.shop.getGoodsInfo(this.$route.params.id)
+      .then(({obj, list})=>{
         this.images = list
         this.goodsInfo = obj
       }).finally(()=>{

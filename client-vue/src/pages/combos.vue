@@ -5,7 +5,7 @@
       <div class="content">
         <div class="l-goods-list">
           <div class="row">
-            <router-link class="col-50 l-goods-item l-text-default" :to="'/combo/info/' + item.suit_id" v-for="item in goodsList">
+            <router-link class="col-50 l-goods-item l-text-default" :to="'/combos/info/' + item.suit_id" v-for="item in goodsList">
               <span class="l-goods-coupon" v-text="item.charge"></span>
               <img class="l-thumb" :src="item.banner">
               <div class="l-padding-xs">
@@ -41,6 +41,6 @@ export default {
   }
 }
 </script>
-<style lang="less">
-
+<style scoped lang="less">
+.l-goods-item{height: 10.5rem; overflow: hidden;}
 </style>

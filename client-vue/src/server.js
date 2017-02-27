@@ -21,11 +21,14 @@ const _http = {
         type,
         headers,
         dataType: 'json',
-        timeout: 30000,
+        timeout: 60000,
         success(response, status, xhr) {
-          if(response.status_code == 80001){ // 登录失效
+          // 登录失效 800001 800002 800003
+          if(response.status_code === 800001 || response.status_code === 800002 || 
+            response.status_code === 800003) { 
+            $.hideIndicator()
             $.alert(response.status_msg)
-            _server.logout()
+            // _server.logout()
             reject(response.status_msg)
           }else if(response.status_code !== 0){
             $.hideIndicator()
@@ -355,7 +358,7 @@ const _server = {
   logout(isRemote) {
     storage.local.remove('token')
     if(utils.device.isWechat){
-      window.location.replace(_server.getGrantUrl('/login' , {to: window.location.pathname}))  
+      window.location.replace(_server.getGrantUrl('/login'))  
     }else{
       Vue._router.push('/login')
     }
@@ -366,11 +369,17 @@ const _server = {
   },
   // 车主资料
   user: {
+    // 我的资料
     getInfo() {
       return _http.get('/Member/User/get_info')  
     },
+    // 我的优惠券
     getCoupons(page = 1, row = 10, type = 1) {
-      return _http.get('/Member/coupon/My', page, row, type)
+      return _http.get('/Member/coupon/my', page, row, type)
+    },
+    // 我的套餐
+    getCombos(page = 1, row = 10) {
+      return _http.get('/Member/combo/my', page, row)
     }
   },
   // 活动信息
@@ -418,7 +427,7 @@ const _server = {
       return _http.get('/Member/coupon/list', page, row)
     },
     pick(coupon_id) {
-      return _http.get('/Member/coupon/pick/', coupon_id)
+      return _http.get('/Member/coupon/pick', coupon_id)
     }
   },
   // 套餐年卡
@@ -445,37 +454,63 @@ const _server = {
       return _http.get('/Member/shopping/goods_list', page, row, desc, category1_id, category2_id)
     },
     // 商品详情
-    getGoodsInfo(goods_id){
-      return _http.get('/Member/shopping/goods_detail', goods_id)
+    getGoodsInfo(id){
+      return _http.get('/Member/shopping/goods_detail', id)
     },
     // 获取立即购买信息
-    getBuyInfo(goods_id, longitude, latitude) {
-      return _http.get('/Member/Shopping/order_info', goods_id, longitude, latitude)
+    getBuyInfo(id, longitude, latitude) {
+      return _http.get('/Member/Shopping/order_info', id, longitude, latitude)
     }
-
   },
   // 购物车
   shopcar: {
     getList() {
       return _http.get('/Member/cart/list')
     },
-    add(goods_id, goods_number) {
-      return _http.post('/Member/cart/add', {
-        goods_id, goods_number
+    // 修改购物车数量
+    editNum(id, goods_number = 1) {
+      return _http.post('/Member/cart/add_num_info', {
+        id, goods_number
       })
     },
-    del(goods_ids) {
-      
+    // 添加商品到购物车
+    add(id, goods_number = 1) {
+      return _http.post('/Member/cart/add', {
+        id, goods_number
+      })
+    },
+    // 删除一个或多个购物车商品
+    del(id) { // id = '1,2,3'
+      return _http.post('/Member/cart/delete', {
+        id
+      })
     },
     // 获取购物车结算信息
     getBuyInfo(jsonData) {
-      return _http.post('/Member/cart/cart_info', jsonData, 'json')
+      jsonData = JSON.stringify(jsonData)
+      return _http.post('/Member/cart/settle', {jsonstr: jsonData} )
     }
   },
   // 订单
   order: {
+    getList(page = 1, row = 10, type = 1) {
+      return _http.get('/Member/order/list', page, row, type)
+    },
     add(formData) {
       return _http.post('/Member/order/goods', formData)
+    },
+    add2(jsonData) {
+      jsonData = JSON.stringify(jsonData)
+      return _http.post('/Member/order/cart_goods', {jsonstr: jsonData} )
+    }
+  },
+  // 门店
+  store: {
+    getList(page = 1, row = 10, longitude = 0, latitude = 0) {
+      return _http.get('/Member/store/lbs_list', page, row, longitude, latitude)
+    },
+    getInfo(id) {
+      return _http.get('/Member/store/info', id)
     }
   }
 }
