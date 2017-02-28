@@ -42,23 +42,23 @@
             <p><img src="~assets/img-029.jpg"></p>
             <p>查看门店</p>
           </router-link>
-          <a class="col-33 l-text-default">
+          <router-link class="col-33 l-text-default" to="/user/order/history">
             <p><img src="~assets/img-030.jpg"></p>
             <p>消费记录</p>
-          </a>
-          <a class="col-33 l-text-default">
+          </router-link>
+          <router-link class="col-33 l-text-default" to="/user/agent">
             <p><img src="~assets/img-031.jpg"></p>
             <p>分销记录</p>
-          </a>
+          </router-link>
         </div>
         <div class="row no-gutter l-user-menu">
-          <a class="col-33 l-text-default">
+          <router-link class="col-33 l-text-default" to="/user/holder">
             <p><img src="~assets/img-032.jpg"></p>
             <p>分红记录</p>
-          </a>
+          </router-link>
           <a class="col-33 l-text-default">
             <p><img src="~assets/img-033.jpg"></p>
-            <p>充值提现</p>
+            <p>充值</p>
           </a>
           <a class="col-33 l-text-default" @click="exit">
             <p><img src="~assets/img-034.jpg"></p>

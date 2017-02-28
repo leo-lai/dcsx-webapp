@@ -3,12 +3,9 @@
     <div class="page page-current">
       <l-header></l-header>
       <footer class="l-page-footer l-border-t l-flex-hc">
-        <div class="l-rest l-margin-l">
-          订单金额：<span class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{toFixed(buyPay, 2)}}</span>
-        </div>
-        <button class="button button-fill l-btn" :disabled="submiting" @click="submit">立即购买</button>
+        <router-link class="button button-fill l-btn l-rest" :to="'/combos/info/slt/' + combosInfo.suit_id">马上去匹配车型，下单购买</a>
       </footer>
-      <div class="content" v-show="combosInfo.name">
+      <div class="content" v-show="combosInfo.suit_id">
         <!-- Slider -->
         <div class="swiper-container" data-space-between='0'>
           <div class="swiper-wrapper">
@@ -19,17 +16,15 @@
         </div>
         <!-- Slider end-->
         <div class="l-padding l-bg l-border-b">
-          <h3 v-text="combosInfo.name"></h3>
-          <div class="l-margin-t-s l-rel">
-            <strong class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{combosInfo.favourable_cost}}</strong>&ensp;&ensp;
-            <del class="l-text-gray"><i class="l-icon">&#xe6cb;</i>{{combosInfo.original_cost}}</del>
-            <span class="l-goods-coupon2" v-text="combosInfo.str"></span>
+          <div class="l-flex-hc">
+            <h3 class="l-rest" v-text="combosInfo.name"></h3>
+            <span class="l-goods-coupon2" v-text="combosInfo.coupon_type"></span>
           </div>
           <div class="l-text-gray l-border-t" style="margin-top: 0.75rem; padding-top: 0.75rem;">
-            有效期：{{combosInfo.valid}}个月
+            有效期：{{combosInfo.valid}}
           </div>
         </div>
-        <div class="l-panel-title l-margin-t l-link-arrow">
+        <div class="l-panel-title l-margin-t">
           <span class="l-text-gray">套餐内容</span>
         </div>
         <div class="l-border-t l-bg l-padding-tb">
@@ -79,11 +74,14 @@ export default {
   },
   created() {
     setTimeout(()=>{
+      $.showIndicator()
       this.$server.combo.getInfo(this.$route.params.id)
       .then(({obj, img_list, list})=>{
         this.combosInfo = obj
         this.images = img_list
         this.serviceList = list
+      }).finally(()=>{
+        $.hideIndicator()
       })
     }, 600)
   }
@@ -91,7 +89,7 @@ export default {
 </script>
 <style scoped lang="less">
 .l-goods-coupon2{
-  background-color: #ff9100 ;color: #fff;position: absolute; top: 0; right: 0;
+  background-color: #ff9100 ;color: #fff; display: inline-block;
   font-size: 0.6rem; padding:0.2rem 0.5rem; margin-right: -0.375rem;
   -webkit-clip-path: polygon(0% 0%, 100% 0%, 95% 50%, 100% 100%, 0% 100%, 5% 50%);
   clip-path: polygon(0% 0%, 100% 0%, 95% 50%, 100% 100%, 0% 100%, 5% 50%);

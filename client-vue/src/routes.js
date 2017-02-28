@@ -39,6 +39,11 @@ const routes = [
     component: (resolve) => require(['./pages/combos-info'], resolve)
   },
   {
+    path: '/combos/info/slt/:id',
+    meta: { title: '选择套餐' },
+    component: (resolve) => require(['./pages/combos-service'], resolve)
+  },
+  {
     path: '/shop',
     meta: { title: '特惠商城' },
     component: (resolve) => require(['./pages/shop'], resolve)
@@ -77,6 +82,16 @@ const routes = [
     path: '/user/order',
     meta: { title: '我的商品' },
     component: (resolve) => require(['./pages/user-order'], resolve)
+  },
+  {
+    path: '/user/order/info',
+    meta: { title: '订单详情' },
+    component: (resolve) => require(['./pages/user-order-info'], resolve)
+  },
+  {
+    path: '/user/order/history',
+    meta: { title: '消费记录' },
+    component: (resolve) => require(['./pages/user-order-history'], resolve)
   },
   {
     path: '/car/list',
@@ -147,6 +162,36 @@ const routes = [
     path: '/user/stores/info/:id',
     meta: { title: '附近门店' },
     component: (resolve) => require(['./pages/stores-info'], resolve)
+  },
+  {
+    path: '/user/agent',
+    meta: { title: '分销记录' },
+    component: (resolve) => require(['./pages/user-agent'], resolve)
+  },
+  {
+    path: '/user/agent/apply',
+    meta: { title: '申请分销商' },
+    component: (resolve) => require(['./pages/user-agent-apply'], resolve)
+  },
+  {
+    path: '/user/holder',
+    meta: { title: '分红记录' },
+    component: (resolve) => require(['./pages/user-holder'], resolve)
+  },
+  {
+    path: '/user/holder/member',
+    meta: { title: '我的人脉' },
+    component: (resolve) => require(['./pages/user-holder-member'], resolve)
+  },
+  {
+    path: '/user/holder/drawal',
+    meta: { title: '提现记录' },
+    component: (resolve) => require(['./pages/user-holder-drawal'], resolve)
+  },
+  {
+    path: '/user/holder/rebate',
+    meta: { title: '累计分红' },
+    component: (resolve) => require(['./pages/user-holder-rebate'], resolve)
   }
 ]
 

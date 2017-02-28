@@ -12,7 +12,6 @@
       </div>
     </div>
     <!-- 车牌城市 -->
-    
     <div class="panel panel-right panel-cover l-panel-big" id="panelCarCity">
       <header class="bar bar-nav">
         <h1 class="title" v-text="sltedCarCity.province">车辆城市</h1>

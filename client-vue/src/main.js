@@ -46,7 +46,7 @@ const router = new VueRouter({
 storage.session.set('wx_url', window.location.href)
 
 // 验证登陆
-// storage.local.set('token', 'QM6RhCq_ayTbINJR6q4wenRBnnDUpx8q_bdlyPfZ39cM6qDKgjPIRKR6ggb3zGzhh4nACD35XsvfQQTL1033MAcmE7MIN4WW6zirQtdwV0dLM_c')
+storage.local.set('token', 'QM6RhCq_ayTbINJR6q4wenSDQw7uz_b5BzdlyPfZ39cM6qDKgjPIRKR1FvSJfp8relwZqumxswSZyiN5bUkCy7fY_a0BcdkcxRJirQtdwV0dLM_c')
 router.beforeEach((to, from, next) => {
   let isCheckLogin = to.meta.auth
   

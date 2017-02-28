@@ -91,7 +91,7 @@
       </div>
     </div>
     <!-- 门店列表 -->
-    <div class="panel panel-right panel-cover l-panel-bigger" id="panelStoreList">
+    <div class="panel panel-right panel-cover l-panel-big" id="panelStoreList">
       <header class="bar bar-nav">
         <h1 class="title">选择门店</h1>
       </header>

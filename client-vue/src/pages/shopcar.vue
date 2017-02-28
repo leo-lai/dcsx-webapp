@@ -159,28 +159,29 @@ export default {
         goods
       }
       self.goodsPay = sum
-
     }, { deep: true })
 
-    $.showIndicator()
-    self.$server.shopcar.getList().then(({list})=>{
-      const tempBuyInfo = self.$storage.session.get('temp_buy_info')
-      list.map((item)=>{
-        item.checked = false 
-        if(tempBuyInfo){
-          tempBuyInfo.goods.forEach((tempItem)=>{
-            if(tempItem.id === item.id){
-              item.checked = true
-              return  
-            }
-          })
-        }
-      })
+    setTimeout(()=>{
+      $.showIndicator()
+      self.$server.shopcar.getList().then(({list})=>{
+        const tempBuyInfo = self.$storage.session.get('temp_buy_info')
+        list.map((item)=>{
+          item.checked = false 
+          if(tempBuyInfo){
+            tempBuyInfo.goods.forEach((tempItem)=>{
+              if(tempItem.id === item.id){
+                item.checked = true
+                return  
+              }
+            })
+          }
+        })
 
-      self.goodsList= list
-    }).finally(()=>{
-      $.hideIndicator()
-    })
+        self.goodsList= list
+      }).finally(()=>{
+        $.hideIndicator()
+      })
+    }, 600)
   },
   beforeRouteLeave(to, from, next) {
     this.watchGoodsList()

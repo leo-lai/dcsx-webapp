@@ -81,21 +81,23 @@ export default {
     }
   },
   created() {
-    // 获取车辆信息
-    this.$server.car.getList().then((response)=>{
-      this.carList = response.list
-    })
-
-    // 获取活动信息
-    this.$server.activity.getList().then((response)=>{
-      this.activity = response.list
-      this.$nextTick(()=>{
-        $('.swiper-container').swiper()
+    setTimeout(()=>{
+      $.showIndicator()
+      // 获取车辆信息
+      this.$server.car.getList().then((response)=>{
+        $.hideIndicator()
+        this.carList = response.list
       })
-    })
-  },
-  mounted() {
-    
+
+      // 获取活动信息
+      this.$server.activity.getList().then((response)=>{
+        $.hideIndicator()
+        this.activity = response.list
+        this.$nextTick(()=>{
+          $('.swiper-container').swiper()
+        })
+      })  
+    }, 600)
   }
 }
 </script>

@@ -54,17 +54,18 @@ export default {
   },
   created() {
     this.$server.getPosition().then((position)=>{
-      $.showIndicator()
-      this.$server.store.getList(1, 10, position.longitude, position.latitude)
-      .then(({obj, list})=>{
-        this.buyInfo = obj
-        this.storeList = list
-        this.sltedStore = list[0] || {}
-      }).finally(()=>{
-        $.hideIndicator()
-      })
+      setTimeout(()=>{
+        $.showIndicator()
+        this.$server.store.getList(1, 10, position.longitude, position.latitude)
+        .then(({obj, list})=>{
+          this.buyInfo = obj
+          this.storeList = list
+          this.sltedStore = list[0] || {}
+        }).finally(()=>{
+          $.hideIndicator()
+        })
+      }, 600)
     })
   }
-
 }
 </script>

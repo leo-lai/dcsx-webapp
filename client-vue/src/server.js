@@ -27,13 +27,14 @@ const _http = {
           if(response.status_code === 800001 || response.status_code === 800002 || 
             response.status_code === 800003) { 
             $.hideIndicator()
-            $.alert(response.status_msg)
-            // _server.logout()
             reject(response.status_msg)
+            $.alert(response.status_msg, ()=>{
+              _server.logout()
+            })
           }else if(response.status_code !== 0){
             $.hideIndicator()
-            $.alert(response.status_msg)
             reject(response.status_msg)
+            $.alert(response.status_msg)
           }else{
             // 修正接口数据规范
             !response.list && (response.list = [])
@@ -382,6 +383,40 @@ const _server = {
       return _http.get('/Member/combo/my', page, row)
     }
   },
+  // 分销商
+  agent: {
+    isTrue() { // 是否为分销商
+      return _http.get('/Member/user/judge')
+    },
+    apply(formData) { // 申请为分销商
+      return _http.post('/Member/user/apply', formData)
+    },
+    getRecord(page = 1, row = 10) {
+      return _http.get('/Member/user/rebate_info', page, row)
+    }
+  },
+  // 股东
+  holder: {
+    isTrue() { // 是否为股东
+      return _http.get('/Member/holder/judge_holder')
+    },
+    // 股东信息
+    getInfo() {
+      return _http.get('/Member/holder/info')
+    },
+    // 提现记录
+    getDrawal(page = 1, row = 10) {
+      return _http.get('/Member/holder/drawal_list', page, row)
+    },
+    // 我的人脉
+    getMember(page = 1, row = 10) {
+      return _http.get('/Member/holder/member_list', page, row)
+    },
+    // 分红记录
+    getRebate(page = 1, row = 10) {
+      return _http.get('/Member/holder/rebate_list', page, row)
+    }
+  },
   // 活动信息
   activity: {
     getList() {
@@ -437,6 +472,17 @@ const _server = {
     },
     getInfo(suit_id) {
       return _http.get('/Member/combo/info', suit_id)
+    },
+    getService(suit_id, carid) {
+      return _http.get('/Member/combo/detail', suit_id, carid)
+    },
+    getParts(service_id, carid) {
+      return _http.get('/Member/combo/change_parts', service_id, carid)
+    },
+    // 购买套餐
+    order(jsonData) {
+      jsonData = JSON.stringify(jsonData)
+      return _http.post('/Member/order/combo_order', {jsonstr: jsonData} )
     }
   },
   // 商城
@@ -502,6 +548,9 @@ const _server = {
     add2(jsonData) {
       jsonData = JSON.stringify(jsonData)
       return _http.post('/Member/order/cart_goods', {jsonstr: jsonData} )
+    },
+    getHistory(page = 1, row = 10) {
+      return _http.get('/Member/order/his_order', page, row)
     }
   },
   // 门店

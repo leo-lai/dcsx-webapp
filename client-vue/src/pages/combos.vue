@@ -34,7 +34,9 @@ export default {
   },
   created() {
     setTimeout(()=>{
+      $.showIndicator()
       this.$server.combo.getList(1, 10).then(({list})=>{
+        $.hideIndicator()
         this.goodsList = list
       })
     }, 600)

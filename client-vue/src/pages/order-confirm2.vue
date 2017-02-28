@@ -81,7 +81,7 @@
       </div>
     </div>
     <!-- 门店列表 -->
-    <div class="panel panel-right panel-cover l-panel-bigger" id="panelStoreList">
+    <div class="panel panel-right panel-reveal l-panel-big" id="panelStoreList">
       <header class="bar bar-nav">
         <h3 class="title">选择门店</h3>
       </header>
@@ -109,8 +109,8 @@
       </div>
     </div>
     <!-- 门店列表end -->
-    <!-- 门店列表 -->
-    <div class="panel panel-right panel-cover l-panel-bigger" id="panelGoodsList">
+    <!-- 商品列表 -->
+    <div class="panel panel-right panel-reveal l-panel-big" id="panelGoodsList">
       <header class="bar bar-nav">
         <h3 class="title">购买的商品</h3>
       </header>
@@ -131,7 +131,7 @@
         </div>
       </div>
     </div>
-    <!-- 门店列表end -->
+    <!-- 商品列表end -->
   </div>
   
 </template>
