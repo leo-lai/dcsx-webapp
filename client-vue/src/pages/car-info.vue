@@ -133,6 +133,50 @@ export default {
     }
   },
   methods: {
+    initData() {
+      const self = this
+      const id = self.$route.params.id
+
+      let sltedModel = this.$storage.session.get('sltedModel')
+      if(sltedModel){
+        self.formData.carid = sltedModel.carid
+        self.formData.model_name = sltedModel.name
+      }
+
+      let sltCarCity = this.$storage.session.get('sltCarCity')
+      if(sltCarCity){
+        self.carNumPrefix = sltCarCity.oldName
+      }
+
+      if(id){
+        $.showIndicator()
+        self.isEdit = true
+        self.$server.car.getInfo(id).then(({ obj })=>{
+          self.carInfo = obj
+          self.formData.car_license = obj.car_license
+          self.formData.mileage = obj.mileage
+          self.formData.license_date = obj.license_date
+          self.formData.engine_sn = obj.engine_sn
+          self.formData.frame_sn = obj.frame_sn
+          self.formData.is_default = obj.is_default
+          
+          self.isDefault = obj.is_default == 1
+
+          if(!sltedModel){
+            self.formData.carid = obj.carid
+            self.formData.model_name = obj.model_name  
+          }
+          
+
+          if(obj.car_license){
+            !sltCarCity && (self.carNumPrefix = obj.car_license.substring(0, 2))
+            self.carNum = obj.car_license.substring(2)
+          }
+        }).finally(()=>{
+          $.hideIndicator()
+        })
+      }
+    },
     submit() {
       const self = this
       
@@ -180,49 +224,13 @@ export default {
     }
   },
   created() {
-    const self = this
-    const id = self.$route.params.id
-
-    let sltedModel = this.$storage.session.get('sltedModel')
-    if(sltedModel){
-      self.formData.carid = sltedModel.carid
-      self.formData.model_name = sltedModel.name
-    }
-
-    let sltCarCity = this.$storage.session.get('sltCarCity')
-    if(sltCarCity){
-      self.carNumPrefix = sltCarCity.oldName
-    }
-
-    if(id){
-      self.isEdit = true
-      self.$server.car.getInfo(id).then(({ obj })=>{
-        self.carInfo = obj
-        self.formData.car_license = obj.car_license
-        self.formData.mileage = obj.mileage
-        self.formData.license_date = obj.license_date
-        self.formData.engine_sn = obj.engine_sn
-        self.formData.frame_sn = obj.frame_sn
-        self.formData.is_default = obj.is_default
-        
-        self.isDefault = obj.is_default == 1
-
-        if(!sltedModel){
-          self.formData.carid = obj.carid
-          self.formData.model_name = obj.model_name  
-        }
-        
-
-        if(obj.car_license){
-          !sltCarCity && (self.carNumPrefix = obj.car_license.substring(0, 2))
-          self.carNum = obj.car_license.substring(2)
-        }
-      })
-    }
+    setTimeout(()=>{
+      this.initData()
+    }, 600)
   },
   mounted() {
     const self = this
-    this.$nextTick(()=>{
+    self.$nextTick(()=>{
       // 日期
       $('#date-on-road').calendar({
         // value: ['2017-02-23' || self.formData.license_date],

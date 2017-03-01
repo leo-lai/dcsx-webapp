@@ -2,38 +2,42 @@
   <div>
   	<!-- 列表 -->
     <div class="l-user-good l-margin-tb" v-for="item in list">
-      <div class="l-user-good-hd l-link-arrow">
-        <span class="l-text-gray">订单编号：{{item.order_sn}}</span>
+      <router-link :to="'/user/order/info/'+item.order_id" tag="div">
+        <div class="l-user-good-hd l-link-arrow">
+          <span class="l-text-gray">订单编号：{{item.order_sn}}</span>
+        </div>
+        <div class="l-user-good-bd l-border-t l-flex-hc" v-if="item.goods_list.length > 1">
+          <div class="l-rest l-thumbs">
+            <img class="l-thumb" :src="good.picpath" v-for="good in item.goods_list">
+          </div>
+          <div class="l-margin-l l-text-center">
+            <p class="l-fs-s">共{{item.num}}件</p>
+            <p class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{item.order_amount}}</p>
+          </div>
+        </div>
+        <div class="l-user-good-bd l-border-t l-flex-hc" v-else>
+          <img class="l-thumb" :src="item.goods_list[0].picpath">
+          <div class="l-rest">
+            <h4 class="l-text-wrap2 l-fs-s" v-text="item.goods_list[0].goods_name"></h4>
+            <p class="l-fs-s l-text-gray">
+              <!-- <span class="pull-right">x{{item.goods_list[0].goods_num}}</span> -->
+              <span><i class="l-icon"></i>单价：{{item.goods_list[0].market_price}}</span>
+            </p>
+          </div>
+          <div class="l-margin-l l-text-center">
+            <p class="l-fs-s">共{{item.num}}件</p>
+            <p class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{item.order_amount}}</p>
+          </div>
+        </div>
+      </router-link>
+      <div class="l-user-good-ft l-flex-hc l-border-t l-fs-m" v-if="type == 1">
+        <div class="l-rest">待付款</div>
+        <a class="button l-btn-gray" @click="orderCancel(item.order_id)">取消</a>
+        <a class="button button-fill l-margin-l-s" @click="orderPay(item)">支付</a>
       </div>
-      <a class="l-user-good-bd l-border-t l-flex-hc" v-if="item.goods_list.length > 1">
-        <div class="l-rest l-thumbs">
-          <img class="l-thumb" :src="good.picpath" v-for="good in item.goods_list">
-        </div>
-        <div class="l-margin-l l-text-center">
-          <p class="l-fs-s">共{{item.num}}件</p>
-          <p class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{item.order_amount}}</p>
-        </div>
-      </a>
-      <a class="l-user-good-bd l-border-t l-flex-hc" v-else>
-        <img class="l-thumb" :src="item.goods_list[0].picpath">
-        <div class="l-rest">
-          <h4 class="l-text-wrap2 l-fs-s" v-text="item.goods_list[0].goods_name"></h4>
-          <p class="l-fs-s l-text-gray">
-            <!-- <span class="pull-right">x{{item.goods_list[0].goods_num}}</span> -->
-            <span><i class="l-icon"></i>单价：{{item.goods_list[0].market_price}}</span>
-          </p>
-        </div>
-        <div class="l-margin-l l-text-center">
-          <p class="l-fs-s">共{{item.num}}件</p>
-          <p class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{item.order_amount}}</p>
-        </div>
-      </a>
-      <div class="l-user-good-ft l-flex-hc l-border-t l-fs-m">
-        <template v-if="type == 1">
-          <div class="l-rest">待付款</div>
-          <a class="button l-btn-gray">取消</a>
-          <a class="button button-fill l-margin-l-s">支付</a>
-        </template>
+      <div class="l-user-good-ft l-flex-hc l-border-t l-fs-m" v-else-if="type == 2">
+        <div class="l-rest">待收货</div>
+        <a class="button button-fill l-margin-l-s">确认收货</a>
       </div>
     </div>
     <!-- 列表 end-->
@@ -49,6 +53,37 @@ export default {
     type: { // 订单状态 1待收货2待发货3待评价4已完成
       type: Number,
       default: 1
+    }
+  },
+  data() {
+    return {
+      dataList: []
+    }
+  },
+  methods: {
+    orderCancel(orderId) {
+      const self = this
+      $.confirm('确定要取消订单？', ()=>{
+        $.showIndicator()
+        self.$server.order.cancel(orderId)
+        .then(()=>{
+          
+          $.toast('取消订单成功')
+          self.$eventHub.$emit('ORDER-CANCEL', orderId)
+        }).finally(()=>{
+          $.hideIndicator()
+        })
+      })
+    },
+    orderPay(item) {
+      this.$storage.session.set('temp_pay_info', {
+        order_id: item.order_id,
+        order_sn: item.order_sn,
+        time: item.add_time,
+        total_money: item.total_amount
+      })
+
+      this.$router.push('/order/pay')
     }
   }
 }

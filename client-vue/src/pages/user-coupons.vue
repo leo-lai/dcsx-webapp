@@ -54,7 +54,7 @@ export default {
   },
   data () {
     return {
-      tabIndex: 1,
+      tabIndex: 0,
       couponList1: [],
       couponList2: []
     }
@@ -68,17 +68,19 @@ export default {
     },
     tabClick(index = 1) {
       this.tabIndex = index
-      if(this['couponList' + index].length === 0){
+      if(this['couponList' + this.tabIndex].length === 0){
         $.showIndicator()
-        this.getCoupons(index).finally(()=>{
+        this.getCoupons(this.tabIndex).finally(()=>{
           $.hideIndicator()
         })
       }
+
+      this.$router.replace(`/user/coupons?tab=` + this.tabIndex)
     }
   },
   created() {
     setTimeout(()=>{
-      this.tabClick(1)
+      this.tabClick(this.$route.query.tab)
     }, 600)
   }
 }

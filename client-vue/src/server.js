@@ -27,14 +27,14 @@ const _http = {
           if(response.status_code === 800001 || response.status_code === 800002 || 
             response.status_code === 800003) { 
             $.hideIndicator()
-            reject(response.status_msg)
             $.alert(response.status_msg, ()=>{
               _server.logout()
             })
+            reject(response.status_msg)
           }else if(response.status_code !== 0){
             $.hideIndicator()
-            reject(response.status_msg)
             $.alert(response.status_msg)
+            reject(response.status_msg)
           }else{
             // 修正接口数据规范
             !response.list && (response.list = [])
@@ -44,7 +44,8 @@ const _http = {
         },
         error(xhr, errorType, error){
           $.hideIndicator()
-          // $.alert('服务器响应失败')
+          $.alert('服务器响应失败')
+          reject(error)
         }
       })
     })
@@ -193,14 +194,19 @@ const _server = {
 
     let promise = new Promise((resolve, reject) => {
       if(!window.wx){
-        reject('找不到wx对象')
+        // reject('找不到wx对象')
+        window.wx = {
+          _ready: false
+        }
+        resolve(window.wx)
       }else{
         if(!utils.device.isWechat || window.wx._ready){
           resolve(window.wx)
+          return
         }
 
-        _http.get('/getWxSignature', url).then(({ obj })=>{
-          config.appId = obj.appId
+        _http.post('/Member/verify/js_config', { url }).then(({ obj })=>{
+          config.appId = obj.appid
           config.timestamp = obj.timestamp
           config.nonceStr = obj.noncestr
           config.signature = obj.signature
@@ -208,6 +214,7 @@ const _server = {
           window.wx.config(config)
 
           window.wx.error((error)=>{
+            console.log('jssdk权限验证出错', error)
             if(!window.wx._tried){        // 第一次权限验证失败再利用当前地址尝试一下
               window.wx._tried = true     // 标识已经尝试验证过，不再尝试
               if(url === window.location.href){
@@ -222,10 +229,12 @@ const _server = {
           })
 
           window.wx.ready(()=>{
+            console.log('微信jsdk授权成功')
             window.wx._ready = true
             resolve(window.wx)
           })
         }).catch(()=>{
+          console.log('微信jsdk授权失败')
           resolve(window.wx)
         })
       }
@@ -245,8 +254,8 @@ const _server = {
       if(position){ // 先取缓存
         resolve(position)
       }else{
-        if(utils.device.isWechat){ // 调取微信地址位置接口
-          this.getWxConfig().then((wx)=>{
+        this.getWxConfig().then((wx)=>{
+          if(wx._ready){ // 调取微信地址位置接口
             wx.getLocation({
               type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
               success(res) {
@@ -255,38 +264,37 @@ const _server = {
                 resolve(position)
               },
               fail(err) {
+                console.log('调用位置接口出错', err)
                 resolve(_defualt)
               }
             })
-          }).catch(()=>{
-            resolve(_defualt)
-          })
-        }else{ // h5获取位置
-          navigator.geolocation.getCurrentPosition((response)=>{
-            position.latitude = response.coords.latitude
-            position.longitude = response.coords.longitude
-            storage.local.set('position', position, 1000 * 1800)
-            resolve(position)
-          }, error => {
-            let errHtml = ''
-            switch(error.code){ 
-              case error.PERMISSION_DENIED: 
-                errHtml = "用户拒绝对获取地理位置的请求。" 
-                break
-              case error.POSITION_UNAVAILABLE: 
-                errHtml = "位置信息是不可用的。" 
-                break
-              case error.TIMEOUT: 
-                errHtml = "请求用户地理位置超时。" 
-                break
-              case error.UNKNOWN_ERROR: 
-                errHtml = "未知错误。" 
-                break
-            } 
-            _defualt.error = errHtml
-            resolve(_defualt)
-          })
-        }
+          }else{ // h5获取位置
+            navigator.geolocation.getCurrentPosition((response)=>{
+              position.latitude = response.coords.latitude
+              position.longitude = response.coords.longitude
+              storage.local.set('position', position, 1000 * 1800)
+              resolve(position)
+            }, error => {
+              let errHtml = ''
+              switch(error.code){ 
+                case error.PERMISSION_DENIED: 
+                  errHtml = "用户拒绝对获取地理位置的请求。" 
+                  break
+                case error.POSITION_UNAVAILABLE: 
+                  errHtml = "位置信息是不可用的。" 
+                  break
+                case error.TIMEOUT: 
+                  errHtml = "请求用户地理位置超时。" 
+                  break
+                case error.UNKNOWN_ERROR: 
+                  errHtml = "未知错误。" 
+                  break
+              } 
+              _defualt.error = errHtml
+              resolve(_defualt)
+            })
+          }
+        })
       }
     })
     return promise
@@ -372,7 +380,7 @@ const _server = {
   user: {
     // 我的资料
     getInfo() {
-      return _http.get('/Member/User/get_info')  
+      return _http.get('/Member/User/get_info')
     },
     // 我的优惠券
     getCoupons(page = 1, row = 10, type = 1) {
@@ -381,6 +389,14 @@ const _server = {
     // 我的套餐
     getCombos(page = 1, row = 10) {
       return _http.get('/Member/combo/my', page, row)
+    },
+    // 查询账户
+    getCash() {
+      return _http.get('/Member/pay/cash')
+    },
+    // 个人钱包支付
+    cashPay(formData) {
+      return _http.post('/Member/pay/cash_pay', formData)
     }
   },
   // 分销商
@@ -542,6 +558,9 @@ const _server = {
     getList(page = 1, row = 10, type = 1) {
       return _http.get('/Member/order/list', page, row, type)
     },
+    getInfo(goods_id) {
+      return _http.get('/Member/order/info', goods_id)
+    },
     add(formData) {
       return _http.post('/Member/order/goods', formData)
     },
@@ -551,6 +570,9 @@ const _server = {
     },
     getHistory(page = 1, row = 10) {
       return _http.get('/Member/order/his_order', page, row)
+    },
+    cancel(order_id) {
+      return _http.put(`/Member/order/cancel/${order_id}`)
     }
   },
   // 门店

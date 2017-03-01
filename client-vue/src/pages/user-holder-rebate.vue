@@ -10,7 +10,7 @@
           </div>
           <div class="_tr l-border-b">
             <div class="_tit">消费门店</div>
-            <div class="_rest" v-text="item.nickname"></div>
+            <div class="_rest" v-text="item.org_name"></div>
           </div>
           <div class="_tr l-border-b">
             <div class="_tit">消费人员</div>

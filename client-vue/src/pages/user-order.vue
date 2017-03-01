@@ -4,22 +4,22 @@
       <l-header></l-header>
       <div class="content">
         <div class="buttons-tab l-order-tab">
-          <a href="#tab1" @click="tabClick(1)" class="tab-link button active"><img src="~assets/img-040.jpg">待付款</a>
-          <a href="#tab2" @click="tabClick(2)" class="tab-link button"><img src="~assets/img-041.jpg">待收货</a>
-          <a href="#tab3" @click="tabClick(3)" class="tab-link button"><img src="~assets/img-042.jpg">待评价</a>
-          <a href="#tab4" @click="tabClick(4)" class="tab-link button"><img src="~assets/img-043.jpg">已完成</a>
+          <a @click="tabClick(1)" class="tab-link button" :class="{'active': orderType == 1}"><img src="~assets/img-040.jpg">待付款</a>
+          <a @click="tabClick(2)" class="tab-link button" :class="{'active': orderType == 2}"><img src="~assets/img-041.jpg">待收货</a>
+          <!-- <a @click="tabClick(3)" class="tab-link button" :class="{'active': orderType == 3}"><img src="~assets/img-042.jpg">待评价</a> -->
+          <a @click="tabClick(4)" class="tab-link button" :class="{'active': orderType == 4}"><img src="~assets/img-043.jpg">已完成</a>
         </div>
         <div class="tabs">
-          <div id="tab1" class="tab active">
+          <div class="tab" :class="{'active': orderType == 1}">
             <l-order-list :list="orderList1" :type="1"></l-order-list>
           </div>
-          <div id="tab2" class="tab">
+          <div class="tab" :class="{'active': orderType == 2}">
             <l-order-list :list="orderList2" :type="2"></l-order-list>
           </div>
-          <div id="tab3" class="tab">
+          <!-- <div class="tab" :class="{'active': orderType == 3}">
             <l-order-list :list="orderList3" :type="3"></l-order-list>
-          </div>
-          <div id="tab4" class="tab">
+          </div> -->
+          <div class="tab" :class="{'active': orderType == 4}">
             <l-order-list :list="orderList4" :type="4"></l-order-list>
           </div>
         </div>
@@ -37,7 +37,7 @@ export default {
   },
   data () {
     return {
-      orderType: 1,
+      orderType: 0,
       orderList1: [],
       orderList2: [],
       orderList3: [],
@@ -45,8 +45,8 @@ export default {
     }
   },
   methods: {
-    tabClick(type) {
-      this.orderType = type || this.orderType
+    tabClick(type = 1) {
+      this.orderType = type
       if(this['orderList' + this.orderType].length === 0){
         $.showIndicator()
         this.$server.order.getList(1, 10, this.orderType)
@@ -55,11 +55,18 @@ export default {
           this['orderList' + this.orderType] = list
         })
       }
+
+      this.$router.replace(`/user/order?tab=` + this.orderType)
     }
   },
   created() {
+    this.$eventHub.$on('ORDER-CANCEL', (orderId)=>{
+      this.orderList1 = this.orderList1.filter((item)=>{
+        return item.order_id !== orderId
+      })
+    })
     setTimeout(()=>{
-      this.tabClick(1)
+      this.tabClick(this.$route.query.tab)
     }, 600)
   }
 }

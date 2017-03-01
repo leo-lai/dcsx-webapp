@@ -8,7 +8,7 @@
         </div>
         <button class="button button-fill l-btn" :disabled="submiting" @click="submit">&ensp;提交订单&ensp;</button>
       </footer>
-      <div class="content">
+      <div class="content" v-show="buyInfo.id">
         <!-- 购买的商品 -->
         <div class="l-shopcar-item l-flex-h l-border-t l-bg">
           <img class="l-thumb" :src="buyInfo.picpath">
@@ -53,14 +53,14 @@
           <h3 class="l-text-gray">选择门店</h3>
         </div>
         <div class="l-store-item l-border-t l-margin-b">
-          <a class="l-store-item-bd l-flex-h">
+          <a class="l-store-item-bd l-flex-hc">
             <img class="l-thumb" :src="sltedStore.picpath">
-            <div class="l-rest l-flex-v">
-              <div class="l-rest">
+            <div class="l-rest">
+              <div>
                 <span class="pull-right l-fs-s l-text-gray"><i class="l-icon">&#xe634;</i>{{toFixed(sltedStore.distance)}}km</span>
                 <h4 v-text="sltedStore.store_name"></h4>
               </div>
-              <p v-text="sltedStore.address"></p>
+              <p class="l-text-wrap2" v-text="sltedStore.address"></p>
             </div>
           </a>
         </div>
@@ -143,7 +143,7 @@ export default {
   },
   computed: {
     buyPay() {
-      return this.buyNum * this.buyInfo.market_price - this.pointMoney
+      return Math.max(this.buyNum * (this.buyInfo.market_price || 0) - this.pointMoney, 0)
     }
   },
   methods: {
@@ -190,16 +190,18 @@ export default {
   created() {
     const id = this.$route.params.id
     this.$server.getPosition().then((position)=>{
-      $.showIndicator()
-      this.$server.shop.getBuyInfo(id, position.longitude, position.latitude)
-      .then(({obj, list})=>{
-        this.buyInfo = obj
-        this.storeList = list
-        this.sltedStore = list[0] || {}
-      }).finally(()=>{
-        $.hideIndicator()
-      })
-    })
+      setTimeout(()=>{
+        $.showIndicator()
+        this.$server.shop.getBuyInfo(id, position.longitude, position.latitude)
+        .then(({obj, list})=>{
+          this.buyInfo = obj
+          this.storeList = list
+          this.sltedStore = list[0] || {}
+        }).finally(()=>{
+          $.hideIndicator()
+        })
+      }, 600)
+    }) 
   },
   beforeRouteLeave(to, from, next) {
     $.closePanel()

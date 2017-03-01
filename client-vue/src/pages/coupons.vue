@@ -55,7 +55,7 @@ export default {
               text: '查看',
               bold: true,
               onClick() {
-                self.$router.push('/user/coupons')
+                self.$router.push('/user/coupons?tab=1')
               }
             },
           ]

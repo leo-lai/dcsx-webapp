@@ -100,30 +100,31 @@ export default {
         $.toast('您还没有选择商品哦', 2000, 'l-toast')
         return
       }
-
-      let ids = []
-      self.jsonData.goods.forEach((item)=>{
-        ids.push(item.id)
-      })
-
-      $.showIndicator()
-      self.$server.shopcar.del(ids.join(','))
-      .then(()=>{
-        $.hideIndicator()
-        $.toast('删除成功')
-        self.goodsList = self.goodsList.filter((item)=>{
-          let isDel = false
-          self.jsonData.goods.forEach((item2)=>{
-            if(item.id === item2.id){
-              isDel = true
-              return true
-            }
-          })
-
-          return !isDel
+      $.confirm('确定要删除商品？', ()=>{
+        let ids = []
+        self.jsonData.goods.forEach((item)=>{
+          ids.push(item.id)
         })
 
-        self.$storage.session.remove('temp_buy_info')
+        $.showIndicator()
+        self.$server.shopcar.del(ids.join(','))
+        .then(()=>{
+          $.hideIndicator()
+          $.toast('删除成功')
+          self.goodsList = self.goodsList.filter((item)=>{
+            let isDel = false
+            self.jsonData.goods.forEach((item2)=>{
+              if(item.id === item2.id){
+                isDel = true
+                return true
+              }
+            })
+
+            return !isDel
+          })
+
+          self.$storage.session.remove('temp_buy_info')
+        }) 
       })
     },
     submit() {

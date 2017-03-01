@@ -27,7 +27,7 @@
             </tr>
             <tr>
               <td class="_tit">客服电话</td>
-              <td>400-8200000</td>
+              <td>400-158-6677</td>
             </tr>
           </table>
         </div>
@@ -41,27 +41,35 @@
           <div class="list-block media-list">
             <ul>
               <li>
-                <label class="label-checkbox item-content">
-                  <input type="radio" name="pay-way" value="2" v-model="payway">
+                <label class="label-checkbox item-content" @click="sltPayWay(1)">
+                  <input type="radio" name="pay-way" :checked="payway == 1">
                   <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                   <div class="item-inner">
-                    <i class="l-icon-fill-wx">&#xe66f;</i>&ensp;&ensp;微信支付
+                    <div class="item-title-row">
+                      <div class="item-title"><i class="l-icon-fill">&#xe62c;</i>&ensp;&ensp;个人钱包</div>
+                      <div class="item-after l-fs-m">
+                        可用余额：{{toFixed(userAmount, 2)}}
+                      </div>
+                    </div>
                   </div>
                 </label>
               </li>
               <li>
-                <label class="label-checkbox item-content">
-                  <input type="radio" name="pay-way" value="1" v-model="payway">
+                <label class="label-checkbox item-content" @click="sltPayWay(2)">
+                  <input type="radio" name="pay-way" :checked="payway == 2">
                   <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                   <div class="item-inner">
-                    <i class="l-icon-fill">&#xe62c;</i>&ensp;&ensp;个人钱包
+                    <div class="item-title-row">
+                      <div class="item-title"><i class="l-icon-fill-wx">&#xe66f;</i>&ensp;&ensp;微信支付</div>
+                      <div class="item-after"></div>
+                    </div>
                   </div>
                 </label>
               </li>
             </ul>
           </div>
-          <div class="l-margin">
-            <a class="button button-fill l-btn l-rest">确定支付</a>  
+          <div class="l-margin l-flex-h">
+            <button class="button button-fill l-btn l-rest" :disabled="submiting" @click="submit">确定支付</button>  
           </div>
         </div>
         <!-- 支付方式 end-->
@@ -80,12 +88,70 @@ export default {
   },
   data () {
     return {
-      payway: '2',
-      orderInfo: {}
+      payway: '1',
+      orderInfo: {},
+      submiting: false,
+      formData: {},
+      userAmount: 0
     }
-  }, 
+  },
+  methods: {
+    toFixed(num = 0, point = 1) {
+      return (num - 0).toFixed(point)
+    },
+    sltPayWay(type = 1) {
+      this.payway = type + ''
+    },
+    submit() {
+      const self = this
+      if(self.payway == 1){
+        if(self.orderInfo.total_money > self.userAmount){
+          $.alert('钱包可用余额不足，请及时充值！')
+          return
+        }
+
+        $.showIndicator()
+        self.submiting = true
+        self.$server.user.cashPay(self.formData)
+        .then(()=>{
+          $.hideIndicator()
+          $.modal({
+            title:  '支付成功',
+            text: '请到【我的->商品】中查看详情信息',
+            buttons: [
+              {
+                text: '返回'
+              },
+              {
+                text: '查看订单',
+                bold: true,
+                onClick() {
+                  self.$router.replace('/user/order?tab=2')
+                }
+              },
+            ]
+          })
+        }).catch(()=>{
+          self.submiting = false
+        }) 
+      }else if(self.payway == 2){
+        $.alert('暂不支持微信支付')
+      }
+    }
+  },
   created() {
     this.orderInfo = this.$storage.session.get('temp_pay_info') || {}
+    this.formData.order_id = this.orderInfo.order_id
+    this.formData.charge = this.orderInfo.total_money
+
+    setTimeout(()=>{
+      $.showIndicator()
+      this.$server.user.getCash().then(({obj})=>{
+        this.userAmount = obj.total_amount
+      }).finally(()=>{
+        $.hideIndicator()
+      })
+    }, 600)
   },
   beforeRouteLeave(to, from, next) {
     this.$storage.session.remove('temp_pay_info')
@@ -93,3 +159,6 @@ export default {
   }
 }
 </script>
+<style scoped>
+.list-block.media-list .item-title-row{align-items: center;}
+</style>

@@ -209,9 +209,9 @@ export let utils = {
     if (isWechat && isIphone) {
     	let iframe = document.createElement('iframe')
 		  iframe.setAttribute('src', '/favicon.ico')
-		  iframe.addEventListener('load', function() {
+		  iframe.addEventListener('load', function load() {
 		    setTimeout(() => {
-	      	iframe.removeEventListener('load')
+	      	iframe.removeEventListener('load', load)
 	        document.body.removeChild(iframe)
 	      }, 50)
 		  })
@@ -286,6 +286,10 @@ export let utils = {
         })
       return passPath.join('/')
     }
+  },
+  history: {
+    push() {},
+    replace() {}
   },
   image: {
     thumb(src, width, height) {

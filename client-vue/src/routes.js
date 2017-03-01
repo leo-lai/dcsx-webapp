@@ -84,7 +84,7 @@ const routes = [
     component: (resolve) => require(['./pages/user-order'], resolve)
   },
   {
-    path: '/user/order/info',
+    path: '/user/order/info/:id',
     meta: { title: '订单详情' },
     component: (resolve) => require(['./pages/user-order-info'], resolve)
   },

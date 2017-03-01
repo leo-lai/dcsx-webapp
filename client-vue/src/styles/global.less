@@ -33,6 +33,7 @@ label.label-checkbox input[type="radio"]:checked + .item-media i.icon-form-check
 .list-block .item-text{max-height: 2.1rem; height: auto;}
 .content-block{margin:0.75rem 0;}
 .list-block .item-title.label{/*width: 30%;*/ width: 4.5rem;}
+.list-block.media-list .item-inner{align-self: center;}
 .swiper-container{padding-bottom: 0;}
 .swiper-container .swiper-slide img{max-height: 10.0rem; width: 100%;}
 .l-toast{ border-radius: 5px; padding: 0.75rem; height: auto; line-height: 1.4; font-size: 0.75rem;}
@@ -61,12 +62,16 @@ body.with-panel-right-reveal .l-panel-bigger.panel-right{transform: translate3d(
 
 body.with-panel-right-reveal .l-panel-big ~ .page{transform: translate3d(-14rem, 0, 0);}
 body.with-panel-right-reveal .l-panel-bigger ~ .page{transform: translate3d(-16rem, 0, 0);}
-/*.panel-overlay{transition: all 1s;}
+.panel-overlay{z-index: -1; visibility: hidden; opacity: 0; display: block;}
+body.with-panel-right-cover .panel-overlay,
 body.with-panel-right-reveal .panel-overlay {
+  transition: all 1s;
   margin-left: 0;
   background: rgba(0,0,0,0.2);
   opacity: 1;
-}*/
+  z-index: 5999;
+  visibility: visible;
+}
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2){
   .modal-button:after {

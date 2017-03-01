@@ -43,7 +43,7 @@
           <span class="l-text-gray">选择门店</span>
         </div>
         <div class="l-store-item l-border-t l-margin-b">
-          <a class="l-store-item-bd l-flex-h" href="store-details.html">
+          <a class="l-store-item-bd l-flex-h">
             <img class="l-thumb" :src="sltedStore.picpath">
             <div class="l-rest l-flex-v">
               <div class="l-rest">
@@ -119,7 +119,7 @@
           <div class="l-shopcar-item l-flex-h l-border-b" v-for="item in goodsList">
             <img class="l-thumb" :src="item.picpath">
             <div class="l-rest">
-              <h4 class="l-text-clamp" v-text="item.goods_name"></h4>
+              <h4 class="l-text-clamp l-fs-s" v-text="item.goods_name"></h4>
               <div class="l-shopcar-item-disc">
                 <span class="pull-right">x{{item.goods_number}}</span>
                 <span class="l-text-warn">
@@ -156,7 +156,7 @@ export default {
   },
   computed: {
     buyPay() {
-      return this.buyInfo.sum - this.pointMoney
+      return Math.max((this.buyInfo.sum || 0) - this.pointMoney, 0)
     }
   },
   methods: {
@@ -196,27 +196,28 @@ export default {
     const jsonData = this.$storage.session.get('temp_buy_info')
     if(jsonData){
       this.$server.getPosition().then(({longitude, latitude})=>{
-        $.showIndicator()
-        jsonData.longitude = longitude
-        jsonData.latitude = latitude
-        this.$server.shopcar.getBuyInfo(jsonData)
-        .then(({obj, list, goods_list})=>{
-          this.goodsList = goods_list
-          this.buyInfo = obj
-          this.pointMoney = this.buyInfo.point_money
-          this.storeList = list
-          this.sltedStore = list[0] || {}
-          this.jsonData = {
-            goods: jsonData.goods
-          }
-        }).finally(()=>{
-          $.hideIndicator()
-        })
+        setTimeout(()=>{
+          $.showIndicator()
+          jsonData.longitude = longitude
+          jsonData.latitude = latitude
+          this.$server.shopcar.getBuyInfo(jsonData)
+          .then(({obj, list, goods_list})=>{
+            this.goodsList = goods_list
+            this.buyInfo = obj
+            this.pointMoney = this.buyInfo.point_money
+            this.storeList = list
+            this.sltedStore = list[0] || {}
+            this.jsonData = {
+              goods: jsonData.goods
+            }
+          }).finally(()=>{
+            $.hideIndicator()
+          })
+        }, 600)
       }) 
     }else{
       $.alert('没有获取到要购买的商品信息')
     }
-    
   },
   beforeRouteLeave(to, from, next) {
     $.closePanel()

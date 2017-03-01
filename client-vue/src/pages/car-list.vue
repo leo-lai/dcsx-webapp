@@ -55,15 +55,18 @@ export default {
   },
   created() {
     // 获取车辆信息
-    this.$server.car.getList().then((response)=>{
-      this.carList = response.list.map((item)=>{
-        item.isDel = false
-        return item
-      })  
-    })
-  },
-  mounted() {
-
+    setTimeout(()=>{
+      $.showIndicator()
+      this.$server.car.getList().then((response)=>{
+        this.carList = response.list.map((item)=>{
+          item.isDel = false
+          return item
+        })  
+      }).finally(()=>{
+        $.hideIndicator()
+      })
+    }, 600)
+    
   }
 }
 
