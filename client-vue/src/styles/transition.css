@@ -16,10 +16,12 @@
   opacity: 1;
 }
 */
-
 .page-in-enter-active {
   animation: pageFromRightToCenter 0.5s forwards;
   z-index: 999;
+  overflow: hidden;
+  visibility: hidden;
+  transform: translate3d(100%, 0, 0);
 }
 .page-in-leave-active {
   animation: pageFromCenterToLeft 0.5s forwards;
@@ -30,6 +32,7 @@
 .page-out-leave-active {
   animation: pageFromCenterToRight 0.5s forwards;
   z-index: 999;
+  overflow: hidden;
 }
 
 @keyframes pageFromRightToCenter {
@@ -38,7 +41,8 @@
     opacity: .9;
   }
   to {
-            transform: translate3d(0, 0, 0);
+    visibility: visible;
+    transform: translate3d(0, 0, 0);
     opacity: 1;
   }
 }

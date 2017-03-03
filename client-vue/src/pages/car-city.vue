@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content">
         <ul class="l-car-prefix-list">
@@ -39,7 +39,7 @@ export default {
   },
   data () {
     return {
-      carCityData: initData,   // 车牌城市
+      carCityData: [],   // 车牌城市
       sltedCarCity: {}
     }
   },
@@ -53,6 +53,11 @@ export default {
       $.closePanel()
       this.$router.go(-1)
     }
+  },
+  created() {
+    setTimeout(()=>{
+      this.carCityData = initData
+    }, 600)
   },
   beforeRouteLeave(to, from, next) {
     $.closePanel()

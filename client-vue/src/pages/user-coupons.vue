@@ -1,41 +1,52 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content">
         <div class="buttons-tab l-sticky">
-          <div class="tab-link button" @click="tabClick(1)" :class="{' active': tabIndex === 1}">可用优惠券</div>
-          <div class="tab-link button" @click="tabClick(2)" :class="{' active': tabIndex === 2}">失效优惠券</div>
+          <div class="tab-link button" @click="tabClick(1)" :class="{' active': tabIndex == 1}">可用优惠券</div>
+          <div class="tab-link button" @click="tabClick(2)" :class="{' active': tabIndex == 2}">失效优惠券</div>
         </div>
-        <div class="l-coupon-list" v-show="tabIndex === 1">
-          <div class="l-coupon-item l-link l-margin-b" v-for="item in couponList1">
-            <div class="_bd l-flex-hc">
-              <div class="_val l-border-r">
-                <i class="l-icon">&#xe6cb;</i><span v-text="item.coupon_charge"></span>
+        <div class="tabs">
+          <div class="tab l-coupon-list" :class="{' active': tabIndex == 1}">
+            <div class="l-coupon-item l-link l-margin-b" v-for="item in couponList1">
+              <div class="_bd l-flex-hc">
+                <div class="_val l-border-r">
+                  <i class="l-icon">&#xe6cb;</i><span v-text="item.coupon_charge"></span>
+                </div>
+                <div class="_desc l-rest">
+                  <h3 class="l-text-wrap1" v-text="item.title"></h3>
+                  <p class="l-text-wrap2 l-fs-s" v-text="item.description">看这里是一行优惠劵描述，我有这么长~</p>
+                </div>
               </div>
-              <div class="_desc l-rest">
-                <h3 class="l-text-wrap1" v-text="item.title"></h3>
-                <p class="l-text-wrap2 l-fs-s" v-text="item.description">看这里是一行优惠劵描述，我有这么长~</p>
+              <div class="_ft l-border-t">
+                <span class="l-text-gray">{{item.sale_type_name}} · 失效日期：{{item.valid}}</span>
               </div>
             </div>
-            <div class="_ft l-border-t">
-              <span class="l-text-gray">{{item.sale_type_name}} · 失效日期：{{item.valid}}</span>
+            <div class="l-data-null" v-if="couponList1.length === 0">
+              <img src="~assets/img-050.png" alt="">
+              <p>咦~您还没优惠券？</p>
+              <p><router-link class="button button-round" to="/coupons">赶紧去领取</router-link></p>
             </div>
           </div>
-        </div>
-        <div class="l-coupon-list l-coupon-invalid" v-show="tabIndex === 2">
-          <div class="l-coupon-item l-link l-margin-b" v-for="item in couponList2">
-            <div class="_bd l-flex-hc">
-              <div class="_val l-border-r">
-                <i class="l-icon">&#xe6cb;</i><span v-text="item.coupon_charge"></span>
+          <div class="tab l-coupon-list l-coupon-invalid" :class="{' active': tabIndex == 2}">
+            <div class="l-coupon-item l-link l-margin-b" v-for="item in couponList2">
+              <div class="_bd l-flex-hc">
+                <div class="_val l-border-r">
+                  <i class="l-icon">&#xe6cb;</i><span v-text="item.coupon_charge"></span>
+                </div>
+                <div class="_desc l-rest">
+                  <h3 class="l-text-wrap1" v-text="item.title"></h3>
+                  <p class="l-text-wrap2 l-fs-s" v-text="item.description">看这里是一行优惠劵描述，我有这么长~</p>
+                </div>
               </div>
-              <div class="_desc l-rest">
-                <h3 class="l-text-wrap1" v-text="item.title"></h3>
-                <p class="l-text-wrap2 l-fs-s" v-text="item.description">看这里是一行优惠劵描述，我有这么长~</p>
+              <div class="_ft l-border-t">
+                <span class="l-text-gray">{{item.sale_type_name}} · 失效日期：{{item.valid}}</span>
               </div>
             </div>
-            <div class="_ft l-border-t">
-              <span class="l-text-gray">{{item.sale_type_name}} · 失效日期：{{item.valid}}</span>
+            <div class="l-data-null" v-if="couponList2.length === 0">
+              <img src="~assets/img-050.png" alt="">
+              <p>您还没有相关的优惠券</p>
             </div>
           </div>
         </div>

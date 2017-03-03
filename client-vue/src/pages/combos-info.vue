@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <footer class="l-page-footer l-border-t l-flex-hc">
         <router-link class="button button-fill l-btn l-rest" :to="'/combos/info/slt/' + combosInfo.suit_id">马上去匹配车型，下单购买</a>
@@ -30,7 +30,7 @@
         <div class="l-border-t l-bg l-padding-tb">
           <ul class="l-margin-0 l-fs-s" style="padding-left: 1.65rem;">
             <li v-for="item in serviceList">
-              {{item.service_name}} x{{item.service_num}}
+              {{item.service_name}} x{{item.number}}
             </li>
           </ul>
         </div>

@@ -1,9 +1,9 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <footer class="l-page-footer l-border-t">
-        <a class="button button-fill l-btn"><i class="l-icon">&#xe640;</i>&ensp;联系客服</a>
+        <a href="tel:400-158-6677" class="button button-fill l-btn"><i class="l-icon">&#xe640;</i>&ensp;联系客服</a>
       </footer>
       <div class="content">
         <div class="l-panel-title l-border-b">
@@ -21,10 +21,10 @@
             </div>
           </router-link>
           <div class="l-store-item-ft l-flex-h l-border-t">
-            <a class="l-rest l-flex-hvc l-border-r l-text-default" :href="'tel:' + item.telphone">
+            <a class="l-rest l-border-r l-text-default" :href="'tel:' + item.telphone">
               <i class="l-icon">&#xe640;</i><span>&ensp;电话</span>
             </a>
-            <div class="l-rest l-flex-hvc">
+            <div class="l-rest" @click="openLocation(item)">
               <i class="l-icon">&#xe601;</i><span>&ensp;导航</span>
             </div>
           </div>
@@ -50,21 +50,42 @@ export default {
   methods: {
     toFixed(num = 0, point = 1) {
       return (num - 0).toFixed(point)
+    },
+    openLocation(storeInfo) {
+      $.showIndicator()
+      this.$server.getWxConfig().then((wx)=>{
+        if(wx._ready){
+          wx.openLocation({
+            latitude: Number(storeInfo.latitude),     // 纬度，浮点数，范围为90 ~ -90
+            longitude: Number(storeInfo.longitude),   // 经度，浮点数，范围为180 ~ -180。
+            name: storeInfo.store_name,               // 位置名
+            address: storeInfo.address,               // 地址详情说明
+            scale: 26,                                // 地图缩放级别,整形值,范围从1~28。默认为最大
+            fail(err) {
+              $.alert('打开地图失败：' + err.errMsg)
+            }
+          })    
+        }else{
+          $.alert('请在微信内打开')
+        }
+      }).finally(()=>{
+        $.hideIndicator()
+      })
     }
   },
   created() {
+    $.showIndicator()
     this.$server.getPosition().then((position)=>{
-      setTimeout(()=>{
-        $.showIndicator()
-        this.$server.store.getList(1, 10, position.longitude, position.latitude)
-        .then(({obj, list})=>{
-          this.buyInfo = obj
+      this.$server.store.getList(1, 10, position.longitude, position.latitude)
+      .then(({list})=>{
+        setTimeout(()=>{
           this.storeList = list
-          this.sltedStore = list[0] || {}
-        }).finally(()=>{
-          $.hideIndicator()
-        })
-      }, 600)
+        }, 600)
+      }).finally(()=>{
+        $.hideIndicator()
+      })
+    }).finally(()=>{
+      $.hideIndicator()
     })
   }
 }

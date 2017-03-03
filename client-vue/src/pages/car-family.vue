@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content">
         <div class="list-block l-car-model-list">
@@ -37,11 +37,14 @@ export default {
     }
   },
   created() {
+    $.showIndicator()
     this.$server.car.getFamily(this.$route.params.id)
     .then((response)=>{
       setTimeout(()=>{
         this.family = response.list
       }, 600)
+    }).finally(()=>{
+      $.hideIndicator()
     })
   }
 }

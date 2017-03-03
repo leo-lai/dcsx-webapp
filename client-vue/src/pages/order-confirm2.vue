@@ -1,12 +1,12 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <footer class="l-page-footer l-border-t l-flex-hc">
         <div class="l-rest l-margin-l">
           订单金额：<span class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{toFixed(buyPay, 2)}}</span>
         </div>
-        <button class="button button-fill l-btn" :disabled="submiting" @click="submit">&ensp;提交订单&ensp;</button>
+        <button class="button button-fill l-btn" :disabled="submiting || !buyInfo.id" @click="submit">&ensp;提交订单&ensp;</button>
       </footer>
       <div class="content">
         <!-- 购买的商品 -->
@@ -62,9 +62,9 @@
         </div>
         <div class="list-block media-list">
           <ul>
-            <li>
-              <label class="label-checkbox item-content" @click="usePoint">
-                <input type="checkbox" :checked="pointType === 1">
+            <li :class="{'l-point-disabled': buyInfo.point_value <= 0}">
+              <label class="label-checkbox item-content" @click.prevent="usePoint">
+                <input type="checkbox" :checked="buyInfo.point_value > 0 && pointType === 1">
                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                 <div class="item-inner">
                   <div class="item-title-row">
@@ -89,7 +89,7 @@
         <div class="list-block media-list" style="margin:-1px 0;">
           <ul>
             <li v-for="item in storeList">
-              <label class="label-checkbox item-content" @click="sltStore(item)">
+              <label class="label-checkbox item-content" @click.prevent="sltStore(item)">
                 <input type="radio" name="store" :checked="item.store_id === sltedStore.store_id">
                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                 <div class="item-media l-margin-l-s">
@@ -204,7 +204,7 @@ export default {
           .then(({obj, list, goods_list})=>{
             this.goodsList = goods_list
             this.buyInfo = obj
-            this.pointMoney = this.buyInfo.point_money
+            this.pointMoney = obj.point_money
             this.storeList = list
             this.sltedStore = list[0] || {}
             this.jsonData = {
@@ -228,4 +228,8 @@ export default {
 <style scoped>
 .l-goods-thumbs{background-color: #fff;padding:0.5rem; overflow: hidden;}
 .l-goods-thumbs .l-thumb{width: 3.0rem;height: 3.0rem;border-radius: 2px;margin:0.25rem; float: left;}
+.l-point-disabled{
+  filter: grayscale(100%);
+  opacity: 0.4;
+}
 </style>

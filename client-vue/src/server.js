@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { storage, utils } from 'src/scripts/utils'
-
+const appid = 'wx8069d2775c2f68ab'
 const baseUrl = 'http://twww.dongcheshixiong.com'
 const _http = {
   ajax(url = '', data = {}, type  = 'GET', contentType = 'form') {
@@ -27,6 +27,7 @@ const _http = {
           if(response.status_code === 800001 || response.status_code === 800002 || 
             response.status_code === 800003) { 
             $.hideIndicator()
+            $.closeModal()
             $.alert(response.status_msg, ()=>{
               _server.logout()
             })
@@ -68,23 +69,19 @@ const _http = {
 
 // 分页数据类
 class List {
-  constructor(type){
-    this._type = type
+  constructor(type, method = 'GET',  params = []){
+    this.type = type
+    this.method = method
+    this.params = params            // 异步发送数据
+
     this.isLoading = false          // 正在请求数据
     this.isNull = false             // 表示后台已无数据返回，无需再发送请求
     this.isAjax = false             // 是否已请求过数据
     this.alldata = []               // 累计分页已返回数据
     this.data = []                  // 当前分页数据
-    this.page = 0                   // 当前页数
-    this.gotoPage = 1               // 跳转到第几页
-    this.pageList = [1]             // 分页数组
-    this.rowList = [10, 20, 50]    // 每页条数
-    this.total = 1                  // 总条数
-    this.totalPage = 1              // 总页数
-
+    this.page = 1                   // 当前页数
     this.row = 10                  // 条数
-    this.isPage = true              // 是否分页
-    this.params = {}                // 异步发送数据
+    
     this.beforeAjax = utils.noop
     this.callback = utils.noop
 
@@ -97,8 +94,8 @@ class List {
     this.goto(1)
   }
   next() {
-    if(!this.isLoading && this.page < this.totalPage){
-      this.page = Math.min(++this.page, this.totalPage)
+    if(!this.isLoading && !this.isNull){
+      ++this.page
       this.ajax()  
     }
     return this
@@ -111,60 +108,57 @@ class List {
     return this
   }
   goto(index = 1) {
-    if(utils.isNumber(index) && !this.isLoading){
-      index = Math.min(Math.max(index, 1), this.totalPage)  
+    if(!this.isLoading && !this.isNull){
       this.page = index
       this.ajax()
     }
     return this
   }
   ajax() {
-    if(this.isLoading){ return this }
+    if(this.isLoading || this.isNull){ return this }
+
     let url = ''
-    switch (this._type) {
-      case 'news':              // 新闻列表
-        url = 'owner/visitor/getPublishList'
+    switch (this.type) {
+      case 'OrderList': // 订单列表
+        url = '/Member/order/list'
         break
     }
-    this.params.page = this.page
-    this.params.rows = this.row
+
     this.isLoading = true
-    this.beforeAjax(this.isLoading)
-    _http.get(url, {
-      params: this.params
-    }).then(function({ body }){
+    this.beforeAjax()
+
+    let promise = null
+    switch(this.method){
+      case 'GET':
+        if(utils.isArray(this.params) && this.params.length > 0){
+          url += `/${this.page}/${this.row}/` + this.params.join('/')  
+        }
+        promise = _http.get(url)
+        break
+      case 'POST':
+        promise = _http.post(url, this.params)
+        break
+    }
+
+    promise.then(({list, obj})=>{
       this.isAjax = true
       this.isLoading = false
-      if(body.success && body.data){
-        this.gotoPage = this.page
-        
-        this.total = body.data.total
-        this.totalPage = body.data.totalPage
+      
+      this.data = list
 
-        // 分页数组 [1,2,3,'...',10,11,12]
-        let pageList = []
-        for (let i = Math.max(this.page - 3, 1); i <= Math.min(this.page + 3, this.totalPage); i++) {
-          pageList.push(i)
-        }
-        if(this.totalPage > 10 && (this.totalPage - this.page) > 3){
-          pageList.push('...')
-          pageList.push(this.totalPage)
-        }
-
-        let data = body.data.rowsObject ? body.data.rowsObject : []
-        this.data = data
-        this.alldata = this.alldata.concat(this.data)
-        if(body.data.page >= body.data.totalPage){
-          this.isNull = true
-        }
-        
+      if(list.length > 0){
+        this.alldata = this.alldata.concat(list)
+      }else{
+        this.isNull = true
       }
+        
       this.callback(this.alldata)
-    }.bind(this), function(error){
+    }).catch((error)=>{
       this.isAjax = true
+      this.isNull = false
       this.isLoading = false
       this.callback(this.alldata)
-    }.bind(this))
+    })
   }
 }
 
@@ -173,11 +167,14 @@ const _server = {
   getGrantUrl(url, params) {
     if(!url) return ''
     url = window.location.origin + utils.url.setArgs(url, params)
-    return `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8069d2775c2f68ab&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=dcsx#wechat_redirect`
+    return `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=dcsx#wechat_redirect`
   },
   // 获取微信信息
   getWxByCode(code = '') {
-    return _http.get('/Member/login', code)
+    return _http.get('/Member/login', code).then((response)=>{
+      storage.local.set('openid', response.obj.openid)
+      return response
+    })
   },
   // 获取jssdk授权配置 promise返回一个对象(wx or {})
   getWxConfig(url) { 
@@ -239,6 +236,91 @@ const _server = {
         })
       }
     })
+    return promise
+  },
+  getWxPayConfig(order_id) { // 微信支付配置
+    let promise = new Promise((resolve, reject)=>{
+      const openid = storage.local.get('openid')
+      if(!order_id){
+        reject('支付失败：订单id不存在')
+        $.alert('支付失败：订单id不存在')
+        return
+      }
+
+      if(!openid){
+        reject('获取不到openid，请重新登录')
+        $.alert('获取不到openid，请重新登录', ()=>{
+          this.logout()
+        })
+        return
+      }
+
+      _http.post('/Api/Payment/wx_pay', {
+        openid, order_id
+      }).then(resolve).catch(reject)
+    })
+
+    return promise
+  },
+  chooseWXPay(order_id) { // 微信支付
+    let promise = new Promise((resolve, reject)=>{
+      if(!utils.device.isWechat){
+        $.alert('请在微信浏览器进行支付')
+        reject('请在微信浏览器进行支付')
+        return
+      }
+
+      this.getWxConfig().then((wx)=>{
+        if(wx._ready){
+          this.getWxPayConfig(order_id).then(({obj})=>{
+            wx.chooseWXPay({
+              timestamp: obj.timeStamp, 
+              nonceStr: obj.nonceStr, 
+              package: obj.package, 
+              signType: obj.signType,
+              paySign: obj.paySign, 
+              success(res) {
+                if(res.err_msg == 'get_brand_wcpay_request：ok') {
+                  resolve('ok')
+                }else if(res.err_msg == 'get_brand_wcpay_request：cancel'){
+                  reject('cancel')
+                }else{
+                  $.alert('支付失败，如有疑问请联系客服。')
+                  reject('fail')
+                }
+              }
+            })
+          }).catch(reject)
+        }else{
+          $.alert('微信jsdk不可用')
+          reject('微信jsdk不可用')
+        }
+      })
+    })
+    return promise
+  },
+  chooseWXPay2(order_id){
+    let promise = new Promise((resolve, reject)=>{
+      if(!utils.device.isWechat){
+        $.alert('请在微信浏览器进行支付')
+        reject('请在微信浏览器进行支付')
+        return
+      }
+      this.getWxPayConfig(order_id).then(({obj})=>{
+        WeixinJSBridge.invoke('getBrandWCPayRequest', obj, (res)=>{
+          alert(window.JSON.stringify(res))
+          if(res.err_msg == 'get_brand_wcpay_request：ok') {
+            resolve('ok')
+          }else if(res.err_msg == 'get_brand_wcpay_request：cancel'){
+            reject('cancel')
+          }else{
+            $.alert('支付失败，如有疑问请联系客服。')
+            reject('fail')
+          }
+        })
+      }).catch(reject)
+    })
+
     return promise
   },
   // 获取当前经纬度 成功失败都返回一个对象
@@ -328,6 +410,47 @@ const _server = {
     })
     return promise
   },
+  // 获取两个经纬度的距离
+  getDistance( lng1 = 0, lat1 = 0 ,  lng2 = 0, lat2 = 0 ) {
+    let EARTH_RADIUS = 6378137.0    //单位M
+    let PI = Math.PI
+    let getRad = function(d){
+      return d*PI/180.0
+    }
+
+    let f = getRad((lat1 + lat2)/2)
+    let g = getRad((lat1 - lat2)/2)
+    let l = getRad((lng1 - lng2)/2)
+    
+    let sg = Math.sin(g)
+    let sl = Math.sin(l)
+    let sf = Math.sin(f)
+    
+    let s,c,w,r,d,h1,h2
+    let a = EARTH_RADIUS
+    let fl = 1/298.257
+    
+    sg = sg*sg
+    sl = sl*sl
+    sf = sf*sf
+    
+    s = sg*(1-sl) + (1-sf)*sl
+    c = (1-sg)*(1-sl) + sf*sl
+    
+    w = Math.atan(Math.sqrt(s/c))
+    r = Math.sqrt(s*c)/w
+    d = 2*w*a
+    h1 = (3*r -1)/2/c
+    h2 = (3*r +1)/2/s
+    
+    let m = d*(1 + fl*(h1*sf*(1-sg) - h2*(1-sf)*sg))
+
+    if(Number.isNaN(m)){
+      return 0
+    }
+
+    return Number((m/1000).toFixed(2))
+  },
   // 发送手机验证码
   sendMobiCode(phone, btn) {
     if(!phone) {
@@ -364,10 +487,12 @@ const _server = {
     return promise
   },
   // 注销
-  logout(isRemote) {
+  logout(isRemote, toUrl = window.location.pathname) {
     storage.local.remove('token')
     if(utils.device.isWechat){
-      window.location.replace(_server.getGrantUrl('/login'))  
+      // 避免登录后跳转到登录页面
+      toUrl = toUrl === '/login' ? '/index' : toUrl
+      window.location.replace(_server.getGrantUrl('/login', {to: toUrl}))
     }else{
       Vue._router.push('/login')
     }
@@ -401,6 +526,9 @@ const _server = {
   },
   // 分销商
   agent: {
+    getQrcode() {
+      return _http.get('/Member/User/get_grcode')
+    },
     isTrue() { // 是否为分销商
       return _http.get('/Member/user/judge')
     },
@@ -499,6 +627,9 @@ const _server = {
     order(jsonData) {
       jsonData = JSON.stringify(jsonData)
       return _http.post('/Member/order/combo_order', {jsonstr: jsonData} )
+    },
+    pay(formData) { // 套餐支付
+      return _http.post('/Member/pay/pay_combo', formData)
     }
   },
   // 商城
@@ -520,8 +651,12 @@ const _server = {
       return _http.get('/Member/shopping/goods_detail', id)
     },
     // 获取立即购买信息
-    getBuyInfo(id, longitude, latitude) {
-      return _http.get('/Member/Shopping/order_info', id, longitude, latitude)
+    getBuyInfo(id, longitude = 0, latitude = 0) {
+      return _http.post('/Member/Shopping/order_info', {
+        id,
+        longitude,
+        latitude
+      })
     }
   },
   // 购物车
@@ -555,30 +690,35 @@ const _server = {
   },
   // 订单
   order: {
-    getList(page = 1, row = 10, type = 1) {
-      return _http.get('/Member/order/list', page, row, type)
+    getList( type = 1, method = 'GET') {
+      return new List('OrderList', method, [type])
     },
-    getInfo(goods_id) {
-      return _http.get('/Member/order/info', goods_id)
+    getInfo(order_id) {
+      return _http.get('/Member/order/info', order_id)
     },
-    add(formData) {
+    add(formData) { // 单个商品下单
       return _http.post('/Member/order/goods', formData)
     },
-    add2(jsonData) {
+    add2(jsonData) { // 多个商品下单
       jsonData = JSON.stringify(jsonData)
       return _http.post('/Member/order/cart_goods', {jsonstr: jsonData} )
     },
-    getHistory(page = 1, row = 10) {
+    getHistory(page = 1, row = 10) { // 订单(消费)记录
       return _http.get('/Member/order/his_order', page, row)
     },
     cancel(order_id) {
       return _http.put(`/Member/order/cancel/${order_id}`)
+    },
+    recive(order_id) {
+      return _http.put(`/Member/order/order_recive/${order_id}`)
     }
   },
   // 门店
   store: {
     getList(page = 1, row = 10, longitude = 0, latitude = 0) {
-      return _http.get('/Member/store/lbs_list', page, row, longitude, latitude)
+      return _http.post('/Member/store/lbs_list', {
+        page, row, longitude, latitude
+      })
     },
     getInfo(id) {
       return _http.get('/Member/store/info', id)

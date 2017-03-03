@@ -46,7 +46,7 @@ const router = new VueRouter({
 storage.session.set('wx_url', window.location.href)
 
 // 验证登陆
-// storage.local.set('token', 'QM6RhCq_ayTbINJR6q4wenSDQw7uz_b5BzdlyPfZ39cM6qDKgjPIRKR1FvSJfp8relwZqumxswSZyiN5bUkCy7fY_a0BcdkcxRJirQtdwV0dLM_c')
+// storage.local.set('token', 'QM6RhCq_ayTbINJR6q4wencTKBD7CKYX4dlyPfZ39cM42sWbKJHrOmy81sM9TelGRVcZ1Ik106NDJjjRTQEewXH2MCSt86xorirQtdwV0dLM_c')
 router.beforeEach((to, from, next) => {
   let isCheckLogin = to.meta.auth
   
@@ -55,7 +55,7 @@ router.beforeEach((to, from, next) => {
   }
   if(isCheckLogin && !storage.local.get('token')){
     server.logout()
-    return
+    next(false)
   }
   next()
 })
@@ -74,12 +74,12 @@ router.beforeEach((to, from, next) => {
   let fromIndex = _history[from.path]
   
   if(!toIndex){
-    // $.showIndicator()
+    $.showIndicator()
     _history[to.path] = ++_history.count
   }
 
   if(!from.path || (from.meta.mainPage && to.meta.mainPage)){
-    eventHub.$emit('APP-DIRECTION', 'page-')
+    eventHub.$emit('APP-DIRECTION', 'page')
   }else if(!from.meta.mainPage && to.meta.mainPage){
     eventHub.$emit('APP-DIRECTION', 'page-out') 
   }else if(from.meta.mainPage && !to.meta.mainPage){
@@ -107,7 +107,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((route) => {
-  // $.hideIndicator()
+  $.hideIndicator()
   utils.setTitle(route.meta.title)
   storage.session.set('_history', _history)
 })
@@ -115,6 +115,13 @@ router.afterEach((route) => {
 router.onReady(()=>{
   setTimeout(()=>{
     $.init()
+    let scrollTimeId = 0
+    $(document).on('infinite', function(e){
+      clearTimeout(scrollTimeId)
+      scrollTimeId = setTimeout(()=>{
+        eventHub.emit('APP-INFINITE')
+      }, 200)
+    })
   }, 50) 
 })
 

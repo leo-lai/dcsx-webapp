@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content">
         <div class="l-combo-list">
@@ -28,6 +28,11 @@
               <!-- <a class="pull-right">消费记录</a> -->
             </div>
           </div>
+          <div class="l-data-null" v-if="comboList.length === 0">
+            <img src="~assets/img-050.png" alt="">
+            <p>您还没有相关的套餐</p>
+            <p><router-link class="button button-round" to="/combos">去购买</router-link></p>
+          </div>
         </div>
       </div>
     </div>
@@ -48,11 +53,14 @@ export default {
     }
   },
   created() {
-    setTimeout(()=>{
-      this.$server.user.getCombos(1, 10).then(({list})=>{
+    $.showIndicator()
+    this.$server.user.getCombos(1, 10).then(({list})=>{
+      setTimeout(()=>{
         this.comboList = list
-      })
-    }, 600)
+      }, 600)
+    }).finally(()=>{
+      $.hideIndicator()
+    })
   }
 }
 </script>

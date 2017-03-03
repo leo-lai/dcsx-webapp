@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content">
         <div class="list-block" style="margin:0;">
@@ -35,7 +35,7 @@
                   <div class="item-title label">车牌号码</div>
                   <div class="l-car-prefix" v-text="carNumPrefix" @click="$router.push('/car/city')">粤A</div>
                   <div class="item-input">
-                    <input type="url" placeholder="请填写" maxlength="6" v-model="carNum">
+                    <input class="l-text-upper" type="url" placeholder="请填写" maxlength="6" v-model="carNum">
                   </div>
                 </div>
               </div>
@@ -98,7 +98,7 @@
         </div>
         <p class="l-margin l-fs-s l-text-gray">注：如您需要查询并办理违章，则必须填写发动机号及车架号，懂车师兄将保障您的信息安全。</p>
         <div class="l-margin">
-          <a class="button l-btn-bg1" @click="submit">保存车辆信息</a>
+          <div class="button l-btn-bg1" @click="submit">保存车辆信息</div>
         </div>
       </div>
     </div>
@@ -190,7 +190,7 @@ export default {
         return
       }
 
-      self.formData.car_license = self.carNumPrefix + self.carNum
+      self.formData.car_license = (self.carNumPrefix + self.carNum).toLocaleUpperCase()
 
       $.showIndicator()
       self.submiting = true
@@ -244,5 +244,5 @@ export default {
 </script>
 <style>
 .l-car-prefix{min-width: 3.0rem; margin-left: 0.25rem; }
-.l-car-prefix:after{content: '\e609'; font-family: 'l-iconfont'; margin-left: 0.25rem; color: #ccc; vertical-align: -0.1rem;}
+.l-car-prefix:after{content: '\e609'; font-family: 'l-iconfont'; margin-left: 0.25rem; color: #ccc; }
 </style>

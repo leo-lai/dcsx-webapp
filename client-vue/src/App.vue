@@ -1,6 +1,6 @@
 <template>
   <transition :name="direction">
-    <router-view></router-view>  
+    <router-view></router-view>
   </transition>
 </template>
 
@@ -8,7 +8,7 @@
 export default {
 	data() {
 		return {
-      direction: 'page',
+      direction: 'page-in',
 		}
 	},
 	created() {

@@ -1,9 +1,9 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <l-tabbar></l-tabbar>
-      <div class="bar bar-tab-secondary l-flex-hc" style="z-index:100;padding-right:0;">
+      <div class="bar bar-tab-secondary l-flex-hc" v-show="goodsList.length > 0">
         <label class="l-checkbox" @click="checkAll">
           <input type="checkbox" v-model="isCheckAll">
           <i class="l-icon l-icon-radio"></i>
@@ -12,7 +12,7 @@
         <div class="l-rest l-text-center">
           合计：<span class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{goodsPay.toFixed(2)}}</span>
         </div>
-        <button class="button button-fill l-btn" style="width: 5.0rem;" :disabled="submiting || goodsList.length === 0" @click="submit">去结算</button>
+        <button class="button button-fill l-btn" style="width: 5.0rem;" :disabled="submiting" @click="submit">去结算</button>
       </div>
       <div class="content" >
         <div class="l-shopcar-hd l-flex-hc l-border-b" v-show="goodsList.length > 0">
@@ -190,6 +190,6 @@ export default {
   }
 }
 </script>
-<style>
-
+<style scoped>
+.bar-tab-secondary{z-index:100;padding-right:0;}
 </style>

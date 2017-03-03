@@ -1,9 +1,9 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
-      <div class="content">
-        <div class="buttons-tab l-order-tab">
+      <div class="content infinite-scroll">
+        <div class="buttons-tab l-order-tab l-sticky">
           <a @click="tabClick(1)" class="tab-link button" :class="{'active': orderType == 1}"><img src="~assets/img-040.jpg">待付款</a>
           <a @click="tabClick(2)" class="tab-link button" :class="{'active': orderType == 2}"><img src="~assets/img-041.jpg">待收货</a>
           <!-- <a @click="tabClick(3)" class="tab-link button" :class="{'active': orderType == 3}"><img src="~assets/img-042.jpg">待评价</a> -->
@@ -11,16 +11,37 @@
         </div>
         <div class="tabs">
           <div class="tab" :class="{'active': orderType == 1}">
-            <l-order-list :list="orderList1" :type="1"></l-order-list>
+            <l-order-list :list="scroll1.alldata" :type="1"></l-order-list>
+            <div class="l-data-null" v-if="scroll1.isAjax && scroll1.alldata.length === 0">
+              <img src="~assets/img-050.png" alt="">
+              <p>您还没有相关的商品</p>
+            </div>
+            <div v-show="scroll1.isLoading" class="infinite-scroll-preloader">
+              <div class="preloader"></div>
+            </div>
+            <div v-show="scroll1.isNull && scroll1.alldata.length > 0" class="infinite-scroll-preloader">
+              <span class="l-text-gray">没有更多了</span>
+            </div>
           </div>
           <div class="tab" :class="{'active': orderType == 2}">
-            <l-order-list :list="orderList2" :type="2"></l-order-list>
+            <l-order-list :list="scroll2.alldata" :type="2"></l-order-list>
+            <div class="l-data-null" v-if="scroll2.isAjax && scroll2.alldata.length === 0">
+              <img src="~assets/img-050.png" alt="">
+              <p>您还没有相关的商品</p>
+            </div>
+            <div v-show="scroll2.isLoading" class="infinite-scroll-preloader">
+              <div class="preloader"></div>
+            </div>
           </div>
-          <!-- <div class="tab" :class="{'active': orderType == 3}">
-            <l-order-list :list="orderList3" :type="3"></l-order-list>
-          </div> -->
           <div class="tab" :class="{'active': orderType == 4}">
-            <l-order-list :list="orderList4" :type="4"></l-order-list>
+            <l-order-list :list="scroll4.alldata" :type="4"></l-order-list>
+            <div class="l-data-null" v-if="scroll4.isAjax && scroll4.alldata.length === 0">
+              <img src="~assets/img-050.png" alt="">
+              <p>您还没有相关的商品</p>
+            </div>
+            <div v-show="scroll4.isLoading" class="infinite-scroll-preloader">
+              <div class="preloader"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -38,36 +59,56 @@ export default {
   data () {
     return {
       orderType: 0,
-      orderList1: [],
-      orderList2: [],
-      orderList3: [],
-      orderList4: [],
+      scroll1: {},
+      scroll2: {},
+      scroll4: {}
     }
   },
   methods: {
     tabClick(type = 1) {
       this.orderType = type
-      if(this['orderList' + this.orderType].length === 0){
-        $.showIndicator()
-        this.$server.order.getList(1, 10, this.orderType)
-        .then(({list})=>{
-          $.hideIndicator()
-          this['orderList' + this.orderType] = list
-        })
+      const currentScroll = this['scroll' + this.orderType]
+      if(!currentScroll.isAjax){
+        setTimeout(()=>{
+          currentScroll.row = 4
+          currentScroll.init()  
+        }, 600)
       }
-
       this.$router.replace(`/user/order?tab=` + this.orderType)
     }
   },
   created() {
-    this.$eventHub.$on('ORDER-CANCEL', (orderId)=>{
-      this.orderList1 = this.orderList1.filter((item)=>{
+    const self = this
+
+    // 取消订单
+    self.$eventHub.$on('ORDER-CANCEL', (orderId)=>{
+      self.scroll1.alldata = self.scroll1.alldata.filter((item)=>{
         return item.order_id !== orderId
       })
     })
-    setTimeout(()=>{
-      this.tabClick(this.$route.query.tab)
-    }, 600)
+
+    // 确认收货
+    self.$eventHub.$on('ORDER-RECIVE', (orderId)=>{
+      self.scroll2.alldata = self.scroll2.alldata.filter((item)=>{
+        if(item.order_id === orderId){
+          self.orderList4.unshift(item)  
+        }
+        return item.order_id !== orderId
+      })
+    })
+
+    this.scroll1 = this.$server.order.getList(1)
+    this.scroll2 = this.$server.order.getList(2)
+    this.scroll4 = this.$server.order.getList(4)
+
+    self.tabClick(self.$route.query.tab)
+  },
+  mounted() {
+    // const self = this
+    // $('#app-page').on('infinite', function() {
+    //   self['scroll' + self.orderType].next()
+    //   $.refreshScroller()
+    // })
   }
 }
 </script>

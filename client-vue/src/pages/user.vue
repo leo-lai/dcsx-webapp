@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <l-tabbar></l-tabbar>
       <!-- 这里是页面内容区 -->
@@ -11,8 +11,10 @@
           <div class="l-panel-user-avatar l-rest l-flex-vhc">
             <img class="l-icon-qrcode" src="~assets/icon-qrcode.png" @click="showQrcode" alt="">
             <div class="l-avatar" :style="{'background-image': 'url('+ userInfo.avator +')'}"></div>
-            <h3 v-text="userInfo.username"></h3>
-            <p class="l-fs-s" v-text="userInfo.level_name"></p>
+            <div style="height: 2.675rem;">
+              <h3 v-text="userInfo.username"></h3>
+              <p class="l-fs-s" v-text="userInfo.level_name"></p>
+            </div>
           </div>
           <div class="l-panel-user-bar l-flex-h l-border-t l-fs-s">
             <div class="l-rest l-flex-hvc l-border-r">
@@ -56,14 +58,14 @@
             <p><img src="~assets/img-032.jpg"></p>
             <p>分红记录</p>
           </router-link>
-          <a class="col-33 l-text-default">
+          <router-link class="col-33 l-text-default" to="/user/recharge">
             <p><img src="~assets/img-033.jpg"></p>
-            <p>充值</p>
-          </a>
-          <a class="col-33 l-text-default" @click="exit">
+            <p>账户充值</p>
+          </router-link>
+          <div class="col-33 l-text-default" @click="exit">
             <p><img src="~assets/img-034.jpg"></p>
             <p>退出登录</p>
-          </a>
+          </div>
         </div>
       </div>
     </div>
@@ -76,7 +78,7 @@
             <h3 v-text="userInfo.username"></h3>
           </div>
           <div class="l-qrcode l-bg-cover l-mask" :style="{'background-image': 'url('+ userInfo.avator +')'}">
-            <img src="~assets/temp-003.jpg" alt="">
+            <img :src="qrcode" alt="">
           </div>
         </div>
         <i class="l-icon l-close-radius" @click="showQrcode">&#xe62e;</i>
@@ -96,10 +98,7 @@ export default {
   },
   data () {
     return {
-      images: {
-        temp1: require('assets/temp-001.jpg'),
-        temp2: require('assets/temp-002.jpg'),
-      },
+      qrcode: '',
       userInfo: {},
       isShowQrcode: false  // 显示二维码
     }
@@ -117,6 +116,14 @@ export default {
     },
     showQrcode() {
       this.isShowQrcode = !this.isShowQrcode
+      if(this.isShowQrcode && !this.qrcode){
+        $.showIndicator()
+        this.$server.agent.getQrcode().then(({obj})=>{
+          this.qrcode = obj.img
+        }).finally(()=>{
+          $.hideIndicator()
+        })  
+      }
     }
   }
 }
@@ -127,6 +134,7 @@ export default {
   background-color: #fff;
   text-align: center;
   padding: 0.75rem 0;
+  font-size: 0.75rem;
 }
 .l-user-menu img{
   width: 3.0rem;
@@ -149,7 +157,7 @@ export default {
   background-color: rgba(0,0,0, 0.5);
 }
 .l-panel-user-bg{
-  background: #666 no-repeat 50% 50%; background-size: cover;
+  background: no-repeat 50% 50%; background-size: cover;
   position: absolute; left:0; top:0; width:100%; height: 100%;
   z-index: -1; filter: blur(5px);
 }

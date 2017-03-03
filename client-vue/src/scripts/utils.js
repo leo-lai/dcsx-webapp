@@ -6,6 +6,7 @@ const isIpod = /(iPod)(.*OS\s([\d_]+))?/.test(ua)
 const isIphone = !isIpad && /(iPhone\sOS)\s([\d_]+)/.test(ua)
 const isWechat = /micromessenger/i.test(ua)
 
+
 Promise.prototype.done = Promise.prototype.done || function (onFulfilled, onRejected) {
   this.then(onFulfilled, onRejected)
     .catch(function (reason) {
@@ -207,15 +208,16 @@ export let utils = {
 		document.title = title || '懂车师兄'
     // 判断是否为ios设备的微信浏览器，加载iframe来刷新title
     if (isWechat && isIphone) {
-    	let iframe = document.createElement('iframe')
-		  iframe.setAttribute('src', '/favicon.ico')
-		  iframe.addEventListener('load', function load() {
-		    setTimeout(() => {
-	      	iframe.removeEventListener('load', load)
-	        document.body.removeChild(iframe)
-	      }, 50)
-		  })
-		  document.body.appendChild(iframe)
+      let iframe = document.createElement('iframe')
+      iframe.setAttribute('src', '//m.baidu.com/favicon.ico')
+      iframe.setAttribute('style','position:absolute;visibility:hidden;height:0;width:0;');
+      iframe.addEventListener('load', function load() {
+        setTimeout(() => {
+          iframe.removeEventListener('load', load)
+          document.body.removeChild(iframe)
+        }, 50)
+      })
+      document.body.appendChild(iframe)
     }
 	},
   url: {

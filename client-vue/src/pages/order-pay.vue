@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content">
         <!-- 订单信息 -->
@@ -41,7 +41,7 @@
           <div class="list-block media-list">
             <ul>
               <li>
-                <label class="label-checkbox item-content" @click="sltPayWay(1)">
+                <label class="label-checkbox item-content" @click.prevent="sltPayWay(1)">
                   <input type="radio" name="pay-way" :checked="payway == 1">
                   <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                   <div class="item-inner">
@@ -55,7 +55,7 @@
                 </label>
               </li>
               <li>
-                <label class="label-checkbox item-content" @click="sltPayWay(2)">
+                <label class="label-checkbox item-content" @click.prevent="sltPayWay(2)">
                   <input type="radio" name="pay-way" :checked="payway == 2">
                   <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                   <div class="item-inner">
@@ -104,23 +104,57 @@ export default {
     },
     submit() {
       const self = this
-      if(self.payway == 1){
-        if(self.orderInfo.total_money > self.userAmount){
+      let promise = null
+
+      $.showIndicator()
+      self.submiting = true
+
+      if(self.payway == 1){ // 钱包支付
+        if(Number(self.orderInfo.total_money) > Number(self.userAmount)){
           $.alert('钱包可用余额不足，请及时充值！')
           return
         }
+        if(self.orderInfo.type == 2){  // 套餐
+          promise = self.$server.combo.pay(self.formData)
+        }else{  // 商品
+          promise = self.$server.user.cashPay(self.formData)
+        }
 
-        $.showIndicator()
-        self.submiting = true
-        self.$server.user.cashPay(self.formData)
-        .then(()=>{
-          $.hideIndicator()
+      }else if(self.payway == 2){ // 微信支付
+        promise = this.$server.chooseWXPay2(self.orderInfo.order_id)
+      }
+
+      promise.then(()=>{
+        if(self.orderInfo.type == 2){
           $.modal({
             title:  '支付成功',
-            text: '请到【我的->商品】中查看详情信息',
+            text: '请到【我的->套餐】查看详情',
             buttons: [
               {
-                text: '返回'
+                text: '返回',
+                onClick() {
+                  self.$router.back()
+                }
+              },
+              {
+                text: '查看套餐',
+                bold: true,
+                onClick() {
+                  self.$router.replace('/user/combos')
+                }
+              },
+            ]
+          })
+        }else{ // 支付商品
+          $.modal({
+            title:  '支付成功',
+            text: '请到【我的->商品】查看详情',
+            buttons: [
+              {
+                text: '返回',
+                onClick() {
+                  self.$router.back()
+                }
               },
               {
                 text: '查看订单',
@@ -131,12 +165,13 @@ export default {
               },
             ]
           })
-        }).catch(()=>{
-          self.submiting = false
-        }) 
-      }else if(self.payway == 2){
-        $.alert('暂不支持微信支付')
-      }
+        }
+
+        this.$storage.session.remove('temp_pay_info')
+      }).finally(()=>{
+        $.hideIndicator()
+        self.submiting = false
+      })
     }
   },
   created() {
@@ -152,10 +187,6 @@ export default {
         $.hideIndicator()
       })
     }, 600)
-  },
-  beforeRouteLeave(to, from, next) {
-    this.$storage.session.remove('temp_pay_info')
-    next()
   }
 }
 </script>

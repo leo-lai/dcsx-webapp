@@ -29,6 +29,10 @@ label.label-checkbox input[type="radio"]:checked + .item-media i.icon-form-check
 .l-bar-tab .tab-item .icon~.tab-label:after{content: ''; display: block; margin: 0.125rem auto 0; width: 1.0rem; height: 0.25rem; } 
 .l-bar-tab .tab-item.active .icon~.tab-label:after{background-color: #3d93f5 } 
 */
+.modal.modal-no-buttons{width: 8rem; margin-left: -4rem;}
+.modal-no-buttons .modal-inner{display: flex; flex-direction: column-reverse; opacity: 0.8;}
+.modal-no-buttons .modal-title{color: #999; font-size: 0.7rem;}
+.preloader-indicator-modal{opacity: 0.4}
 .list-block{margin:0.75rem 0;}
 .list-block .item-text{max-height: 2.1rem; height: auto;}
 .content-block{margin:0.75rem 0;}
@@ -44,7 +48,7 @@ label.label-checkbox input[type="radio"]:checked + .item-media i.icon-form-check
 .picker-modal .bar:before{background-color: #d7d7d7;}
 .button{min-width: 2.5rem;}
 .panel{background-color: #f3f3f3;}
-.swiper-container-horizontal>.swiper-pagination{text-align: right;padding: 0 0.75rem; bottom: 1.0rem;}
+.swiper-container-horizontal>.swiper-pagination{text-align: right;padding: 0 0.75rem; bottom: 1.0rem; transition:none;}
 .swiper-pagination-bullet{background: #666; opacity: .6; box-shadow: 0 0 0 1px rgba(255,255,255,0.6); }
 .swiper-pagination-bullet-active{opacity: 0.9; background: #007aff;}
 .badge{color: white; background: red; height: .8rem; min-width: .8rem; padding: 0 .2rem; font-size: .6rem; line-height: .8rem; margin-left: 0.25rem; text-align: center; }
@@ -79,9 +83,8 @@ body.with-panel-right-reveal .panel-overlay {
     top: -50%;
   }
 }
-/* .list-block .item-input{margin-top:0;margin-bottom:0;} */
 .l-allow-null{overflow: hidden;}
-.l-allow-null:after{content: '(选填)'; font-size: 0.6rem; white-space: nowrap; padding-right: 0.6rem; color: #ccc; margin-top: 4px;}
+.l-allow-null:after{content: '(选填)'; font-size: 0.6rem; white-space: nowrap; padding-right: 0.6rem; color: #ccc; margin-top: 3px;}
 .l-allow-null .item-inner{overflow: visible;}
 .l-allow-null .item-inner:after{width: 200%;}
 .label-switch input[type="checkbox"]:checked + .checkbox{background: #3d93f5;}
@@ -248,6 +251,7 @@ table.l-text-table td._tit{min-width: 4rem; padding-right: 0.75rem; color: #999;
     padding: 0 0.75rem;
     color: #ffac0c;
     min-width: 5rem;
+    max-width: 50%;
     text-align: center;
     span{
       font-size: 1.5rem;
@@ -280,9 +284,6 @@ table.l-text-table td._tit{min-width: 4rem; padding-right: 0.75rem; color: #999;
 .l-shopcar-item .l-checkbox .l-icon-radio{line-height: 3rem;}
 .l-shopcar-item-disc{height: 1.5rem; line-height: 1.5rem;}
 .l-discount-list{background-color: #fff;}
-
-
-
 /* 消费记录 */
 .l-buy-total{
   background: linear-gradient(124deg, #f98856, #f3543f);
@@ -295,9 +296,7 @@ table.l-text-table td._tit{min-width: 4rem; padding-right: 0.75rem; color: #999;
 .l-buy-details .l-text-table{width: 100%;}
 .l-buy-details .l-text-table td:first-child{width: 4.0rem;}
 /* 分销记录 */
-.l-agent-total{
-  color:#fff; padding: 0.75rem;background: linear-gradient(140deg, #f63752, #f15f4f);
-}
+.l-agent-total{color:#fff; padding: 0.75rem;background: linear-gradient(140deg, #f63752, #f15f4f); }
 .l-agent-total h3{margin:0.25rem 0;}
 .l-agent-total .button{color: #fff;border-color:#fff;margin-top: 0.5rem;}
 .l-agent-total strong{font-weight: 400;font-size: 1.6rem;}
@@ -309,9 +308,28 @@ table.l-text-table td._tit{min-width: 4rem; padding-right: 0.75rem; color: #999;
 .l-store-item-bd .l-flex-v{padding: 0.25rem 0;}
 .l-store-item-bd h4{font-size: 0.75rem;}
 .l-store-item-bd p{font-size: 0.7rem;}
-.l-store-item-ft{height: 1.75rem;background-color: #fff;}
+.l-store-item-ft{background-color: #fff;padding: 0.375rem;}
 .l-store-item-ft>.l-rest{width: 50%; height: 100%; text-align: center;}
 .l-store-item-ft>.l-rest:active{background-color: #f3f3f3;}
+
+.l-data-null{
+  font-size: 0.75rem;
+  color: #999;
+  margin: 2rem 0;
+  text-align: center;
+  img {
+    display: block;
+    width: 50%;
+    margin: 0.75rem auto;
+  }
+  .button{
+    max-width: 40%;
+    display: block;
+    margin: 0.75rem auto;
+    background-color: #fff;
+  }
+}
+
 
 /* 评价 */
 .l-evaluate-content{padding: 0.75rem;background-color: #fff;}
@@ -321,4 +339,6 @@ table.l-text-table td._tit{min-width: 4rem; padding-right: 0.75rem; color: #999;
 }
 .l-evaluate-score{margin-top: 0.375rem;}
 .l-evaluate-score .l-icon{ font-size: 1rem; vertical-align: -0.05rem; margin-right: 5px;}
+
+
 

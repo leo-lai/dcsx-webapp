@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content" v-show="isShow">
         <!-- 分销记录 -->
@@ -88,21 +88,24 @@ export default {
     }
   },
   created() {
-    $.showIndicator()
-    this.$server.agent.isTrue().then(({obj})=>{
-      this.isShow = true
-      this.agentCode = obj.code
-      if(obj.code === 1){
-        this.$server.agent.getRecord(1, 10)
-        .then(({obj, list})=>{
+    setTimeout(()=>{
+      $.showIndicator()
+      this.$server.agent.isTrue().then(({obj})=>{
+        this.isShow = true
+        this.agentCode = obj.code
+        if(obj.code === 1){
+          this.$server.agent.getRecord(1, 10)
+          .then(({obj, list})=>{
+            $.hideIndicator()
+            this.agentInfo = obj
+            this.recordList = list
+          })
+        }else{
           $.hideIndicator()
-          this.agentInfo = obj
-          this.recordList = list
-        })
-      }else{
-        $.hideIndicator()
-      }
-    })
+        }
+      }) 
+    }, 600)
+    
   }
 }
 </script>

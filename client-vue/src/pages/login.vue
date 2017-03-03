@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content">
         <div class="l-login">
@@ -16,10 +16,10 @@
             <div class="l-margin" style="margin-top: 1.25rem;">
               <button class="button l-btn-bg1" style="width:100%;" :disabled="submiting" @click="submit">登录</button>
             </div>
-            <p class="l-margin-0 l-fs-s">
+            <!-- <p class="l-margin-0 l-fs-s">
               没有收到验证码？
               <span style="text-decoration: underline;">使用语音验证码</span>
-            </p>
+            </p> -->
           </div>
         </div>
       </div>
@@ -66,13 +66,12 @@ export default {
         return
       }
 
-      // this.$router.replace(this.$route.query.to || '/user')
       $.showIndicator()
       this.submiting = true
       this.$server.login(this.formData).then(({obj})=>{
         $.toast('登录成功', 2000, 'l-toast')
         this.$storage.local.set('token', obj.token)
-        this.$router.replace(this.$route.query.to || '/user')
+        this.$router.replace(this.$route.query.to || '/index')
       }).catch(()=>{
         $.hideIndicator()
         this.submiting = false

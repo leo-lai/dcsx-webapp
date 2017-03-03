@@ -1,15 +1,15 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <footer class="l-footer-fixed l-flex-hc l-padding-s" v-if="orderInfo.order_status == 1">
         <button class="l-rest button l-btn-bg2 l-margin-r-s" @click="orderCancel">取消订单</button>
         <button class="l-rest button l-btn-bg1" @click="orderPay">去支付</button>  
       </footer>
       <footer class="l-footer-fixed l-flex-hc l-padding-s" v-else-if="orderInfo.order_status == 2">
-        <button class="l-rest button l-btn-bg1">确认收货</button>  
+        <button class="l-rest button l-btn-bg1" @click="orderRecive">确认收货</button>  
       </footer>
-      <div class="content" v-show="orderInfo.order_id">
+      <div class="content l-fs-m" v-show="orderInfo.order_id">
         <!-- 订单信息 -->
         <div class="l-panel-title">
           <span class="l-text-gray">订单信息</span>
@@ -71,17 +71,17 @@
             <img class="l-thumb-s l-margin-r" :src="orderInfo.picpath">
             <div class="l-rest l-flex-v">
               <div class="l-rest">
-                <span class="l-fs-s l-text-gray pull-right"><i class="l-icon">&#xe634;</i>{{toFixed(orderInfo.distance)}}km</span>
+                <span class="l-fs-s l-text-gray pull-right"><i class="l-icon">&#xe634;</i>{{orderInfo.distance}}km</span>
                 <h4 v-text="orderInfo.org_name"></h4>
               </div>
               <p v-text="orderInfo.address"></p>
             </div>
           </router-link>
           <div class="l-store-item-ft l-flex-h l-border-t">
-            <a class="l-rest l-flex-hvc l-border-r l-text-default" :href="'tel:' + orderInfo.telphone">
+            <a class="l-rest l-flex-hvc l-border-r l-text-default" :href="'tel:' + orderInfo.phone">
               <i class="l-icon">&#xe640;</i><span>&ensp;电话</span>
             </a>
-            <div class="l-rest l-flex-hvc">
+            <div class="l-rest l-flex-hvc" @click="openLocation()">
               <i class="l-icon">&#xe601;</i><span>&ensp;导航</span>
             </div>
           </div>
@@ -113,9 +113,6 @@ export default {
     }
   },
   methods: {
-    toFixed(num = 0, point = 1) {
-      return (num - 0).toFixed(point)
-    },
     orderCancel() {
       const self = this
       $.confirm('确定要取消订单？', ()=>{
@@ -130,6 +127,16 @@ export default {
         })
       })
     },
+    orderRecive() {
+      $.showIndicator()
+      this.$server.order.recive(self.orderInfo.order_id)
+      .then(()=>{
+        $.toast('确认收货成功')
+        this.getOrderInfo()
+      }).finally(()=>{
+        $.hideIndicator()
+      })
+    },
     orderPay() {
       this.$storage.session.set('temp_pay_info', {
         order_id: this.orderInfo.order_id,
@@ -139,18 +146,51 @@ export default {
       })
 
       this.$router.push('/order/pay')
+    },
+    getOrderInfo() {
+      this.$server.order.getInfo(this.$route.params.id)
+      .then(({obj, list})=>{
+        obj.distance = 0
+        this.orderInfo = obj
+        this.goodsList = list
+        this.$server.getPosition().then((position)=>{
+          this.orderInfo.distance = this.$server.getDistance(
+            Number(position.longitude),
+            Number(position.latitude),
+            Number(obj.longitude),
+            Number(obj.latitude)
+          )
+        })
+      }).finally(()=>{
+        $.hideIndicator()
+      })
+    },
+    openLocation() {
+      $.showIndicator()
+      this.$server.getWxConfig().then((wx)=>{
+        if(wx._ready){
+          wx.openLocation({
+            latitude: Number(this.orderInfo.latitude),     // 纬度，浮点数，范围为90 ~ -90
+            longitude: Number(this.orderInfo.longitude),   // 经度，浮点数，范围为180 ~ -180。
+            name: this.orderInfo.org_name,                 // 位置名
+            address: this.orderInfo.address,               // 地址详情说明
+            scale: 26,                                // 地图缩放级别,整形值,范围从1~28。默认为最大
+            fail(err) {
+              $.alert('打开地图失败：' + err.errMsg)
+            }
+          })    
+        }else{
+          $.alert('请在微信内打开')
+        }
+      }).finally(()=>{
+        $.hideIndicator()
+      })
     }
   },
   created() {
     setTimeout(()=>{
       $.showIndicator()
-      this.$server.order.getInfo(this.$route.params.id)
-      .then(({obj, list})=>{
-        this.orderInfo = obj
-        this.goodsList = list
-      }).finally(()=>{
-        $.hideIndicator()
-      })
+      this.getOrderInfo()
     }, 600)
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content" v-show="isShow">
         <!-- 分销记录 -->
@@ -83,20 +83,22 @@ export default {
     }
   },
   created() {
-    $.showIndicator()
-    this.$server.holder.isTrue().then(({obj})=>{
-      this.isShow = true
-      this.holderCode = obj.code
-      if(obj.code === 1){
-        this.$server.holder.getInfo()
-        .then(({obj})=>{
+    setTimeout(()=>{
+      $.showIndicator()
+      this.$server.holder.isTrue().then(({obj})=>{
+        this.isShow = true
+        this.holderCode = obj.code
+        if(obj.code === 1){
+          this.$server.holder.getInfo()
+          .then(({obj})=>{
+            $.hideIndicator()
+            this.holderInfo = obj
+          })
+        }else{
           $.hideIndicator()
-          this.holderInfo = obj
-        })
-      }else{
-        $.hideIndicator()
-      }
-    })
+        }
+      }) 
+    }, 600)
   }
 }
 </script>

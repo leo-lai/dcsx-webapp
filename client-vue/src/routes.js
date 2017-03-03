@@ -1,3 +1,24 @@
+import login from './pages/login'
+import index from './pages/index'
+import message from './pages/message'
+import shopcar from './pages/shopcar'
+import coupons from './pages/coupons'
+import user from './pages/user'
+import userCoupons from './pages/user-coupons'
+import userCombos from './pages/user-combos'
+import userRecharge from './pages/user-recharge'
+import userOrder from './pages/user-order'
+import userOrderInfo from './pages/user-order-info'
+import combos from './pages/combos'
+import combosInfo from './pages/combos-info'
+import shop from './pages/shop'
+import goods from './pages/goods'
+import goodsInfo from './pages/goods-info'
+import carList from './pages/car-list'
+import carInfo from './pages/car-info'
+import stores from './pages/stores'
+import storesInfo from './pages/stores-info'
+
 const routes = [
   { 
     path: '/', 
@@ -6,37 +27,62 @@ const routes = [
   {
     path: '/login',
     meta: { title: '登录', auth: false },
-    component: (resolve) => require(['./pages/login'], resolve)
+    component: login
   },
   {
     path: '/index',
-    meta: { title: '首页', mainPage: true },
-    component: (resolve) => require(['./pages/index'], resolve)
+    meta: { title: '首页', cache: true, mainPage: true },
+    component: index
   },
   {
     path: '/message',
-    meta: { title: '动态', mainPage: true },
-    component: (resolve) => require(['./pages/message'], resolve)
+    meta: { title: '动态',cache: true,  mainPage: true },
+    component: message
   },
   {
     path: '/shopcar',
-    meta: { title: '购物车', mainPage: true },
-    component: (resolve) => require(['./pages/shopcar'], resolve)
+    meta: { title: '购物车',cache: true,  mainPage: true },
+    component: shopcar
   },
   {
     path: '/user',
-    meta: { title: '我的', mainPage: true },
-    component: (resolve) => require(['./pages/user'], resolve)
+    meta: { title: '我的',cache: true,  mainPage: true },
+    component: user
+  },
+  {
+    path: '/user/recharge',
+    meta: { title: '账户充值' },
+    component: userRecharge
   },
   {
     path: '/combos',
     meta: { title: '套餐年卡' },
-    component: (resolve) => require(['./pages/combos'], resolve)
+    component: combos
+  },
+  {
+    path: '/shop',
+    meta: { title: '特惠商城' },
+    component: shop
+  },
+  {
+    path: '/coupons',
+    meta: { title: '优惠券中心' },
+    component: coupons
+  },
+  {
+    path: '/shop/goods/:id',
+    meta: { title: '商品列表' },
+    component: goods
+  },
+  {
+    path: '/shop/goods/info/:id',
+    meta: { title: '商品详情' },
+    component: goodsInfo
   },
   {
     path: '/combos/info/:id',
     meta: { title: '套餐详情' },
-    component: (resolve) => require(['./pages/combos-info'], resolve)
+    component: combosInfo
   },
   {
     path: '/combos/info/slt/:id',
@@ -44,19 +90,14 @@ const routes = [
     component: (resolve) => require(['./pages/combos-service'], resolve)
   },
   {
-    path: '/shop',
-    meta: { title: '特惠商城' },
-    component: (resolve) => require(['./pages/shop'], resolve)
+    path: '/message/info',
+    meta: { title: '检查明细' },
+    component: (resolve) => require(['./pages/message-info'], resolve)
   },
   {
-    path: '/shop/goods/:id',
-    meta: { title: '商品列表' },
-    component: (resolve) => require(['./pages/goods'], resolve)
-  },
-  {
-    path: '/shop/goods/info/:id',
-    meta: { title: '商品详情' },
-    component: (resolve) => require(['./pages/goods-info'], resolve)
+    path: '/message/info/all',
+    meta: { title: '检查明细' },
+    component: (resolve) => require(['./pages/message-all-info'], resolve)
   },
   {
     path: '/alicar',
@@ -64,29 +105,24 @@ const routes = [
     component: (resolve) => require(['./pages/alicar'], resolve)
   },
   {
-    path: '/coupons',
-    meta: { title: '优惠券中心' },
-    component: (resolve) => require(['./pages/coupons'], resolve)
-  },
-  {
     path: '/user/coupons',
     meta: { title: '我的优惠券' },
-    component: (resolve) => require(['./pages/user-coupons'], resolve)
+    component: userCoupons
   },
   {
     path: '/user/combos',
     meta: { title: '我的套餐' },
-    component: (resolve) => require(['./pages/user-combos'], resolve)
+    component: userCombos
   },
   {
     path: '/user/order',
     meta: { title: '我的商品' },
-    component: (resolve) => require(['./pages/user-order'], resolve)
+    component: userOrder
   },
   {
     path: '/user/order/info/:id',
     meta: { title: '订单详情' },
-    component: (resolve) => require(['./pages/user-order-info'], resolve)
+    component: userOrderInfo
   },
   {
     path: '/user/order/history',
@@ -96,17 +132,17 @@ const routes = [
   {
     path: '/car/list',
     meta: { title: '我的车辆' },
-    component: (resolve) => require(['./pages/car-list'], resolve)
+    component: carList
   },
   {
     path: '/car/edit/:id',
     meta: { title: '编辑车辆信息' },
-    component: (resolve) => require(['./pages/car-info'], resolve)
+    component: carInfo
   },
   {
     path: '/car/add',
     meta: { title: '新增车辆' },
-    component: (resolve) => require(['./pages/car-info'], resolve)
+    component: carInfo
   },
   {
     path: '/car/brands',
@@ -156,12 +192,12 @@ const routes = [
   {
     path: '/user/stores',
     meta: { title: '附近门店' },
-    component: (resolve) => require(['./pages/stores'], resolve)
+    component: stores
   },
   {
     path: '/user/stores/info/:id',
     meta: { title: '附近门店' },
-    component: (resolve) => require(['./pages/stores-info'], resolve)
+    component: storesInfo
   },
   {
     path: '/user/agent',

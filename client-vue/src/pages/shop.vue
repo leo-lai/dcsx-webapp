@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content">
         <router-link class="l-shop-category" :to="'/shop/goods/' + item.cateid" v-for="item in category1">

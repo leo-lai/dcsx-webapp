@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content">
         <div class="l-coupon-list">
@@ -43,7 +43,6 @@ export default {
       const self = this
       $.showIndicator()
       this.$server.coupon.pick(item.coupon_id).then((response)=>{
-        $.hideIndicator()
         $.modal({
           title:  '领取成功',
           text: '请到【我的->优惠券】中查看',
@@ -60,16 +59,19 @@ export default {
             },
           ]
         })
-      }).catch(()=>{
+      }).finally(()=>{
         $.hideIndicator()
       })
     }
   },
   created() {
     setTimeout(()=>{
+      $.showIndicator()
       this.$server.coupon.getList(1, 10).then(({list})=>{
         this.couponList = list
-      })  
+      }).finally(()=>{
+        $.hideIndicator()
+      })
     }, 600)
   }
 }

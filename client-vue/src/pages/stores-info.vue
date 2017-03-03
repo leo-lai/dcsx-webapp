@@ -1,8 +1,8 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
-      <div class="content">
+      <div class="content l-fs-m">
         <div class="l-margin-b">
           <div class="l-panel-title l-border-b">
             <span class="l-text-gray">门店名称</span>

@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <footer class="l-page-footer l-border-t l-flex-hc">
         <div class="l-rest l-margin-l">
@@ -56,7 +56,7 @@
         <div class="list-block media-list" style="margin:-1px 0;">
           <ul>
             <li v-for="item in carList">
-              <label class="label-checkbox item-content" @click="sltCar(item)">
+              <label class="label-checkbox item-content" @click.prevent="sltCar(item)">
                 <input type="radio" name="store" :checked="item.id === sltedCar.id">
                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                 <div class="item-media l-margin-l-s">
@@ -156,7 +156,12 @@ export default {
       $.showIndicator()
       this.$server.combo.getService(this.$route.params.id, this.sltedCar.carid)
       .then(({list})=>{
-        this.serviceList = list
+        this.serviceList = list.map((item)=>{
+          if(!item.service_goods){
+            item.is_goods = 0
+          }
+          return item
+        })
       }).catch(()=>{
         this.serviceList = []
       }).finally(()=>{
@@ -172,8 +177,10 @@ export default {
       
       this.$server.combo.order(this.jsonData)
       .then(({obj})=>{
+        obj.type = 2
         this.$storage.session.set('temp_pay_info', obj)
-        this.$router.replace('/order/pay')
+        window.location.href = '/order/pay'
+        // this.$router.replace('/order/pay')
       }).finally(()=>{
         $.hideIndicator()
         this.submiting = false
@@ -181,7 +188,8 @@ export default {
     }
   },
   created() {
-    this.watchServiceList = this.$watch('serviceList', function(val){
+    const self = this
+    self.watchServiceList = self.$watch('serviceList', function(val){
       let buyPay = 0
       let service = []
       val.forEach((item)=>{
@@ -201,27 +209,45 @@ export default {
         service.push(temp)
       })
 
-      this.jsonData.goods = service
-      this.buyPay = buyPay
+      self.jsonData.goods = service
+      self.buyPay = buyPay
 
     }, { deep: true })
 
     setTimeout(()=>{
       $.showIndicator()
       // 获取车辆信息
-      this.$server.car.getList().then(({list})=>{
-        this.carList = list
+      self.$server.car.getList().then(({list})=>{
+        self.carList = list
         if(list.length === 0){
           $.hideIndicator()
-          $.alert('您还没添加车辆，匹配不了套餐内容')
+          $.modal({
+            text: '请先添加车辆',
+            buttons: [
+              {
+                text: '返回',
+                onClick() {
+                  self.$router.back()
+                }
+              },
+              {
+                text: '立即添加',
+                bold: true,
+                onClick() {
+                  self.$router.push('/car/add')
+                }
+              },
+            ]
+          })
         }else{
-          this.sltedCar = list.filter( item => item.is_default == 1 )[0] || list[0]
-          this.getService()
+          self.sltedCar = list.filter( item => item.is_default == 1 )[0] || list[0]
+          self.getService()
         }
       })
     }, 600)
   },
   beforeRouteLeave(to, from, next) {
+    $.closePanel()
     this.watchServiceList()
     next()
   }

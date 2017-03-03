@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <footer class="l-footer-fixed">
         <router-link class="button l-btn-bg1 l-margin-s" to="/car/add">添加车辆信息</router-link>

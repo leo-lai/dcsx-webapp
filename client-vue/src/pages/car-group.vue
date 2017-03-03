@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content">
         <!-- 车组列表 -->
@@ -76,12 +76,15 @@ export default {
     }
   },
   created() {
+    $.showIndicator()
     this.$server.car.getGroup(this.$route.params.id)
     .then((response)=>{
       setTimeout(()=>{
         this.group = response.list
       }, 600)
-    })  
+    }).finally(()=>{
+      $.hideIndicator()
+    })
   },
   beforeRouteLeave(to, from, next) {
     $.closePanel()

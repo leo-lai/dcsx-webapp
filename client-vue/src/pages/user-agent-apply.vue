@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content">
         <div class="content-block-title">填写申请信息</div>
@@ -71,10 +71,12 @@ export default {
       this.$server.agent.apply(this.formData)
       .then(({status_msg})=>{
         $.hideIndicator()
-        this.submiting = false
         $.alert(status_msg, ()=>{
           this.$router.back()
         })
+      }).finally(()=>{
+        $.hideIndicator()
+        this.submiting = false
       })
     }
   }

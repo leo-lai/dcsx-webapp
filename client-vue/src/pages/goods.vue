@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="bar bar-header-secondary l-bg">
         <div class="l-flex-hc l-padding-tb-s l-text-center l-text-gray">

@@ -11,7 +11,7 @@
             <img class="l-thumb" :src="good.picpath" v-for="good in item.goods_list">
           </div>
           <div class="l-margin-l l-text-center">
-            <p class="l-fs-s">共{{item.num}}件</p>
+            <p class="l-fs-s">共{{item.goods_list.length}}件</p>
             <p class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{item.order_amount}}</p>
           </div>
         </div>
@@ -25,19 +25,19 @@
             </p>
           </div>
           <div class="l-margin-l l-text-center">
-            <p class="l-fs-s">共{{item.num}}件</p>
+            <p class="l-fs-s">共{{item.goods_list.length}}件</p>
             <p class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{item.order_amount}}</p>
           </div>
         </div>
       </router-link>
       <div class="l-user-good-ft l-flex-hc l-border-t l-fs-m" v-if="type == 1">
         <div class="l-rest">待付款</div>
-        <a class="button l-btn-gray" @click="orderCancel(item.order_id)">取消</a>
-        <a class="button button-fill l-margin-l-s" @click="orderPay(item)">支付</a>
+        <button class="button l-btn-gray" @click="orderCancel(item.order_id)">取消</button>
+        <button class="button button-fill l-margin-l-s" @click="orderPay(item)">支付</button>
       </div>
       <div class="l-user-good-ft l-flex-hc l-border-t l-fs-m" v-else-if="type == 2">
         <div class="l-rest">待收货</div>
-        <a class="button button-fill l-margin-l-s">确认收货</a>
+        <button class="button button-fill l-margin-l-s" @click="orderRecive(item.order_id)">确认收货</button>
       </div>
     </div>
     <!-- 列表 end-->
@@ -73,6 +73,16 @@ export default {
         }).finally(()=>{
           $.hideIndicator()
         })
+      })
+    },
+    orderRecive(orderId) {
+      $.showIndicator()
+      this.$server.order.recive(orderId)
+      .then(()=>{
+        $.toast('确认收货成功')
+        this.$eventHub.$emit('ORDER-RECIVE', orderId)
+      }).finally(()=>{
+        $.hideIndicator()
       })
     },
     orderPay(item) {

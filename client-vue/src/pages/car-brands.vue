@@ -1,6 +1,6 @@
 <template>
   <div class="l-app">
-    <div class="page page-current">
+    <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content">
         <!-- 车品牌列表 -->
@@ -72,9 +72,9 @@ export default {
       this.sltedBrand = item
       $.showIndicator()
       this.$server.car.getFamily(item.id)
-      .then((response)=>{
+      .then(({list})=>{
         $.hideIndicator()
-        this.family = response.list
+        this.family = list
         this.$nextTick(()=>{
           $.openPanel('#panel-right')
         })
@@ -85,11 +85,14 @@ export default {
     }
   },
   created() {
-    this.$server.car.getBrands().then((response)=>{
+    $.showIndicator()
+    this.$server.car.getBrands().then(({list})=>{
       setTimeout(()=>{
-        this.brands = groupByLetter(response.list)
+        this.brands = groupByLetter(list)
       }, 600)
-    })  
+    }).finally(()=>{
+      $.hideIndicator()
+    })
   },
   beforeRouteLeave(to, from, next) {
     $.closePanel()
