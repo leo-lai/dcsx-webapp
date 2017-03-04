@@ -3,7 +3,7 @@
     <div id="app-page" class="page page-current">
       <l-header></l-header>
       <l-tabbar></l-tabbar>
-      <div class="bar bar-tab-secondary l-flex-hc" v-show="goodsList.length > 0">
+      <div class="bar bar-tab-secondary l-flex-hc" v-if="goodsList.length > 0">
         <label class="l-checkbox" @click="checkAll">
           <input type="checkbox" v-model="isCheckAll">
           <i class="l-icon l-icon-radio"></i>
@@ -15,7 +15,7 @@
         <button class="button button-fill l-btn" style="width: 5.0rem;" :disabled="submiting" @click="submit">去结算</button>
       </div>
       <div class="content" >
-        <div class="l-shopcar-hd l-flex-hc l-border-b" v-show="goodsList.length > 0">
+        <div class="l-shopcar-hd l-flex-hc l-border-b" v-if="goodsList.length > 0">
           <div class="l-rest"></div>
           <a @click="delGoods">删除</a>
         </div>
@@ -43,6 +43,11 @@
           </div>
         </div>
         <!-- 列表 end-->
+        <div class="l-data-null" v-if="goodsList.length === 0">
+          <img src="~assets/shuju.png" alt="">
+          <p>购物车空空如也~</p>
+          <p><a class="button button-round" @click="$link('/shop', 'page-in')">去购买</a></p>
+        </div>
       </div>
     </div>
   </div>

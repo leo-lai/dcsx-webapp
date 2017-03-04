@@ -14,6 +14,10 @@
             </router-link>
           </div>
         </div>
+        <div class="l-data-null" v-if="goodsList.length === 0">
+          <img src="~assets/shuju.png" alt="">
+          <p>没有相关数据</p>
+        </div>
       </div>
     </div>
   </div>

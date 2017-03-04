@@ -6,7 +6,7 @@
         <div class="l-rest l-margin-l">
           订单金额：<span class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{toFixed(buyPay, 2)}}</span>
         </div>
-        <button class="button button-fill l-btn" :disabled="submiting || !buyInfo.id" @click="submit">&ensp;提交订单&ensp;</button>
+        <button class="button button-fill l-btn" :disabled="submiting" @click="submit">&ensp;提交订单&ensp;</button>
       </footer>
       <div class="content">
         <!-- 购买的商品 -->
@@ -185,8 +185,11 @@ export default {
         $.hideIndicator()
         this.submiting = false
         this.$storage.session.set('temp_pay_info', obj)
-        this.$storage.session.remove('temp_buy_info')
-        this.$router.replace('/order/pay')
+        $.toast('提交订单成功', 2000, 'l-toast')
+        setTimeout(()=>{
+          window.location.replace('/order/pay')
+        }, 1500)
+        // this.$router.replace('/order/pay')
       }).catch(()=>{
         this.submiting = false
       })
@@ -195,13 +198,13 @@ export default {
   created() {
     const jsonData = this.$storage.session.get('temp_buy_info')
     if(jsonData){
+      $.showIndicator()
       this.$server.getPosition().then(({longitude, latitude})=>{
-        setTimeout(()=>{
-          $.showIndicator()
-          jsonData.longitude = longitude
-          jsonData.latitude = latitude
-          this.$server.shopcar.getBuyInfo(jsonData)
-          .then(({obj, list, goods_list})=>{
+        jsonData.longitude = longitude
+        jsonData.latitude = latitude
+        this.$server.shopcar.getBuyInfo(jsonData)
+        .then(({obj, list, goods_list})=>{
+          setTimeout(()=>{
             this.goodsList = goods_list
             this.buyInfo = obj
             this.pointMoney = obj.point_money
@@ -210,10 +213,10 @@ export default {
             this.jsonData = {
               goods: jsonData.goods
             }
-          }).finally(()=>{
-            $.hideIndicator()
-          })
-        }, 600)
+          }, 600)
+        }).finally(()=>{
+          $.hideIndicator()
+        })
       }) 
     }else{
       $.alert('没有获取到要购买的商品信息')

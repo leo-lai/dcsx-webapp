@@ -3,7 +3,9 @@
     <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content">
-        
+        <div class="l-text-center l-margin">
+          <img src="~assets/kaifazhong.jpg" style="width: 10rem;" alt="">
+        </div>
       </div>
     </div>
   </div>

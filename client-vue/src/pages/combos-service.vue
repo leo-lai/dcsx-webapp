@@ -52,6 +52,9 @@
       <header class="bar bar-nav">
         <h3 class="title">选择车辆</h3>
       </header>
+      <footer class="l-page-footer l-border-t l-flex-hc">
+        <button class="button button-fill l-btn l-rest" @click="$link('/car/add', 'page-in')">添加车辆</button>
+      </footer>
       <div class="content">
         <div class="list-block media-list" style="margin:-1px 0;">
           <ul>
@@ -179,7 +182,10 @@ export default {
       .then(({obj})=>{
         obj.type = 2
         this.$storage.session.set('temp_pay_info', obj)
-        window.location.href = '/order/pay'
+        $.toast('提交订单成功', 2000, 'l-toast')
+        setTimeout(()=>{
+          window.location.replace('/order/pay')
+        }, 1500)
         // this.$router.replace('/order/pay')
       }).finally(()=>{
         $.hideIndicator()

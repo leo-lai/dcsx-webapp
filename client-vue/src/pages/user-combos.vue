@@ -6,8 +6,8 @@
         <div class="l-combo-list">
           <div class="l-combo-item" v-for="item in comboList">
             <div class="l-combo-item-hd">
-              <h3 class="l-text-warn">豪华至尊套餐</h3>
-              <p class="l-fs-m">购买价格：1000.00 元</p>
+              <h3 class="l-text-warn" v-text="item.name"></h3>
+              <p class="l-fs-m">购买价格：{{item.order_amount}} 元</p>
             </div>
             <div class="l-combo-item-bd">
               <table class="l-table-border-t l-fs-xs">
@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="l-data-null" v-if="comboList.length === 0">
-            <img src="~assets/img-050.png" alt="">
+            <img src="~assets/taocan.png" alt="">
             <p>您还没有相关的套餐</p>
             <p><router-link class="button button-round" to="/combos">去购买</router-link></p>
           </div>

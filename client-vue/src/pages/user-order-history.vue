@@ -27,6 +27,10 @@
             </div>
           </div>
         </template>
+        <div class="l-data-null" v-if="list.length === 0">
+          <img src="~assets/shuju.png" alt="">
+          <p>没有相关数据</p>
+        </div>
       </div>
     </div>
     <!-- 订单明细 -->
@@ -70,14 +74,14 @@ export default {
     }
   },
   created() {
-    setTimeout(()=>{
-      $.showIndicator()
-      this.$server.order.getHistory(1, 10).then(({list})=>{
+    $.showIndicator()
+    this.$server.order.getHistory(1, 10).then(({list})=>{
+      setTimeout(()=>{
         this.list = list
-      }).finally(()=>{
-        $.hideIndicator()
-      })
-    }, 600)
+      }, 600)
+    }).finally(()=>{
+      $.hideIndicator()
+    })
   },
   beforeRouteLeave(to, from, next) {
     $.closePanel()

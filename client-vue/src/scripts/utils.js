@@ -21,7 +21,8 @@ Promise.prototype.finally = Promise.prototype.finally || function (callback) {
     value  => P.resolve(callback()).then(() => value),
     reason => P.resolve(callback()).then(() => { throw reason })
   )
-} 
+}
+
 
 
 /*========本地存储===========*/

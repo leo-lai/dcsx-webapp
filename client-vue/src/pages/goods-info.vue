@@ -4,10 +4,10 @@
       <l-header></l-header>
       <footer class="l-page-footer l-flex-hc l-border-t">
         <div class="l-rest">
-          <router-link class="l-icon-shocar l-text-gray" to="/shopcar">
+          <div class="l-icon-shocar l-text-gray" @click="$link('/shopcar', 'page-in')">
             <span class="icon l-icon">&#xe60a;</span>
             <span class="badge" v-text="shopcarNum"></span>
-          </router-link>
+          </div>
         </div>
         <button style="width: 6.0rem;" class="button button-fill l-btn l-btn-blue2" @click="addToShopcar">加入购物车</button>
         <router-link style="width: 6.0rem;" class="button button-fill l-btn l-btn-blue" :to="'/order/confirm/' + goodsInfo.id">

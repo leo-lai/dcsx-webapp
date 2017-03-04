@@ -106,9 +106,6 @@ export default {
       const self = this
       let promise = null
 
-      $.showIndicator()
-      self.submiting = true
-
       if(self.payway == 1){ // 钱包支付
         if(Number(self.orderInfo.total_money) > Number(self.userAmount)){
           $.alert('钱包可用余额不足，请及时充值！')
@@ -123,6 +120,9 @@ export default {
       }else if(self.payway == 2){ // 微信支付
         promise = this.$server.chooseWXPay2(self.orderInfo.order_id)
       }
+
+      $.showIndicator()
+      self.submiting = true
 
       promise.then(()=>{
         if(self.orderInfo.type == 2){
@@ -178,15 +178,15 @@ export default {
     this.orderInfo = this.$storage.session.get('temp_pay_info') || {}
     this.formData.order_id = this.orderInfo.order_id
     this.formData.charge = this.orderInfo.total_money
-
-    setTimeout(()=>{
-      $.showIndicator()
-      this.$server.user.getCash().then(({obj})=>{
+    
+    $.showIndicator()
+    this.$server.user.getCash().then(({obj})=>{
+      setTimeout(()=>{
         this.userAmount = obj.total_amount
-      }).finally(()=>{
-        $.hideIndicator()
-      })
-    }, 600)
+      }, 600)
+    }).finally(()=>{
+      $.hideIndicator()
+    })
   }
 }
 </script>

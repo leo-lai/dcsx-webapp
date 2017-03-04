@@ -6,6 +6,10 @@
         <router-link class="l-shop-category" :to="'/shop/goods/' + item.cateid" v-for="item in category1">
           <img :src="item.picpath">
         </router-link>
+        <div class="l-data-null" v-if="category1.length === 0">
+          <img src="~assets/shuju.png" alt="">
+          <p>没有相关数据</p>
+        </div>
       </div>
     </div>
   </div>

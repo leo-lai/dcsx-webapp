@@ -6,7 +6,7 @@
         <div class="l-coupon-list">
           <div class="l-coupon-item l-link l-margin-b" v-for="item in couponList" :key="item.id" @click="pick(item)">
             <div class="_bd l-flex-hc">
-              <div class="_val l-border-r">
+              <div class="_val l-border-r l-text-wrap1">
                 <i class="l-icon">&#xe6cb;</i><span v-text="item.coupon_charge"></span>
               </div>
               <div class="_desc l-rest">
@@ -19,6 +19,10 @@
               <span class="l-text-gray">{{item.sale_type_name}} · 截止日期：{{item.offline}}</span>
             </div>
           </div>
+        </div>
+        <div class="l-data-null" v-if="couponList.length === 0">
+          <img src="~assets/shuju.png" alt="">
+          <p>没有相关数据</p>
         </div>
       </div>
     </div>
@@ -54,7 +58,7 @@ export default {
               text: '查看',
               bold: true,
               onClick() {
-                self.$router.push('/user/coupons?tab=1')
+                self.$link('/user/coupons?tab=1', 'page-in')
               }
             },
           ]

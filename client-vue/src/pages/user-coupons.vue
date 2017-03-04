@@ -24,7 +24,7 @@
               </div>
             </div>
             <div class="l-data-null" v-if="couponList1.length === 0">
-              <img src="~assets/img-050.png" alt="">
+              <img src="~assets/youhuiquan.png" alt="">
               <p>咦~您还没优惠券？</p>
               <p><router-link class="button button-round" to="/coupons">赶紧去领取</router-link></p>
             </div>
@@ -45,7 +45,7 @@
               </div>
             </div>
             <div class="l-data-null" v-if="couponList2.length === 0">
-              <img src="~assets/img-050.png" alt="">
+              <img src="~assets/youhuiquan.png" alt="">
               <p>您还没有相关的优惠券</p>
             </div>
           </div>

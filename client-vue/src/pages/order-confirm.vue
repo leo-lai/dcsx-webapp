@@ -6,7 +6,7 @@
         <div class="l-rest l-margin-l">
           订单金额：<span class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{toFixed(buyPay, 2)}}</span>
         </div>
-        <button class="button button-fill l-btn" :disabled="submiting || !buyInfo.id" @click="submit">&ensp;提交订单&ensp;</button>
+        <button class="button button-fill l-btn" :disabled="submiting" @click="submit">&ensp;提交订单&ensp;</button>
       </footer>
       <div class="content" v-show="buyInfo.id">
         <!-- 购买的商品 -->
@@ -182,7 +182,11 @@ export default {
         this.submiting = false
         $.hideIndicator()
         this.$storage.session.set('temp_pay_info', obj)
-        this.$router.replace('/order/pay')
+        $.toast('提交订单成功', 2000, 'l-toast')
+        setTimeout(()=>{
+          window.location.replace('/order/pay')
+        }, 1500)
+        // this.$router.replace('/order/pay')
       }).catch(()=>{
         this.submiting = false
       })
@@ -190,19 +194,19 @@ export default {
   },
   created() {
     const id = this.$route.params.id
+    $.showIndicator()
     this.$server.getPosition().then((position)=>{
-      setTimeout(()=>{
-        $.showIndicator()
-        this.$server.shop.getBuyInfo(id, position.longitude, position.latitude)
-        .then(({obj, list})=>{
+      this.$server.shop.getBuyInfo(id, position.longitude, position.latitude)
+      .then(({obj, list})=>{
+        setTimeout(()=>{
           this.buyInfo = obj
           this.pointMoney = obj.point_money
           this.storeList = list
           this.sltedStore = list[0] || {}
-        }).finally(()=>{
-          $.hideIndicator()
-        })
-      }, 600)
+        }, 600)
+      }).finally(()=>{
+        $.hideIndicator()
+      })
     }) 
   },
   beforeRouteLeave(to, from, next) {

@@ -2,7 +2,12 @@
   <div class="l-app">
     <div id="app-page" class="page page-current">
       <l-header></l-header>
-      <div class="content infinite-scroll">
+      <div class="content infinite-scroll pull-to-refresh-content">
+        <!-- 默认的下拉刷新层 -->
+        <div class="pull-to-refresh-layer">
+          <div class="preloader"></div>
+          <div class="pull-to-refresh-arrow"></div>
+        </div>
         <div class="buttons-tab l-order-tab l-sticky">
           <a @click="tabClick(1)" class="tab-link button" :class="{'active': orderType == 1}"><img src="~assets/img-040.jpg">待付款</a>
           <a @click="tabClick(2)" class="tab-link button" :class="{'active': orderType == 2}"><img src="~assets/img-041.jpg">待收货</a>
@@ -13,7 +18,7 @@
           <div class="tab" :class="{'active': orderType == 1}">
             <l-order-list :list="scroll1.alldata" :type="1"></l-order-list>
             <div class="l-data-null" v-if="scroll1.isAjax && scroll1.alldata.length === 0">
-              <img src="~assets/img-050.png" alt="">
+              <img src="~assets/shangping.png" alt="">
               <p>您还没有相关的商品</p>
             </div>
             <div v-show="scroll1.isLoading" class="infinite-scroll-preloader">
@@ -26,7 +31,7 @@
           <div class="tab" :class="{'active': orderType == 2}">
             <l-order-list :list="scroll2.alldata" :type="2"></l-order-list>
             <div class="l-data-null" v-if="scroll2.isAjax && scroll2.alldata.length === 0">
-              <img src="~assets/img-050.png" alt="">
+              <img src="~assets/shangping.png" alt="">
               <p>您还没有相关的商品</p>
             </div>
             <div v-show="scroll2.isLoading" class="infinite-scroll-preloader">
@@ -36,7 +41,7 @@
           <div class="tab" :class="{'active': orderType == 4}">
             <l-order-list :list="scroll4.alldata" :type="4"></l-order-list>
             <div class="l-data-null" v-if="scroll4.isAjax && scroll4.alldata.length === 0">
-              <img src="~assets/img-050.png" alt="">
+              <img src="~assets/shangping.png" alt="">
               <p>您还没有相关的商品</p>
             </div>
             <div v-show="scroll4.isLoading" class="infinite-scroll-preloader">
@@ -66,13 +71,15 @@ export default {
   },
   methods: {
     tabClick(type = 1) {
-      this.orderType = type
+      const self = this
+      self.orderType = type
       const currentScroll = this['scroll' + this.orderType]
       if(!currentScroll.isAjax){
-        setTimeout(()=>{
-          currentScroll.row = 4
-          currentScroll.init()  
-        }, 600)
+        currentScroll.row = 4
+        currentScroll.callback = function(){
+          
+        }
+        currentScroll.init()  
       }
       this.$router.replace(`/user/order?tab=` + this.orderType)
     }
@@ -91,25 +98,36 @@ export default {
     self.$eventHub.$on('ORDER-RECIVE', (orderId)=>{
       self.scroll2.alldata = self.scroll2.alldata.filter((item)=>{
         if(item.order_id === orderId){
-          self.orderList4.unshift(item)  
+          self.scroll4.alldata.unshift(item)  
         }
         return item.order_id !== orderId
       })
     })
 
-    this.scroll1 = this.$server.order.getList(1)
-    this.scroll2 = this.$server.order.getList(2)
-    this.scroll4 = this.$server.order.getList(4)
+    // 初始化数据
+    self.scroll1 = self.$server.order.getList(1)
+    self.scroll2 = self.$server.order.getList(2)
+    self.scroll4 = self.$server.order.getList(4)
 
-    self.tabClick(self.$route.query.tab)
+    setTimeout(()=>{
+      self.tabClick(self.$route.query.tab)  
+    }, 600)
+    
+    // 监听滚动到底部
+    // self.$eventHub.$on('APP-INFINITE', ()=>{
+    //   self['scroll' + this.orderType].next()
+    // })
   },
   mounted() {
-    // const self = this
-    // $('#app-page').on('infinite', function() {
-    //   self['scroll' + self.orderType].next()
-    //   $.refreshScroller()
-    // })
+    $.initPullToRefresh('.pull-to-refresh-content')
+    // setTimeout(()=>{
+    //   $.pullToRefreshTrigger('.pull-to-refresh-content')  
+    // }, 2000)
+  },
+  beforeDestroy() {
+    $.destroyPullToRefresh('.pull-to-refresh-content')
   }
+
 }
 </script>
 <style scoped>

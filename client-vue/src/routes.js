@@ -36,17 +36,17 @@ const routes = [
   },
   {
     path: '/message',
-    meta: { title: '动态',cache: true,  mainPage: true },
+    meta: { title: '动态', cache: true,  mainPage: true },
     component: message
   },
   {
     path: '/shopcar',
-    meta: { title: '购物车',cache: true,  mainPage: true },
+    meta: { title: '购物车', cache: true,  mainPage: true },
     component: shopcar
   },
   {
     path: '/user',
-    meta: { title: '我的',cache: true,  mainPage: true },
+    meta: { title: '我的', cache: true,  mainPage: true },
     component: user
   },
   {
@@ -86,22 +86,22 @@ const routes = [
   },
   {
     path: '/combos/info/slt/:id',
-    meta: { title: '选择套餐' },
+    meta: { title: '选择套餐' , lazy: true},
     component: (resolve) => require(['./pages/combos-service'], resolve)
   },
   {
     path: '/message/info',
-    meta: { title: '检查明细' },
+    meta: { title: '检查明细' , lazy: true},
     component: (resolve) => require(['./pages/message-info'], resolve)
   },
   {
     path: '/message/info/all',
-    meta: { title: '检查明细' },
+    meta: { title: '检查明细' , lazy: true},
     component: (resolve) => require(['./pages/message-all-info'], resolve)
   },
   {
     path: '/alicar',
-    meta: { title: '阿里车码头' },
+    meta: { title: '阿里车码头' , lazy: true},
     component: (resolve) => require(['./pages/alicar'], resolve)
   },
   {
@@ -126,7 +126,7 @@ const routes = [
   },
   {
     path: '/user/order/history',
-    meta: { title: '消费记录' },
+    meta: { title: '消费记录' , lazy: true},
     component: (resolve) => require(['./pages/user-order-history'], resolve)
   },
   {
@@ -146,47 +146,47 @@ const routes = [
   },
   {
     path: '/car/brands',
-    meta: { title: '选择品牌系列' },
+    meta: { title: '选择品牌系列' , lazy: true},
     component: (resolve) => require(['./pages/car-brands'], resolve)
   },
   {
     path: '/car/group/:id',
-    meta: { title: '选择车组排量' },
+    meta: { title: '选择车组排量' , lazy: true},
     component: (resolve) => require(['./pages/car-group'], resolve)
   },
   {
     path: '/car/family/:id',
-    meta: { title: '选择系列' },
+    meta: { title: '选择系列' , lazy: true},
     component: (resolve) => require(['./pages/car-family'], resolve)
   },
   {
     path: '/car/pailiang/:id',
-    meta: { title: '选择车排量' },
+    meta: { title: '选择车排量' , lazy: true},
     component: (resolve) => require(['./pages/car-pailiang'], resolve)
   },
   {
     path: '/car/model/:id',
-    meta: { title: '选择车型' },
+    meta: { title: '选择车型' , lazy: true},
     component: (resolve) => require(['./pages/car-model'], resolve)
   },
   {
     path: '/car/city',
-    meta: { title: '车牌城市' },
+    meta: { title: '车牌城市' , lazy: true},
     component: (resolve) => require(['./pages/car-city'], resolve)
   },
   {
     path: '/order/confirm/:id',
-    meta: { title: '订单确认' },
+    meta: { title: '订单确认' , lazy: true},
     component: (resolve) => require(['./pages/order-confirm'], resolve)
   },
   {
     path: '/order/confirm2',
-    meta: { title: '订单确认' },
+    meta: { title: '订单确认' , lazy: true},
     component: (resolve) => require(['./pages/order-confirm2'], resolve)
   },
   {
     path: '/order/pay',
-    meta: { title: '订单支付' },
+    meta: { title: '订单支付' , lazy: true},
     component: (resolve) => require(['./pages/order-pay'], resolve)
   },
   {
@@ -201,32 +201,32 @@ const routes = [
   },
   {
     path: '/user/agent',
-    meta: { title: '分销记录' },
+    meta: { title: '分销记录' , lazy: true},
     component: (resolve) => require(['./pages/user-agent'], resolve)
   },
   {
     path: '/user/agent/apply',
-    meta: { title: '申请分销商' },
+    meta: { title: '申请分销商' , lazy: true},
     component: (resolve) => require(['./pages/user-agent-apply'], resolve)
   },
   {
     path: '/user/holder',
-    meta: { title: '分红记录' },
+    meta: { title: '分红记录' , lazy: true},
     component: (resolve) => require(['./pages/user-holder'], resolve)
   },
   {
     path: '/user/holder/member',
-    meta: { title: '我的人脉' },
+    meta: { title: '我的人脉' , lazy: true},
     component: (resolve) => require(['./pages/user-holder-member'], resolve)
   },
   {
     path: '/user/holder/drawal',
-    meta: { title: '提现记录' },
+    meta: { title: '提现记录' , lazy: true},
     component: (resolve) => require(['./pages/user-holder-drawal'], resolve)
   },
   {
     path: '/user/holder/rebate',
-    meta: { title: '累计分红' },
+    meta: { title: '累计分红' , lazy: true},
     component: (resolve) => require(['./pages/user-holder-rebate'], resolve)
   }
 ]

@@ -36,7 +36,7 @@
             </div>
             <div class="_tr">
               <div class="_tit">返利金额</div>
-              <div class="_rest"><span class="l-text-ok" v-text="item.invite_rate"></span> 元</div>
+              <div class="_rest"><span class="l-text-ok" v-text="item.rebate_charge"></span> 元</div>
             </div>
           </div>
         </div>

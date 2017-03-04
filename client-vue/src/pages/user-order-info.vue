@@ -145,7 +145,8 @@ export default {
         total_money: this.orderInfo.order_amount
       })
 
-      this.$router.push('/order/pay')
+      window.location.href = '/order/pay'
+      // this.$router.push('/order/pay')
     },
     getOrderInfo() {
       this.$server.order.getInfo(this.$route.params.id)

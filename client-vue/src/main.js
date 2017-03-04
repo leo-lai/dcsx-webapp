@@ -19,34 +19,18 @@ Vue.mixin({
 
 // 路由
 Vue.use(VueRouter)
-Vue.mixin({
-  created() {
-    // 可访问外部链接
-    this.$link = function(url){
-      if(!url) return
-
-      if(/^http(s?)/i.test(url)){
-        window.location.assign(url)
-      }else{
-        this.$router.push(url)
-      }
-    }
-  }
-})
-
 const router = new VueRouter({
   routes,
 	mode: 'history',
 	scrollBehavior (to, from, savedPosition) {
     // return 期望滚动到哪个的位置
+    // console.log(to, from, savedPosition)
   }
 })
 
-// 记录首次进入app的路径，用于微信授权登录
-storage.session.set('wx_url', window.location.href)
-
 // 验证登陆
-// storage.local.set('token', 'QM6RhCq_ayTbINJR6q4wencTKBD7CKYX4dlyPfZ39cM42sWbKJHrOmy81sM9TelGRVcZ1Ik106NDJjjRTQEewXH2MCSt86xorirQtdwV0dLM_c')
+// storage.local.set('openid', 'odjF11oC5FsVYkaKgsyoE7fsmglQ')
+// storage.local.set('token', 'UfD0a7yJGtnINJR6q4wenQrJbd80HBr5OJ5S56x2FEuVwtK1J7fNt_b_bv0azgvqHs49bnNbkdTYQUJRLnwQi6PhvUzxIxw6QdUNnNL6COMKo_c')
 router.beforeEach((to, from, next) => {
   let isCheckLogin = to.meta.auth
   
@@ -60,68 +44,154 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-// 记录页面浏览顺序，用来判断动画方向
-let _history = {  count: 0 , prevPath: '/', currPath: '' }
+
+Vue.mixin({
+  created() {
+    // 可访问外部链接
+    this.$link = function(url, direction){
+      if(!url) return
+
+      if(/^http(s?)/i.test(url)){
+        window.location.assign(url)
+      }else{
+        if(_history && direction){
+          _history.direction = direction
+          storage.session.set('_history', _history)
+        }
+        this.$router.push(url)
+      }
+    }
+  }
+})
+
+// 记录微信的Landing Page，用于当前目录地址授权验证
+storage.session.set('wx_url', window.location.href)
+
+// 记录页面浏览顺序及滚动条位置，用来判断动画方向
+const initHistory = [{
+  path: '/',
+  fromPath: '/',
+  index: 0,
+  scrollX: 0,
+  scrollY: 0
+}]
+
+initHistory.index = 0
+let _history = storage.session.get('_history') || initHistory
+
+// 监听浏览器前进后退事件
+window.addEventListener('popstate', function(e) {
+  // console.log(e)
+}, false)
+
+// 监听浏览器滚动
+
 
 // 调用发生在整个切换流水线之前
 router.beforeEach((to, from, next) => {
-  // 记录当前地址和上一页地址
-  _history.prevPath = from.path
-  _history.currPath = to.path
-  
-  // 判断页面进场方向
-  let toIndex = _history[to.path]
-  let fromIndex = _history[from.path]
-  
-  if(!toIndex){
-    $.showIndicator()
-    _history[to.path] = ++_history.count
-  }
 
-  if(!from.path || (from.meta.mainPage && to.meta.mainPage)){
+  // 服务端渲染进入页面
+  if(from.path === '/'){ 
     eventHub.$emit('APP-DIRECTION', 'page')
-  }else if(!from.meta.mainPage && to.meta.mainPage){
-    eventHub.$emit('APP-DIRECTION', 'page-out') 
-  }else if(from.meta.mainPage && !to.meta.mainPage){
-    eventHub.$emit('APP-DIRECTION', 'page-in') 
-  }else if(!(toIndex < fromIndex)){
-    eventHub.$emit('APP-DIRECTION', 'page-in')
-  }else{
-    eventHub.$emit('APP-DIRECTION', 'page-out')
+    next()
+    return
   }
 
-  if(to.query && to.query.direction){
-    eventHub.$emit('APP-DIRECTION', to.query.direction)
-  }
+  // 倒序查找
+  _history.reverse()
+  let fromHistory = _history.find((item)=>item.path === from.path)
+  let toHistory = _history.find((item)=>item.path === to.path)
+  _history.reverse()
 
-  if(from.path){
-    // from.path.startsWith(to.path) 安卓微信报错
-    if(from.path.indexOf(to.path) === 0){
-      eventHub.$emit('APP-DIRECTION', 'page-out')
-    }else if(to.path.indexOf(from.path) === 0){
-      eventHub.$emit('APP-DIRECTION', 'page-in')
+  let direction = 'page-in'
+
+  if(toHistory && fromHistory && _history.direction !== 'page-in'){
+    // 比较路径在历史记录的位置
+    if(toHistory.index < fromHistory.index){
+      direction = 'page-out'
+      _history.splice(fromHistory.index, 1)
+      _history.index = toHistory.index
     }
   }
 
+
+  // /user/info -> /user  返回父页面
+  if(from.path.indexOf(to.path) === 0){
+    direction = 'page-out'
+
+  // /user -> /user/info  进入子页面
+  }else if(to.path.indexOf(from.path) === 0){
+    direction = 'page-in'
+  }
+
+  // 首页进入内页
+  if(from.path === '/index'){
+    direction = 'page-in'
+  }
+
+  // 从其他页面返回主页面
+  if(!from.meta.mainPage && to.meta.mainPage){
+    direction = 'page-out'
+  }
+
+  // 主页面之前切换
+  if(from.meta.mainPage && to.meta.mainPage){
+    direction = 'page' 
+  }
+
+  // 明确指定页面方向
+  if(_history.direction){
+    direction = _history.direction
+  }
+
+  // 如果历史没有记录或指定的方向是进入
+  if(!toHistory || _history.direction === 'page-in'){
+    let index = _history.length
+    _history.push({
+      path: to.path,
+      fromPath: from.path,
+      index: index,
+      scrollX: 0,
+      scrollY: 0
+    })
+    _history.index = index
+  }
+
+  // 触发页面切换事件
+  eventHub.$emit('APP-DIRECTION', direction)
+
+  // 如果页面组件是懒加载或第一次加载就显示loading
+  if(to.meta.lazy || !toHistory){
+    $.showIndicator()
+  }
   next()
 })
 
 router.afterEach((route) => {
-  $.hideIndicator()
   utils.setTitle(route.meta.title)
+  _history.direction = ''
   storage.session.set('_history', _history)
+  $.hideIndicator()
 })
 
 router.onReady(()=>{
   setTimeout(()=>{
-    $.init()
-    let scrollTimeId = 0
-    $(document).on('infinite', function(e){
-      clearTimeout(scrollTimeId)
-      scrollTimeId = setTimeout(()=>{
-        eventHub.emit('APP-INFINITE')
-      }, 200)
+    $(document).on('pageInit', function(e, pageId){
+      // 监听页面上拉与下拉事件
+      // let scrollTimeId = 0
+      // $(document).on('infinite', function(e){
+      //   clearTimeout(scrollTimeId)
+      //   scrollTimeId = setTimeout(()=>{
+      //     eventHub.$emit('APP-INFINITE')
+      //   }, 200)
+      // })
+      $(document).on('refresh', '.pull-to-refresh-content', function(){
+        setTimeout(()=>{
+          $.pullToRefreshDone('.pull-to-refresh-content')
+        }, 2000)
+      })
     })
+    $.init()
   }, 50) 
 })
 

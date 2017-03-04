@@ -93,7 +93,8 @@ export default {
         total_money: item.total_amount
       })
 
-      this.$router.push('/order/pay')
+      window.location.href = '/order/pay'
+      // this.$router.push('/order/pay')
     }
   }
 }

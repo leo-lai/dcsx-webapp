@@ -28,7 +28,7 @@
           <span class="l-text-gray">套餐内容</span>
         </div>
         <div class="l-border-t l-bg l-padding-tb">
-          <ul class="l-margin-0 l-fs-s" style="padding-left: 1.65rem;">
+          <ul class="l-margin-0 l-fs-m" style="padding-left: 1.65rem;">
             <li v-for="item in serviceList">
               {{item.service_name}} x{{item.number}}
             </li>
