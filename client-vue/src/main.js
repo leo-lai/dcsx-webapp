@@ -29,8 +29,8 @@ const router = new VueRouter({
 })
 
 // 验证登陆
-// storage.local.set('openid', 'odjF11oC5FsVYkaKgsyoE7fsmglQ')
-// storage.local.set('token', 'UfD0a7yJGtnINJR6q4wenQrJbd80HBr5OJ5S56x2FEuVwtK1J7fNt_b_bv0azgvqHs49bnNbkdTYQUJRLnwQi6PhvUzxIxw6QdUNnNL6COMKo_c')
+storage.local.set('openid', 'odjF11oC5FsVYkaKgsyoE7fsmglQ')
+storage.local.set('token', 'UfD0a7yJGtnINJR6q4wenQrJbd80HBr5OJ5S56x2FEuVwtK1J7fNt_b_bv0azgvqHs49bnNbkdTYQUJRLnwQi6PhvUzxIxw6QdUNnNL6COMKo_c')
 router.beforeEach((to, from, next) => {
   let isCheckLogin = to.meta.auth
   
@@ -161,7 +161,7 @@ router.beforeEach((to, from, next) => {
   eventHub.$emit('APP-DIRECTION', direction)
 
   // 如果页面组件是懒加载或第一次加载就显示loading
-  if(to.meta.lazy || !toHistory){
+  if(to.meta.lazy && !toHistory){
     $.showIndicator()
   }
   next()

@@ -43,7 +43,7 @@
           </div>
         </div>
         <!-- 列表 end-->
-        <div class="l-data-null" v-if="goodsList.length === 0">
+        <div class="l-data-null" v-if="isAjax && goodsList.length === 0">
           <img src="~assets/shuju.png" alt="">
           <p>购物车空空如也~</p>
           <p><a class="button button-round" @click="$link('/shop', 'page-in')">去购买</a></p>
@@ -67,7 +67,8 @@ export default {
       submiting: false,
       isCheckAll: false,
       goodsPay: 0,
-      goodsList: []
+      goodsList: [],
+      isAjax: false
     }
   },
   methods: {
@@ -167,27 +168,30 @@ export default {
       self.goodsPay = sum
     }, { deep: true })
 
-    setTimeout(()=>{
-      $.showIndicator()
-      self.$server.shopcar.getList().then(({list})=>{
-        const tempBuyInfo = self.$storage.session.get('temp_buy_info')
-        list.map((item)=>{
-          item.checked = false 
-          if(tempBuyInfo){
-            tempBuyInfo.goods.forEach((tempItem)=>{
-              if(tempItem.id === item.id){
-                item.checked = true
-                return  
-              }
-            })
-          }
-        })
 
-        self.goodsList= list
-      }).finally(()=>{
-        $.hideIndicator()
+    $.showIndicator()
+    self.$server.shopcar.getList().then(({list})=>{
+      const tempBuyInfo = self.$storage.session.get('temp_buy_info')
+      list.map((item)=>{
+        item.checked = false 
+        if(tempBuyInfo){
+          tempBuyInfo.goods.forEach((tempItem)=>{
+            if(tempItem.id === item.id){
+              item.checked = true
+              return  
+            }
+          })
+        }
       })
-    }, 600)
+
+      setTimeout(()=>{
+        self.goodsList= list
+        this.isAjax = true
+      }, 600)
+    }).finally(()=>{
+      $.hideIndicator()
+    })
+    
   },
   beforeRouteLeave(to, from, next) {
     this.watchGoodsList()

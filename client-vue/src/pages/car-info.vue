@@ -236,6 +236,9 @@ export default {
         // value: ['2017-02-23' || self.formData.license_date],
         onChange(p, values, displayValues) {
           self.formData.license_date = displayValues[0]
+        },
+        onOpen() {
+          $('.picker-calendar').find('.toolbar-inner a').removeAttr('href')
         }
       })  
     })

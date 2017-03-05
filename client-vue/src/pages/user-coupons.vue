@@ -11,7 +11,7 @@
           <div class="tab l-coupon-list" :class="{' active': tabIndex == 1}">
             <div class="l-coupon-item l-link l-margin-b" v-for="item in couponList1">
               <div class="_bd l-flex-hc">
-                <div class="_val l-border-r">
+                <div class="_val l-border-r l-text-wrap1">
                   <i class="l-icon">&#xe6cb;</i><span v-text="item.coupon_charge"></span>
                 </div>
                 <div class="_desc l-rest">
@@ -32,7 +32,7 @@
           <div class="tab l-coupon-list l-coupon-invalid" :class="{' active': tabIndex == 2}">
             <div class="l-coupon-item l-link l-margin-b" v-for="item in couponList2">
               <div class="_bd l-flex-hc">
-                <div class="_val l-border-r">
+                <div class="_val l-border-r l-text-wrap1">
                   <i class="l-icon">&#xe6cb;</i><span v-text="item.coupon_charge"></span>
                 </div>
                 <div class="_desc l-rest">
