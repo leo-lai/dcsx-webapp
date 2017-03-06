@@ -13,18 +13,23 @@ export default {
 	},
   methods: {
     scrollListener(){
+      const self = this
       // 监听内容滚动
       this.$nextTick(()=>{
-        setTimeout(()=>{
-          let scrollTimeid = 0
-          $('.content.infinite-scroll').on('scroll', function(e){
-            clearTimeout(scrollTimeid)
-            scrollTimeid = setTimeout(()=>{
-              console.log($(this).scrollTop())
-              $(this).scroll('refresh')
-            }, 600)
-          })
-        }, 600)
+        let scrollTimeid = 0
+        $('.content.l-infinite-scroll').off('scroll')
+        .on('scroll', function(e){
+          clearTimeout(scrollTimeid)
+          scrollTimeid = setTimeout(()=>{
+            if(this.scrollTop - 30 <= 0){
+              console.log('到顶部了')
+
+            }else if(this.scrollTop + this.clientHeight >= this.scrollHeight - 50){
+              console.log('到底部了')
+              self.$eventHub.$emit('APP-SCROLL-BOTTOM')
+            }
+          }, 600)
+        })
       })
     }
   },
@@ -33,6 +38,7 @@ export default {
     this.$eventHub.$on('APP-DIRECTION', (data)=>{
       this.direction = data
     })
+    
 	},
   mounted() {
     console.log('app mounted')

@@ -179,6 +179,7 @@ export default {
     },
     submit() {
       const self = this
+      if(self.submiting) return
       
       if(!self.formData.carid){
         $.toptip('请选择车型')
@@ -191,10 +192,10 @@ export default {
       }
 
       self.formData.car_license = (self.carNumPrefix + self.carNum).toLocaleUpperCase()
-
-      $.showIndicator()
+      
       self.submiting = true
-
+      $.showIndicator()
+    
       let promise = null
       if(self.isEdit){
         self.formData.is_default = self.$refs.defaultBtn.checked ? 1 : 0

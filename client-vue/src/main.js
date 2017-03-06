@@ -29,8 +29,11 @@ const router = new VueRouter({
 })
 
 // 验证登陆
-storage.local.set('openid', 'odjF11oC5FsVYkaKgsyoE7fsmglQ')
-storage.local.set('token', 'UfD0a7yJGtnINJR6q4wenQrJbd80HBr5OJ5S56x2FEuVwtK1J7fNt_b_bv0azgvqHs49bnNbkdTYQUJRLnwQi6PhvUzxIxw6QdUNnNL6COMKo_c')
+if(window.location.hostname === '192.168.0.134'){ // 本地测试
+  storage.local.set('openid', 'odjF11oC5FsVYkaKgsyoE7fsmglQ')
+  storage.local.set('token', 'UfD0a7yJGtnINJR6q4wenQrJbd80HBr5OJ5S56x2FEuVwtK1J7fNt_b_bv0azgvqHs49bnNbkdTYQUJRLnwQi6PhvUzxIxw6QdUNnNL6COMKo_c')  
+}
+
 router.beforeEach((to, from, next) => {
   let isCheckLogin = to.meta.auth
   
@@ -177,18 +180,12 @@ router.afterEach((route) => {
 router.onReady(()=>{
   setTimeout(()=>{
     $(document).on('pageInit', function(e, pageId){
-      // 监听页面上拉与下拉事件
-      // let scrollTimeId = 0
-      // $(document).on('infinite', function(e){
-      //   clearTimeout(scrollTimeId)
-      //   scrollTimeId = setTimeout(()=>{
-      //     eventHub.$emit('APP-INFINITE')
-      //   }, 200)
-      // })
+
       $(document).on('refresh', '.pull-to-refresh-content', function(){
-        setTimeout(()=>{
-          $.pullToRefreshDone('.pull-to-refresh-content')
-        }, 2000)
+        console.log('pull-to-refresh-content')
+        // setTimeout(()=>{
+        //   $.pullToRefreshDone('.pull-to-refresh-content')
+        // }, 2000)
       })
     })
     $.init()

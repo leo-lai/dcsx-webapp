@@ -15,24 +15,22 @@
           </span>
         </div>
       </div>
-      <div class="content">
-        <div class="l-goods-list">
-          <div class="row">
-            <router-link class="col-50 l-goods-item l-text-default" :to="'/shop/goods/info/' + item.id " v-for="item in goodsList">
-              <img class="l-thumb" :src="item.picpath">
-              <div class="l-margin-xs">
-                <h4 class="l-text-wrap1" v-text="item.goods_name"></h4>
-              </div>
-              <div class="l-margin-xs l-fs-m">
-                <span class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{item.market_price}}</span>
-              </div>
-            </router-link>
+      <div class="content l-infinite-scroll">
+        <l-scroll :scroll="scroll">
+          <div class="l-goods-list">
+            <div class="row">
+              <router-link class="col-50 l-goods-item l-text-default" :to="'/shop/goods/info/' + item.id " v-for="item in scroll.alldata">
+                <img class="l-thumb" :src="item.picpath">
+                <div class="l-margin-xs">
+                  <h4 class="l-text-wrap1" v-text="item.goods_name"></h4>
+                </div>
+                <div class="l-margin-xs l-fs-m">
+                  <span class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{item.market_price}}</span>
+                </div>
+              </router-link>
+            </div>
           </div>
-        </div>
-        <div class="l-data-null" v-if="goodsList.length === 0">
-          <img src="~assets/shuju.png" alt="">
-          <p>没有相关数据</p>
-        </div>
+        </l-scroll>
       </div>
     </div>
     <!-- 二级分类 -->
@@ -54,37 +52,32 @@
 
 <script>
 import lHeader from 'components/l-header'
+import lScroll from 'components/l-scroll'
 
 export default {
   components: {
-    lHeader
+    lHeader, lScroll
   },
   data () {
     return {
       sortType: '', // asc
       category2: [],
-      goodsList: []
+      scroll: {}
     }
   },
   methods: {
     getGoodsList(category2_id = 0) {
-      $.showIndicator()
-      return this.$server.shop.getGoodsList(1, 10, this.category1_id, category2_id)
-      .then(({list})=>{
-        this.goodsList = list
-      }).finally(()=>{
-        $.hideIndicator()
-      })
+      this.scroll = this.$server.shop.getGoodsList(this.category1_id, category2_id)
+      this.scroll.init()
     },
     sltCategory2(item, event) {
       $(event.target).addClass('active').siblings('.active').removeClass('active')
-      this.getGoodsList(item.cateid).then(()=>{
-        $.closePanel('#panelCategory2')  
-      })
+      this.getGoodsList(item.cateid)
+      $.closePanel()
     },
     sortByPrice() {
       this.sortType = this.sortType === 'desc' ? 'asc' : 'desc'
-      this.goodsList = this.goodsList.sort((item1, item2)=>{
+      this.scroll.alldata = this.scroll.alldata.sort((item1, item2)=>{
         let price1 = item1.market_price
         let price2 = item2.market_price
         return this.sortType === 'desc' ? (price1 - price2) : (price2 - price1)

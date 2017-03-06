@@ -40,7 +40,7 @@
           </div>
           <div class="list-block media-list">
             <ul>
-              <li>
+              <li v-if="orderInfo.type != 3">
                 <label class="label-checkbox item-content" @click.prevent="sltPayWay(1)">
                   <input type="radio" name="pay-way" :checked="payway == 1">
                   <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
@@ -88,7 +88,7 @@ export default {
   },
   data () {
     return {
-      payway: '1',
+      payway: '2',
       orderInfo: {},
       submiting: false,
       formData: {},
@@ -106,68 +106,87 @@ export default {
       const self = this
       let promise = null
 
+      if(self.submiting) return
+
       if(self.payway == 1){ // 钱包支付
         if(Number(self.orderInfo.total_money) > Number(self.userAmount)){
           $.alert('钱包可用余额不足，请及时充值！')
           return
         }
-        if(self.orderInfo.type == 2){  // 套餐
-          promise = self.$server.combo.pay(self.formData)
-        }else{  // 商品
-          promise = self.$server.user.cashPay(self.formData)
+        switch(self.orderInfo.type){
+          // 商品
+          case 0:
+          case 1:
+            promise = self.$server.user.cashPay(self.formData)
+            break
+          // 套餐
+          case 2:
+            promise = self.$server.combo.pay(self.formData)
+            break
         }
 
       }else if(self.payway == 2){ // 微信支付
-        promise = this.$server.chooseWXPay2(self.orderInfo.order_id)
+        promise = self.$server.chooseWXPay2(self.orderInfo.order_id)
       }
 
-      $.showIndicator()
       self.submiting = true
-
+      $.showIndicator()
+    
       promise.then(()=>{
-        if(self.orderInfo.type == 2){
-          $.modal({
-            title:  '支付成功',
-            text: '请到【我的->套餐】查看详情',
-            buttons: [
-              {
-                text: '返回',
-                onClick() {
-                  self.$router.back()
-                }
-              },
-              {
-                text: '查看套餐',
-                bold: true,
-                onClick() {
-                  self.$router.replace('/user/combos')
-                }
-              },
-            ]
-          })
-        }else{ // 支付商品
-          $.modal({
-            title:  '支付成功',
-            text: '请到【我的->商品】查看详情',
-            buttons: [
-              {
-                text: '返回',
-                onClick() {
-                  self.$router.back()
-                }
-              },
-              {
-                text: '查看订单',
-                bold: true,
-                onClick() {
-                  self.$router.replace('/user/order?tab=2')
-                }
-              },
-            ]
-          })
+        self.$storage.session.remove('temp_pay_info')
+        switch(self.orderInfo.type){
+          // 支付商品
+          case 0:
+          case 1:
+            $.modal({
+              title:  '支付成功',
+              text: '请到【我的->商品】查看详情',
+              buttons: [
+                {
+                  text: '返回',
+                  onClick() {
+                    self.$router.back()
+                  }
+                },
+                {
+                  text: '查看订单',
+                  bold: true,
+                  onClick() {
+                    self.$router.replace('/user/order?tab=2')
+                  }
+                },
+              ]
+            })
+            break
+          // 支付套餐
+          case 2:
+            $.modal({
+              title:  '支付成功',
+              text: '请到【我的->套餐】查看详情',
+              buttons: [
+                {
+                  text: '返回',
+                  onClick() {
+                    self.$router.back()
+                  }
+                },
+                {
+                  text: '查看套餐',
+                  bold: true,
+                  onClick() {
+                    self.$router.replace('/user/combos')
+                  }
+                },
+              ]
+            })
+            break
+          // 充值
+          case 3:
+            $.alert('请核对充值后的金额是否正确</br>如有疑问请致电咨询我们的客服</br>客服热线：400-158-6677', '充值成功', ()=>{
+              self.$router.replace('/user')
+            })
+            break
         }
-
-        this.$storage.session.remove('temp_pay_info')
       }).finally(()=>{
         $.hideIndicator()
         self.submiting = false

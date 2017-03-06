@@ -2,35 +2,33 @@
   <div class="l-app">
     <div id="app-page" class="page page-current">
       <l-header></l-header>
-      <div class="content">
-        <template v-for="item in list">
-          <div class="l-panel-title l-link-arrow" @click="viewInfo(item)">
-            <a class="pull-right">明细</a>
-            <span class="l-text-gray">订单信息</span>
-          </div>
-          <div class="l-text-table l-margin-b l-border-t">
-            <div class="_tr">
-              <div class="_tit">订单编号</div>
-              <div class="_rest" v-text="item.order_sn"></div>
+      <div class="content l-infinite-scroll">
+        <l-scroll :scroll="scroll">
+          <template v-for="item in scroll.alldata">
+            <div class="l-panel-title l-link-arrow" @click="viewInfo(item)">
+              <a class="pull-right">明细</a>
+              <span class="l-text-gray">订单信息</span>
             </div>
-            <div class="_tr l-border-t">
-              <div class="_tit">消费金额</div>
-              <div class="_rest"><span v-text="item.order_amount"></span> 元</div>
+            <div class="l-text-table l-margin-b l-border-t">
+              <div class="_tr">
+                <div class="_tit">订单编号</div>
+                <div class="_rest" v-text="item.order_sn"></div>
+              </div>
+              <div class="_tr l-border-t">
+                <div class="_tit">消费金额</div>
+                <div class="_rest"><span v-text="item.order_amount"></span> 元</div>
+              </div>
+              <div class="_tr l-border-t">
+                <div class="_tit">消费门店</div>
+                <div class="_rest" v-text="item.org_name"></div>
+              </div>
+              <div class="_tr l-border-t">
+                <div class="_tit">消费时间</div>
+                <div class="_rest" v-text="item.finish_time"></div>
+              </div>
             </div>
-            <div class="_tr l-border-t">
-              <div class="_tit">消费门店</div>
-              <div class="_rest" v-text="item.org_name"></div>
-            </div>
-            <div class="_tr l-border-t">
-              <div class="_tit">消费时间</div>
-              <div class="_rest" v-text="item.finish_time"></div>
-            </div>
-          </div>
-        </template>
-        <div class="l-data-null" v-if="list.length === 0">
-          <img src="~assets/shuju.png" alt="">
-          <p>没有相关数据</p>
-        </div>
+          </template>
+        </l-scroll>
       </div>
     </div>
     <!-- 订单明细 -->
@@ -54,14 +52,15 @@
 
 <script>
 import lHeader from 'components/l-header'
+import lScroll from 'components/l-scroll'
 
 export default {
   components: {
-    lHeader
+    lHeader, lScroll
   },
   data () {
     return {
-      list: [],
+      scroll: {},
       itemInfo: []
     }
   },
@@ -74,14 +73,10 @@ export default {
     }
   },
   created() {
-    $.showIndicator()
-    this.$server.order.getHistory(1, 10).then(({list})=>{
-      setTimeout(()=>{
-        this.list = list
-      }, 600)
-    }).finally(()=>{
-      $.hideIndicator()
-    })
+    this.scroll = this.$server.order.getHistory()
+    setTimeout(()=>{
+      this.scroll.init()
+    }, 600)
   },
   beforeRouteLeave(to, from, next) {
     $.closePanel()

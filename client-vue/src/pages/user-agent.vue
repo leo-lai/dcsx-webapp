@@ -2,7 +2,7 @@
   <div class="l-app">
     <div id="app-page" class="page page-current">
       <l-header></l-header>
-      <div class="content" v-show="isShow">
+      <div class="content l-infinite-scroll" v-show="isShow">
         <!-- 分销记录 -->
         <div class="l-agnet-record" v-if="agentCode === 1">
           <div class="l-agent-hd l-margin-b">
@@ -17,28 +17,30 @@
               </p>
             </div>
           </div>
-          <div class="l-text-table l-margin-b" v-for="item in recordList">
-            <div class="_tr l-border-b">
-              <div class="_tit">消费单号</div>
-              <div class="_rest" v-text="item.order_sn"></div>
+          <l-scroll :scroll="scroll">
+            <div class="l-text-table l-margin-b" v-for="item in scroll.alldata">
+              <div class="_tr l-border-b">
+                <div class="_tit">消费单号</div>
+                <div class="_rest" v-text="item.order_sn"></div>
+              </div>
+              <div class="_tr l-border-b">
+                <div class="_tit">消费人员</div>
+                <div class="_rest" v-text="item.nickname"></div>
+              </div>
+              <div class="_tr l-border-b">
+                <div class="_tit">消费时间</div>
+                <div class="_rest" v-text="item.posttime"></div>
+              </div>
+              <div class="_tr l-border-b">
+                <div class="_tit">消费金额</div>
+                <div class="_rest"><span class="l-text-hot" v-text="item.charge"></span> 元</div>
+              </div>
+              <div class="_tr">
+                <div class="_tit">返利金额</div>
+                <div class="_rest"><span class="l-text-ok" v-text="item.rebate_charge"></span> 元</div>
+              </div>
             </div>
-            <div class="_tr l-border-b">
-              <div class="_tit">消费人员</div>
-              <div class="_rest" v-text="item.nickname"></div>
-            </div>
-            <div class="_tr l-border-b">
-              <div class="_tit">消费时间</div>
-              <div class="_rest" v-text="item.posttime"></div>
-            </div>
-            <div class="_tr l-border-b">
-              <div class="_tit">消费金额</div>
-              <div class="_rest"><span class="l-text-hot" v-text="item.charge"></span> 元</div>
-            </div>
-            <div class="_tr">
-              <div class="_tit">返利金额</div>
-              <div class="_rest"><span class="l-text-ok" v-text="item.rebate_charge"></span> 元</div>
-            </div>
-          </div>
+          </l-scroll>
         </div>
         <!-- 分销记录 end-->
         <!-- 还不是分销商 -->
@@ -68,10 +70,11 @@
 
 <script>
 import lHeader from 'components/l-header'
+import lScroll from 'components/l-scroll'
 
 export default {
   components: {
-    lHeader
+    lHeader, lScroll
   },
   data () {
     return {
@@ -79,7 +82,7 @@ export default {
       agentCode: 3,  // 0审核中1审核通过2审核拒绝3
       agentCodeMsg: ['您的申请正在审核中', '审核通过', '审核拒绝', '您还不是分销商'],
       agentInfo: {},
-      recordList: [],
+      scroll: [],
     }
   },
   methods: {
@@ -88,24 +91,22 @@ export default {
     }
   },
   created() {
-    setTimeout(()=>{
-      $.showIndicator()
-      this.$server.agent.isTrue().then(({obj})=>{
-        this.isShow = true
-        this.agentCode = obj.code
-        if(obj.code === 1){
-          this.$server.agent.getRecord(1, 10)
-          .then(({obj, list})=>{
-            $.hideIndicator()
-            this.agentInfo = obj
-            this.recordList = list
-          })
-        }else{
-          $.hideIndicator()
+    const self = this
+    $.showIndicator()
+    self.$server.agent.isTrue().then(({obj})=>{
+      $.hideIndicator()
+      self.isShow = true
+      self.agentCode = obj.code
+      if(obj.code === 1){
+        self.scroll = self.$server.agent.getRecord()
+        self.scroll.callback = function(list, obj){
+          if(obj){
+            self.agentInfo = obj
+          }
         }
-      }) 
-    }, 600)
-    
+        self.scroll.next()
+      }
+    }) 
   }
 }
 </script>

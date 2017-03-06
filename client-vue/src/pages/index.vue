@@ -18,7 +18,7 @@
         <div class="l-index-carinfo l-margin-b">
           <!-- 已有车辆信息 -->
           <router-link v-if="carList.length > 0" class="l-flex-hc l-padding l-car-list-item l-link" to="/car/list">
-            <img class="l-thumb-circle l-margin-r" :src="defaultCar.logo">
+            <img class="l-thumb l-margin-r" :src="defaultCar.logo">
             <div class="l-rest">
               <h4 class="l-margin-0 l-text-wrap2 l-fs-m" v-text="defaultCar.model_name"></h4>
               <i class="_carnum" v-text="defaultCar.car_license"></i>

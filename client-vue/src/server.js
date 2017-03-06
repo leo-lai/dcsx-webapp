@@ -69,7 +69,7 @@ const _http = {
 
 // 分页数据类
 class List {
-  constructor(type, method = 'GET',  params = []){
+  constructor(type,  params = [], method = 'GET'){
     this.type = type
     this.method = method
     this.params = params            // 异步发送数据
@@ -84,7 +84,6 @@ class List {
     
     this.beforeAjax = utils.noop
     this.callback = utils.noop
-
   }
   init() {
     this.isAjax = false
@@ -119,8 +118,41 @@ class List {
 
     let url = ''
     switch (this.type) {
-      case 'OrderList': // 订单列表
+      case 'Order': // 订单列表
         url = '/Member/order/list'
+        break
+      case 'UserCombos': // 用户套餐
+        url = '/Member/combo/my'
+        break
+      case 'UserCoupons': // 用户优惠券
+        url = '/Member/coupon/my'
+        break
+      case 'Coupons': // 优惠券中心
+        url = '/Member/coupon/list'
+        break
+      case 'Combos': // 套餐年卡
+        url = '/Member/combo/list'
+        break
+      case 'OrderHistory': // 消费记录
+        url = '/Member/order/his_order'
+        break
+      case 'AgentRecord': // 分销记录
+        url = '/Member/user/rebate_info'
+        break
+      case 'HolderDrawal': // 提现记录
+        url = '/Member/holder/drawal_list'
+        break
+      case 'HolderMember': // 我的人脉
+        url = '/Member/holder/member_list'
+        break
+      case 'HolderRebate': // 分红记录
+        url = '/Member/holder/rebate_list'
+        break
+      case 'Goods': // 商品列表
+        url = '/Member/shopping/goods_list'
+        break
+      case 'Store': // 门店列表
+        url = '/Member/store/lbs_list'
         break
     }
 
@@ -130,12 +162,16 @@ class List {
     let promise = null
     switch(this.method){
       case 'GET':
+        url += `/${this.page}/${this.row}`
         if(utils.isArray(this.params) && this.params.length > 0){
-          url += `/${this.page}/${this.row}/` + this.params.join('/')  
+          url += '/' + this.params.join('/')  
         }
         promise = _http.get(url)
         break
       case 'POST':
+        if(!utils.isPlainObject(this.params)) this.params = {}
+        this.params.page = this.page
+        this.params.row = this.row
         promise = _http.post(url, this.params)
         break
     }
@@ -146,19 +182,20 @@ class List {
       
       this.data = list
 
-      if(list.length > 0){
-        this.alldata = this.alldata.concat(list)
-      }else{
+      if(list.length === 0 || list.length < this.row){
         this.isNull = true
       }
-        
-      this.callback(this.alldata)
+       
+      this.alldata = this.alldata.concat(list)
+      this.callback(this.alldata, obj)
     }).catch((error)=>{
       this.isAjax = true
       this.isNull = false
       this.isLoading = false
       this.callback(this.alldata)
     })
+
+    return promise
   }
 }
 
@@ -508,12 +545,12 @@ const _server = {
       return _http.get('/Member/User/get_info')
     },
     // 我的优惠券
-    getCoupons(page = 1, row = 10, type = 1) {
-      return _http.get('/Member/coupon/my', page, row, type)
+    getCoupons(type = 1) {
+      return new List('UserCoupons', [type])
     },
     // 我的套餐
-    getCombos(page = 1, row = 10) {
-      return _http.get('/Member/combo/my', page, row)
+    getCombos() {
+      return new List('UserCombos')
     },
     // 查询账户
     getCash() {
@@ -522,11 +559,15 @@ const _server = {
     // 个人钱包支付
     cashPay(formData) {
       return _http.post('/Member/pay/cash_pay', formData)
+    },
+    // 钱包充值
+    recharge(money = 0) {
+      return _http.post('/Member/order/recharge', { money })
     }
   },
   // 分销商
   agent: {
-    getQrcode() {
+    getQrcode() { // 分销商二维码
       return _http.get('/Member/User/get_grcode')
     },
     isTrue() { // 是否为分销商
@@ -535,12 +576,15 @@ const _server = {
     apply(formData) { // 申请为分销商
       return _http.post('/Member/user/apply', formData)
     },
-    getRecord(page = 1, row = 10) {
-      return _http.get('/Member/user/rebate_info', page, row)
+    getRecord() { // 分销记录
+      return new List('AgentRecord')
     }
   },
   // 股东
   holder: {
+    getQrcode() {
+      return _http.get('/Member/User/get_holder')
+    },
     isTrue() { // 是否为股东
       return _http.get('/Member/holder/judge_holder')
     },
@@ -549,16 +593,16 @@ const _server = {
       return _http.get('/Member/holder/info')
     },
     // 提现记录
-    getDrawal(page = 1, row = 10) {
-      return _http.get('/Member/holder/drawal_list', page, row)
+    getDrawal() {
+      return new List('HolderDrawal')
     },
     // 我的人脉
-    getMember(page = 1, row = 10) {
-      return _http.get('/Member/holder/member_list', page, row)
+    getMember() {
+      return new List('HolderMember')
     },
     // 分红记录
-    getRebate(page = 1, row = 10) {
-      return _http.get('/Member/holder/rebate_list', page, row)
+    getRebate() {
+      return new List('HolderRebate')
     }
   },
   // 活动信息
@@ -602,8 +646,8 @@ const _server = {
   },
   // 优惠券
   coupon: {
-    getList(page = 1, row = 10) {
-      return _http.get('/Member/coupon/list', page, row)
+    getList() {
+      return new List('Coupons')
     },
     pick(coupon_id) {
       return _http.get('/Member/coupon/pick', coupon_id)
@@ -611,8 +655,8 @@ const _server = {
   },
   // 套餐年卡
   combo: {
-    getList(page = 1, row = 10) {
-      return _http.get('/Member/combo/list', page, row)
+    getList() {
+      return new List('Combos')
     },
     getInfo(suit_id) {
       return _http.get('/Member/combo/info', suit_id)
@@ -635,7 +679,7 @@ const _server = {
   // 商城
   shop: {
     // 一级分类
-    getCategory1(page = 1, row = 10) { 
+    getCategory1(page = 1, row = 50) { 
       return _http.get('/Member/shopping/fist_category_list', page, row)
     },
     // 二级分类
@@ -643,8 +687,8 @@ const _server = {
       return _http.get('/Member/shopping/second_category_list', category1_id)
     },
     // 商品列表
-    getGoodsList(page = 1, row = 10, category1_id = 0, category2_id = 0, desc = 'DESC') {
-      return _http.get('/Member/shopping/goods_list', page, row, desc, category1_id, category2_id)
+    getGoodsList(category1_id = 0, category2_id = 0, desc = 'DESC') {
+      return new List('Goods', [desc, category1_id, category2_id])
     },
     // 商品详情
     getGoodsInfo(id){
@@ -690,8 +734,8 @@ const _server = {
   },
   // 订单
   order: {
-    getList( type = 1, method = 'GET') {
-      return new List('OrderList', method, [type])
+    getList( type = 1) { // 订单列表
+      return new List('Order', [type])
     },
     getInfo(order_id) {
       return _http.get('/Member/order/info', order_id)
@@ -703,8 +747,8 @@ const _server = {
       jsonData = JSON.stringify(jsonData)
       return _http.post('/Member/order/cart_goods', {jsonstr: jsonData} )
     },
-    getHistory(page = 1, row = 10) { // 订单(消费)记录
-      return _http.get('/Member/order/his_order', page, row)
+    getHistory() { // 订单(消费)记录
+      return new List('OrderHistory')
     },
     cancel(order_id) {
       return _http.put(`/Member/order/cancel/${order_id}`)
@@ -715,10 +759,8 @@ const _server = {
   },
   // 门店
   store: {
-    getList(page = 1, row = 10, longitude = 0, latitude = 0) {
-      return _http.post('/Member/store/lbs_list', {
-        page, row, longitude, latitude
-      })
+    getList(longitude = 0, latitude = 0) {
+      return new List('Store', { longitude, latitude }, 'POST')
     },
     getInfo(id) {
       return _http.get('/Member/store/info', id)

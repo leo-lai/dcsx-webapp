@@ -20,8 +20,8 @@
           <div class="l-rest">
             <h4 class="l-text-wrap2 l-fs-s" v-text="item.goods_list[0].goods_name"></h4>
             <p class="l-fs-s l-text-gray">
-              <!-- <span class="pull-right">x{{item.goods_list[0].goods_num}}</span> -->
-              <span><i class="l-icon"></i>单价：{{item.goods_list[0].market_price}}</span>
+              <span class="l-margin-r"><i class="l-icon"></i>单价：{{item.goods_list[0].market_price}}</span>
+              <span>数量：{{item.goods_list[0].goods_num}}</span>
             </p>
           </div>
           <div class="l-margin-l l-text-center">
@@ -87,6 +87,7 @@ export default {
     },
     orderPay(item) {
       this.$storage.session.set('temp_pay_info', {
+        type: item.goods_list.length === 1 ? 0 : 1,
         order_id: item.order_id,
         order_sn: item.order_sn,
         time: item.add_time,
@@ -100,7 +101,7 @@ export default {
 }
 </script>
 <style scoped>
-a.button{border-radius: 0;}
+.l-user-good-ft .button{border-radius: 0 !important;}
 .button.l-btn-gray{border-color: transparent !important; color: #999; background-color: transparent !important;}
 .l-user-good{background-color: #fff;}
 .l-user-good-hd{padding:0.5rem 0.75rem; font-size: 0.75rem;}

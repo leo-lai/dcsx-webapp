@@ -5,7 +5,7 @@
       <l-tabbar></l-tabbar>
       <div class="bar bar-tab-secondary l-flex-hc" v-if="goodsList.length > 0">
         <label class="l-checkbox" @click="checkAll">
-          <input type="checkbox" v-model="isCheckAll">
+          <input type="checkbox" :checked="isCheckAll">
           <i class="l-icon l-icon-radio"></i>
           <span>全选</span>
         </label>
@@ -22,8 +22,8 @@
         <!-- 列表 -->
         <div class="l-shopcar-list">
           <div class="l-shopcar-item l-flex-h l-border-b" v-for="item in goodsList">
-            <label class="l-checkbox" @click="checkItem(item)">
-              <input type="checkbox" v-model="item.checked">
+            <label class="l-checkbox" @click.prevent="checkItem(item)">
+              <input type="checkbox" :checked="item.checked">
               <i class="l-icon l-icon-radio"></i>
             </label>
             <img class="l-thumb" :src="item.picpath">
@@ -140,7 +140,7 @@ export default {
       }
 
       this.$storage.session.set('temp_buy_info', this.jsonData)
-      this.$router.push('/order/confirm2')
+      this.$link('/order/confirm2', 'page-in')
     }
   },
   created() {

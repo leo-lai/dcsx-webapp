@@ -4,7 +4,8 @@
       <l-header></l-header>
       <footer class="l-page-footer l-border-t l-flex-hc">
         <div class="l-rest l-margin-l">
-          套餐价格：<span class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{toFixed(buyPay, 2)}}</span>
+          <p>套餐价格：<span class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{ toFixed(serviceInfo.favourable_cost, 2) }}</span></p>
+          <p class="l-fs-s l-text-gray">套餐原价：<del><i class="l-icon">&#xe6cb;</i>{{ toFixed(serviceInfo.original_cost, 2) }}</del></p>
         </div>
         <button class="button button-fill l-btn" :disabled="submiting || serviceList.length === 0" @click="submit">&ensp;提交订单&ensp;</button>
       </footer>
@@ -12,7 +13,7 @@
         <div class="l-margin-b">
           <!-- 已有车辆信息 -->
           <div v-if="carList.length > 0" class="l-flex-hc l-padding l-car-list-item l-link" onclick="$.openPanel('#panelCarList')">
-            <img class="l-thumb-circle l-margin-r" :src="sltedCar.logo">
+            <img class="l-thumb l-margin-r" :src="sltedCar.logo">
             <div class="l-rest">
               <h4 class="l-margin-0 l-text-wrap2 l-fs-m" v-text="sltedCar.model_name"></h4>
               <i class="_carnum" v-text="sltedCar.car_license"></i>
@@ -62,10 +63,10 @@
               <label class="label-checkbox item-content" @click.prevent="sltCar(item)">
                 <input type="radio" name="store" :checked="item.id === sltedCar.id">
                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
-                <div class="item-media l-margin-l-s">
-                  <img class="l-thumb-circle-s" :src="item.logo">
+                <div class="item-media">
+                  <img class="l-thumb-circle-xs" style="width: 3rem;" :src="item.logo">
                 </div>
-                <div class="item-inner l-margin-l-s">
+                <div class="item-inner l-margin-0">
                   <div class="item-subtitle">
                     <span v-text="item.model_name"></span>
                   </div>
@@ -112,6 +113,7 @@ export default {
       sltedCar: {},
       carList: [],
       serviceList: [],
+      serviceInfo: {},
       currentService: {},
       partsList: [],
       submiting: false,
@@ -158,13 +160,15 @@ export default {
     getService() {
       $.showIndicator()
       this.$server.combo.getService(this.$route.params.id, this.sltedCar.carid)
-      .then(({list})=>{
+      .then(({list, obj})=>{
         this.serviceList = list.map((item)=>{
           if(!item.service_goods){
             item.is_goods = 0
           }
           return item
         })
+
+        this.serviceInfo = obj
       }).catch(()=>{
         this.serviceList = []
       }).finally(()=>{
@@ -172,24 +176,27 @@ export default {
       })
     },
     submit() {
-      $.showIndicator()
+      if(this.submiting) return
+      
       this.submiting = true
-
+      $.showIndicator()
+      
       this.jsonData.suit_id = this.$route.params.id
       this.jsonData.carid = this.sltedCar.carid
       
       this.$server.combo.order(this.jsonData)
       .then(({obj})=>{
         obj.type = 2
+        $.hideIndicator()
         this.$storage.session.set('temp_pay_info', obj)
         $.toast('提交订单成功', 2000, 'l-toast')
         setTimeout(()=>{
+          this.submiting = false
           window.location.replace('/order/pay')
         }, 1500)
         // this.$router.replace('/order/pay')
-      }).finally(()=>{
+      }).catch(()=>{
         $.hideIndicator()
-        this.submiting = false
       })
     }
   },
@@ -216,7 +223,7 @@ export default {
       })
 
       self.jsonData.goods = service
-      self.buyPay = buyPay
+      // self.buyPay = buyPay
 
     }, { deep: true })
 
@@ -260,6 +267,9 @@ export default {
 }
 </script>
 <style scoped lang="less">
+.l-page-footer{height: 3.2rem;}
+.l-page-footer ~ .content{bottom: 3.2rem;}
+.l-page-footer .button{height: 3.2rem; line-height: 3.2rem;}
 .l-service-parts{
   ._item{
     margin: 0.75rem;

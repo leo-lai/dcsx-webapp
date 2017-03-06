@@ -5,7 +5,7 @@
       <div class="content">
         <!-- 车品牌列表 -->
         <div class="list-block contacts-block l-car-model-list">
-          <div class="list-group" v-cloak v-for="(brandList, letter) in brands">
+          <div :id="letter" class="list-group" v-for="(brandList, letter) in brands">
             <ul>
               <li class="list-group-title" v-text="letter"></li>
               <li v-for="item in brandList" @click="sltBrand(item)">
@@ -22,6 +22,9 @@
           </div>
         </div>
         <!-- 车品牌列表 end-->
+      </div>
+      <div id="l-letter-list" class="l-letter-list l-flex-vhc">
+          <a :href="'#'+letter" :letter="letter" v-text="letter" v-for="(brandList, letter) in brands"></a>
       </div>
     </div>
     
@@ -94,6 +97,17 @@ export default {
       $.hideIndicator()
     })
   },
+  mounted() {
+    const self = this
+    $('#l-letter-list').on('click', 'a', function(){
+      console.log($('.content').scrollTop())
+      console.log($('#' + $(this).attr('letter')).position())
+      // $('.content').scrollTop()
+      window.location.replace(self.$route.path + $(this).attr('href'))
+      // self.$router.replace(self.$route.path + $(this).attr('href'))
+      return false
+    })
+  },
   beforeRouteLeave(to, from, next) {
     $.closePanel()
     next()
@@ -112,7 +126,12 @@ function groupByLetter(arr = []){
 }
 </script>
 <style>
-.l-car-model-list{margin:0;}
+.l-bar-nav ~ .l-letter-list{top: 2.2rem;}
+.l-letter-list{position: absolute; top: 0; bottom: 0; right: 0; 
+  width: 1.5rem; text-align: center; z-index: 999; opacity: 0.6; font-size: 0.8rem;}
+.l-letter-list:active{background-color: #f3f3f3; opacity: 0.9;}
+.l-letter-list a{display: block; color: #999; width: 100%;}
+.l-car-model-list{margin:0; backface-visibility: visible;}
 .l-car-model-list .l-thumb{width: 3.0rem; height: 2.0rem;}
 .l-car-model-list .list-group-title{text-transform: uppercase;}
 </style>

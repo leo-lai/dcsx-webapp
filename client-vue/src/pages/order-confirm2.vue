@@ -62,15 +62,15 @@
         </div>
         <div class="list-block media-list">
           <ul>
-            <li :class="{'l-point-disabled': buyInfo.point_value <= 0}">
+            <li :class="{'l-point-disabled': buyInfo.point_money <= 0}">
               <label class="label-checkbox item-content" @click.prevent="usePoint">
-                <input type="checkbox" :checked="buyInfo.point_value > 0 && pointType === 1">
+                <input type="checkbox" :checked="buyInfo.point_money > 0 && pointType === 1">
                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                 <div class="item-inner">
                   <div class="item-title-row">
                     <div class="item-title">使用积分抵扣</div>
                   </div>
-                  <div class="item-text">当前可用积分{{buyInfo.point_value}}，可使用{{buyInfo.point_rude}}</div>
+                  <div class="item-text">当前可用积分{{buyInfo.point}}，可使用{{buyInfo.point_rude}}</div>
                 </div>
               </label>
             </li>
@@ -151,7 +151,7 @@ export default {
       goodsList: [],
       buyInfo: {},
       pointMoney: 0,
-      pointType: 1
+      pointType: 2 // 1使用积分2不使用
     }
   },
   computed: {
@@ -168,6 +168,8 @@ export default {
       $.closePanel()
     },
     usePoint() { // 使用积分
+      if(this.buyInfo.point_money <= 0) return
+
       if(this.pointType !== 1){
         this.pointType = 1
         this.pointMoney = this.buyInfo.point_money || 0 
@@ -177,16 +179,20 @@ export default {
       }
     },
     submit() { // 提交订单
+      if(this.submiting) return
+
+      this.submiting = true  
       $.showIndicator()
-      this.submiting = true
+      
       this.jsonData.point_type = this.pointType
       this.jsonData.orgid = this.sltedStore.store_id
       this.$server.order.add2(this.jsonData).then(({obj})=>{
+        obj.type = 1
         $.hideIndicator()
-        this.submiting = false
         this.$storage.session.set('temp_pay_info', obj)
         $.toast('提交订单成功', 2000, 'l-toast')
         setTimeout(()=>{
+          this.submiting = false
           window.location.replace('/order/pay')
         }, 1500)
         // this.$router.replace('/order/pay')
@@ -207,7 +213,10 @@ export default {
           setTimeout(()=>{
             this.goodsList = goods_list
             this.buyInfo = obj
-            this.pointMoney = obj.point_money
+            if(this.pointType == 1){
+              this.pointMoney = obj.point_money  
+            }
+            
             this.storeList = list
             this.sltedStore = list[0] || {}
             this.jsonData = {
@@ -231,8 +240,5 @@ export default {
 <style scoped>
 .l-goods-thumbs{background-color: #fff;padding:0.5rem; overflow: hidden;}
 .l-goods-thumbs .l-thumb{width: 3.0rem;height: 3.0rem;border-radius: 2px;margin:0.25rem; float: left;}
-.l-point-disabled{
-  filter: grayscale(100%);
-  opacity: 0.4;
-}
+.l-point-disabled{filter: grayscale(100%); opacity: 0.4; }
 </style>

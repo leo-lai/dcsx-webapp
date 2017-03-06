@@ -10,9 +10,9 @@
           </div>
         </div>
         <button style="width: 6.0rem;" class="button button-fill l-btn l-btn-blue2" @click="addToShopcar">加入购物车</button>
-        <router-link style="width: 6.0rem;" class="button button-fill l-btn l-btn-blue" :to="'/order/confirm/' + goodsInfo.id">
+        <button style="width: 6.0rem;" class="button button-fill l-btn l-btn-blue" @click="$link(`/order/confirm/${goodsInfo.id}`, 'page-in')">
           立即购买
-        </router-link>
+        </button>
       </footer>
       <div class="content" v-show="goodsInfo.id">
         <!-- Slider -->
@@ -64,7 +64,7 @@ export default {
       this.$server.shopcar.add(this.goodsInfo.id, 1).then(({obj})=>{
         $.hideIndicator()
         this.shopcarNum = obj.total
-        $.toast('加入购物车成功', 2000, 'l-toast')
+        $.toast('已加入购物车', 2000, 'l-toast')
       }).catch(()=>{
         $.hideIndicator()
       })

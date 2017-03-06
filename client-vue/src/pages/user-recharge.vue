@@ -30,8 +30,8 @@
             </div>
           </div>
         </div>
-        <div class="l-margin" style="margin-top: 1.5rem;">
-          <div class="button l-btn-bg1" @click="submit">充值</div>
+        <div class="l-margin l-flex-h" style="margin-top: 1.5rem;">
+          <button class="button l-btn-bg1 l-rest" :disabled="submiting" @click="submit">充值</button>
         </div>
       </div>
     </div>
@@ -48,6 +48,7 @@ export default {
   },
   data () {
     return {
+      submiting: false,
       index: 1,
       sltedVal: 100,
       otherVal: ''
@@ -68,6 +69,8 @@ export default {
       }
     },
     submit() {
+      if(this.submiting) return
+
       if(this.index === 9){
         this.sltedVal = this.otherVal
       }
@@ -77,7 +80,17 @@ export default {
         return
       }
 
-      $.alert('暂不支持账户充值')
+      this.submiting = true
+      $.showIndicator()
+      
+      this.$server.user.recharge(this.sltedVal).then(({obj})=>{
+        obj.type = 3
+        this.$storage.session.set('temp_pay_info', obj)
+        window.location.href = '/order/pay'
+      }).finally(()=>{
+        $.hideIndicator()
+        this.submiting = false
+      })
     }
   }
 }

@@ -56,6 +56,8 @@ export default {
   },
   methods: {
     submit() {
+      if(this.submiting) return
+
       if(!this.formData.realname){
         $.toptip('请输入您的真实姓名')
         return
@@ -65,9 +67,10 @@ export default {
         $.toptip('请正确输入您的手机号码')
         return
       }
-
-      $.showIndicator()
+      
       this.submiting = true
+      $.showIndicator()
+      
       this.$server.agent.apply(this.formData)
       .then(({status_msg})=>{
         $.hideIndicator()

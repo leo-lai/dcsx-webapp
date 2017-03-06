@@ -114,13 +114,11 @@ export default {
   },
   methods: {
     orderCancel() {
-      const self = this
       $.confirm('确定要取消订单？', ()=>{
         $.showIndicator()
-        self.$server.order.cancel(self.orderInfo.order_id)
+        this.$server.order.cancel(this.orderInfo.order_id)
         .then(()=>{
-          
-          $.toast('取消订单成功')
+          $.toast('取消订单成功', 2000, 'l-toast')
           this.$router.back()
         }).finally(()=>{
           $.hideIndicator()
@@ -129,9 +127,9 @@ export default {
     },
     orderRecive() {
       $.showIndicator()
-      this.$server.order.recive(self.orderInfo.order_id)
+      this.$server.order.recive(this.orderInfo.order_id)
       .then(()=>{
-        $.toast('确认收货成功')
+        $.toast('确认收货成功', 2000, 'l-toast')
         this.getOrderInfo()
       }).finally(()=>{
         $.hideIndicator()

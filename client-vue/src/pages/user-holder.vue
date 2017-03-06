@@ -33,6 +33,11 @@
               <p class="l-margin-t-s"><span class="l-text-warn" v-text="holderInfo.drawal_charge"></span> 元</p>
             </router-link>
           </div>
+
+          <div class="l-holder-qrcode">
+            <img :src="qrcode" alt="">
+            <p class="l-text-gray l-fs-s">我的股东二维码</p>
+          </div>
         </div>
         <!-- 分销记录 end-->
         <!-- 不是股东 -->
@@ -77,14 +82,15 @@ export default {
   data () {
     return {
       isShow: false,
+      qrcode: '',
       holderCode: 3,  // 0审核中1审核通过2审核拒绝3
       holderCodeMsg: ['您还不是股东', '审核通过'],
       holderInfo: {}
     }
   },
   created() {
+    $.showIndicator()
     setTimeout(()=>{
-      $.showIndicator()
       this.$server.holder.isTrue().then(({obj})=>{
         this.isShow = true
         this.holderCode = obj.code
@@ -94,6 +100,12 @@ export default {
             $.hideIndicator()
             this.holderInfo = obj
           })
+
+          this.$server.holder.getQrcode()
+          .then(({obj})=>{
+            this.qrcode = obj.img
+          })
+
         }else{
           $.hideIndicator()
         }
@@ -103,6 +115,18 @@ export default {
 }
 </script>
 <style scoped lang="less">
+.l-holder-qrcode{
+  width: 9.5rem;
+  height: 9.5rem;
+  margin: 1.5rem auto;
+  text-align: center;
+  img{
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    line-height: 9.5rem;
+  }
+}
 .l-agent-hd{
   background: linear-gradient(45deg, #3d93f5, #49aef5);
   min-height: 8.5rem;
@@ -118,6 +142,7 @@ export default {
   background-color: #fff;
   text-align: center;
   padding: 0.75rem 0;
+  font-size: 0.75rem;
 }
 .l-holder-menu img{
   width: 3.0rem;

@@ -2,17 +2,19 @@
   <div class="l-app">
     <div id="app-page" class="page page-current">
       <l-header></l-header>
-      <div class="content">
-        <div class="list-block l-margin-0">
-          <ul>
-            <li class="item-content" v-for="item in list">
-              <div class="item-inner">
-                <div class="item-title">标题标题标题标题标题标题标题标题标题标题标题</div>
-                <div class="item-after l-text-gray l-fs-m">标签</div>
-              </div>
-            </li>
-          </ul>
-        </div>
+      <div class="content l-infinite-scroll">
+        <l-scroll :scroll="scroll">
+          <div class="list-block l-margin-0">
+            <ul>
+              <li class="item-content" v-for="item in scroll.alldata">
+                <div class="item-inner">
+                  <div class="item-title" v-text="item.name"></div>
+                  <div class="item-after l-text-gray l-fs-m"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </l-scroll>
       </div>
     </div>
   </div>
@@ -21,24 +23,21 @@
 
 <script>
 import lHeader from 'components/l-header'
+import lScroll from 'components/l-scroll'
 
 export default {
   components: {
-    lHeader
+    lHeader, lScroll
   },
   data () {
     return {
-      list: []
+      scroll: {}
     }
   },
   created() {
+    this.scroll = this.$server.holder.getMember()
     setTimeout(()=>{
-      $.showIndicator()
-      this.$server.holder.getMember(1, 10).then(({list})=>{
-        this.list = list
-      }).finally(()=>{
-        $.hideIndicator()
-      })
+      this.scroll.init()
     }, 600)
   }
 }

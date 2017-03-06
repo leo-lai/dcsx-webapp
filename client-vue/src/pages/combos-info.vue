@@ -36,7 +36,7 @@
         </div>
 
         <div class="l-panel-title l-border-b l-margin-t">
-          <span class="l-text-gray">商品描述</span>
+          <span class="l-text-gray">套餐描述</span>
         </div>
         <div class="l-bg l-padding l-margin-b" style="overflow:hidden;">
           <div v-html="combosInfo.detail"></div>
@@ -67,9 +67,6 @@ export default {
   methods: {
     toFixed(num = 0, point = 1) {
       return (num - 0).toFixed(point)
-    },
-    submit() {
-
     }
   },
   created() {

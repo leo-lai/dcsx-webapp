@@ -9,7 +9,7 @@
         <p class="l-margin l-fs-s l-text-gray">注：最多只能添加5辆车辆信息</p>
         <transition-group class="l-car-list" tag="div" name="l-car-list">
           <div class="l-flex-hc l-padding l-car-list-item l-link" v-for="item in carList" :key="item.id" v-if="!item.isDel" @click="editCar(item.id)">
-            <img class="l-thumb-circle l-margin-r" :src="item.logo">
+            <img class="l-thumb l-margin-r" :src="item.logo">
             <div class="l-rest">
               <h4 class="l-margin-0 l-text-wrap2 l-fs-m" v-text="item.model_name"></h4>
               <i class="_carnum" v-text="item.car_license"></i>

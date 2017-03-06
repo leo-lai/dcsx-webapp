@@ -6,7 +6,7 @@
         <router-link class="l-shop-category" :to="'/shop/goods/' + item.cateid" v-for="item in category1">
           <img :src="item.picpath">
         </router-link>
-        <div class="l-data-null" v-if="category1.length === 0">
+        <div class="l-data-null" v-if="isAjax && category1.length === 0">
           <img src="~assets/shuju.png" alt="">
           <p>没有相关数据</p>
         </div>
@@ -25,15 +25,21 @@ export default {
   },
   data () {
     return {
-      category1: [] // 一级分类
+      category1: [], // 一级分类
+      isAjax: false
     }
   },
   created() {
-    setTimeout(()=>{
-      this.$server.shop.getCategory1(1, 10).then(({list})=>{
+    $.showIndicator()
+    this.$server.shop.getCategory1().then(({list})=>{
+      setTimeout(()=>{
+        this.isAjax = true
         this.category1 = list
-      })
-    }, 600)
+      }, 600)
+    }).finally(()=>{
+      $.hideIndicator()
+    })
+    
   }
 }
 </script>

@@ -2,38 +2,40 @@
   <div class="l-app">
     <div id="app-page" class="page page-current">
       <l-header></l-header>
-      <div class="content">
-        <div class="l-combo-list">
-          <div class="l-combo-item" v-for="item in comboList">
-            <div class="l-combo-item-hd">
-              <h3 class="l-text-warn" v-text="item.name"></h3>
-              <p class="l-fs-m">购买价格：{{item.order_amount}} 元</p>
-            </div>
-            <div class="l-combo-item-bd">
-              <table class="l-table-border-t l-fs-xs">
-                <tr class="l-text-gray l-text-nowrap">
-                  <th>套餐项目</th>
-                  <th>包含次数</th>
-                  <th>剩余次数</th>
-                </tr>
-                <tr v-for="item2 in item.servicelist">
-                  <td>{{item2.service_name}}</td>
-                  <td>{{item2.total_number}}</td>
-                  <td>{{item2.service_number}}</td>
-                </tr>
-              </table>
-            </div>
-            <div class="l-combo-item-ft l-padding l-fs-xs l-text-gray">
-              <span>有效期至：{{item.valid_date}}</span>
-              <!-- <a class="pull-right">消费记录</a> -->
+      <div class="content l-infinite-scroll">
+        <l-scroll :scroll="scroll">
+          <div class="l-combo-list">
+            <div class="l-combo-item" v-for="item in scroll.alldata">
+              <div class="l-combo-item-hd">
+                <h3 class="l-text-warn" v-text="item.name"></h3>
+                <p class="l-fs-m">购买价格：{{item.order_amount}} 元</p>
+              </div>
+              <div class="l-combo-item-bd">
+                <table class="l-table-border-t l-fs-xs">
+                  <tr class="l-text-gray l-text-nowrap">
+                    <th>套餐项目</th>
+                    <th>包含次数</th>
+                    <th>剩余次数</th>
+                  </tr>
+                  <tr v-for="item2 in item.servicelist">
+                    <td>{{item2.service_name}}</td>
+                    <td>{{item2.total_number}}</td>
+                    <td>{{item2.service_number}}</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="l-combo-item-ft l-padding l-fs-xs l-text-gray">
+                <span>有效期至：{{item.valid_date}}</span>
+                <!-- <a class="pull-right">消费记录</a> -->
+              </div>
             </div>
           </div>
-          <div class="l-data-null" v-if="comboList.length === 0">
-            <img src="~assets/taocan.png" alt="">
+          <div slot="data-null">
+            <img src="~assets/taocan.png">
             <p>您还没有相关的套餐</p>
-            <p><router-link class="button button-round" to="/combos">去购买</router-link></p>
+            <p><button class="button button-round" @click="$link('/combos', 'page-in')">去购买</button></p>
           </div>
-        </div>
+        </l-scroll>
       </div>
     </div>
   </div>
@@ -42,25 +44,22 @@
 
 <script>
 import lHeader from 'components/l-header'
+import lScroll from 'components/l-scroll'
 
 export default {
   components: {
-    lHeader
+    lHeader, lScroll
   },
   data () {
     return {
-      comboList: []
+      scroll: {}
     }
   },
   created() {
-    $.showIndicator()
-    this.$server.user.getCombos(1, 10).then(({list})=>{
-      setTimeout(()=>{
-        this.comboList = list
-      }, 600)
-    }).finally(()=>{
-      $.hideIndicator()
-    })
+    this.scroll = this.$server.user.getCombos()
+    setTimeout(()=>{
+      this.scroll.init()
+    }, 600)
   }
 }
 </script>
