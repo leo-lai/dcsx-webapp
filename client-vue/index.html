@@ -7,36 +7,41 @@
     <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1">
     <meta name="format-detection" content="telephone=no,email=no">
     <meta name="renderer" content="webkit">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="懂车师兄"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp">
     <title>懂车师兄</title>
-    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.css,sm-extend.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
   </head>
   <body>
     <div id="app"></div>
     <div class="panel-overlay"></div>
-    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
     <script type='text/javascript'>
     	// 关闭SUI的路由
 	    $.config = {
 	      router: false
-	    };
+	    }
+
 
       var toptipTimeid = null;
       $.toptip = function(text, ms){
         if(!text) return;
-        ms = ms || 3000;
+        ms = ms || 3000
 
-        var $toptip = $('#l-toptip');
+        var $toptip = $('#l-toptip')
         if($toptip.length === 0){
-          $toptip = $('<div id="l-toptip" class="l-toptip">').appendTo(document.body);
+          $toptip = $('<div id="l-toptip" class="l-toptip">').appendTo(document.body)
         }
         clearTimeout(toptipTimeid)
-        $toptip.text(text).addClass('l-show');
+        $toptip.text(text).addClass('l-show')
         toptipTimeid = setTimeout(function(){
           $toptip.text('').removeClass('l-show')
-        }, ms);
+        }, ms)
       }
     </script>
-    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/??sm.js,sm-extend.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/??sm.min.js,sm-extend.min.js' charset='utf-8'></script>
 		<script type='text/javascript' src='//res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>
     <!-- built files will be auto injected -->
   </body>

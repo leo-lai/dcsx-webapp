@@ -71,7 +71,7 @@
     </div>
     <!-- 二维码弹窗 -->
     <transition name="fade">
-      <div class="l-layer l-flex-vhc" v-cloak v-show="isShowQrcode">
+      <div class="l-layer l-flex-vhc" v-show="isShowQrcode">
         <div class="l-panel-user-qrcode">
           <div class="l-flex-hc l-margin-b">
             <div class="l-avatar l-margin-r" :style="{'background-image': 'url('+ userInfo.avator +')'}"></div>

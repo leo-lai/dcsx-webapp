@@ -24,10 +24,10 @@ const _http = {
         timeout: 60000,
         success(response, status, xhr) {
           // 登录失效 800001 800002 800003
+          $.closeModal()
           if(response.status_code === 800001 || response.status_code === 800002 || 
             response.status_code === 800003) { 
             $.hideIndicator()
-            $.closeModal()
             $.alert(response.status_msg, ()=>{
               _server.logout()
             })
@@ -45,7 +45,8 @@ const _http = {
         },
         error(xhr, errorType, error){
           $.hideIndicator()
-          $.alert('服务器响应失败')
+          $.closeModal()
+          $.alert('请求失败，请检查网络。')
           reject(error)
         }
       })
@@ -345,14 +346,15 @@ const _server = {
       }
       this.getWxPayConfig(order_id).then(({obj})=>{
         WeixinJSBridge.invoke('getBrandWCPayRequest', obj, (res)=>{
-          alert(window.JSON.stringify(res))
-          if(res.err_msg == 'get_brand_wcpay_request：ok') {
+          if(res.err_msg === 'get_brand_wcpay_request:ok') {
             resolve('ok')
-          }else if(res.err_msg == 'get_brand_wcpay_request：cancel'){
+          }else if(res.err_msg === 'get_brand_wcpay_request:cancel'){
             reject('cancel')
-          }else{
-            $.alert('支付失败，如有疑问请联系客服。')
+          }else if(res.err_msg === 'get_brand_wcpay_request:fail'){
+            $.alert('未成功支付，如有疑问请联系客服。')
             reject('fail')
+          }else{
+            resolve('支付回调成功')
           }
         })
       }).catch(reject)

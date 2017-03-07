@@ -7,7 +7,7 @@
         <div class="l-panel-carinfo l-bg-full">
           <div style="height:4.5rem;" >
             <router-link v-if="carList.length > 0" class="l-flex-hc l-padding l-link-arrow" to="/car/list">
-              <img class="l-thumb-circle l-margin-r" :src="defaultCar.logo">
+              <div class="l-thumb-bg l-margin-r" :style="{'background-image': 'url(' +defaultCar.logo+ ')'}"></div>
               <div class="l-rest">
                 <h4 class="l-margin-0 l-text-wrap2 l-fs-m" v-text="defaultCar.model_name"></h4>
                 <i class="_carnum" v-text="defaultCar.car_license"></i>
@@ -39,12 +39,8 @@
           <div class="l-panel-title l-border-b"><span class="l-text-gray">检测报告</span></div>
           <div class="l-panel-content l-padding">
             <span class="l-text-error">0项</span>异常
-            <router-link class="button button-fill pull-right l-btn-s" style="margin-top: -0.1rem;" to="/message/info">查看明细</router-link>
+            <!-- <router-link class="button button-fill pull-right l-btn-s" style="margin-top: -0.1rem;" to="/message/info">查看</router-link> -->
           </div>
-        </div>
-        <div class="l-panel l-margin-tb">
-          <div class="l-panel-title l-border-b"><span class="l-text-gray">维修进程</span></div>
-          <div class="l-panel-content l-padding">已完工</div>
         </div>
       </div>
     </div>

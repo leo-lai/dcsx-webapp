@@ -41,11 +41,11 @@ export default {
     
 	},
   mounted() {
-    console.log('app mounted')
+    // console.log('app mounted')
     this.scrollListener()
   },
   updated() {
-    console.log('app updated')
+    // console.log('app updated')
     this.scrollListener()
   }
 }

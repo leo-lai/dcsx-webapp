@@ -4,7 +4,7 @@
       <l-header></l-header>
       <l-tabbar></l-tabbar>
       <div class="bar bar-tab-secondary l-flex-hc" v-if="goodsList.length > 0">
-        <label class="l-checkbox" @click="checkAll">
+        <label class="l-checkbox" @click.prevent="checkAll">
           <input type="checkbox" :checked="isCheckAll">
           <i class="l-icon l-icon-radio"></i>
           <span>全选</span>

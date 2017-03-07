@@ -3,7 +3,7 @@
     <div id="app-page" class="page page-current">
       <l-header></l-header>
       <div class="content">
-        <div class="list-block l-car-model-list">
+        <div class="list-block l-margin-0">
           <ul>
             <li class="item-content" v-for="item in model" @click="sltModel(item)">
               <div class="item-inner">
@@ -47,5 +47,3 @@ export default {
   }
 }
 </script>
-<style>
-</style>

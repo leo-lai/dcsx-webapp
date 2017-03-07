@@ -91,6 +91,6 @@ export default {
 }
 </script>
 <style scoped lang="less">
-.l-icon-shocar{position: relative;width: 2.0rem; display: inline-block; font-size: 1.2rem; text-align: center;}
+.l-icon-shocar{position: relative;width: 2.0rem; display: inline-block; font-size: 1.2rem; text-align: center; margin: 0.15rem 0 0 0.375rem;}
 .l-icon-shocar .badge{position: absolute; top: 0; right: 0;}
 </style>

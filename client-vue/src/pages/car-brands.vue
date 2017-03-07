@@ -24,7 +24,9 @@
         <!-- 车品牌列表 end-->
       </div>
       <div id="l-letter-list" class="l-letter-list l-flex-vhc">
+        <div class="_inner">
           <a :href="'#'+letter" :letter="letter" v-text="letter" v-for="(brandList, letter) in brands"></a>
+        </div>
       </div>
     </div>
     
@@ -99,12 +101,20 @@ export default {
   },
   mounted() {
     const self = this
+    let timeid = 0
     $('#l-letter-list').on('click', 'a', function(){
-      console.log($('.content').scrollTop())
-      console.log($('#' + $(this).attr('letter')).position())
-      // $('.content').scrollTop()
-      window.location.replace(self.$route.path + $(this).attr('href'))
+      $('.content').scrollTop($('.content').scrollTop() + $('#' + $(this).attr('letter')).position().top)
+      // window.location.replace(self.$route.path + $(this).attr('href'))
       // self.$router.replace(self.$route.path + $(this).attr('href'))
+      return false
+    }).on('touchmove', function(e){
+      clearTimeout(timeid)
+      // timeid = setTimeout(()=>{
+        if(e.target.tagName.toLowerCase() === 'a'){
+          let a = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY)
+          $('.content').scrollTop($('.content').scrollTop() + $('#' + $(a).attr('letter')).position().top)  
+        }
+      // }, 50)
       return false
     })
   },
@@ -125,13 +135,14 @@ function groupByLetter(arr = []){
   return retObject
 }
 </script>
-<style>
+<style scoped>
 .l-bar-nav ~ .l-letter-list{top: 2.2rem;}
-.l-letter-list{position: absolute; top: 0; bottom: 0; right: 0; 
-  width: 1.5rem; text-align: center; z-index: 999; opacity: 0.6; font-size: 0.8rem;}
-.l-letter-list:active{background-color: #f3f3f3; opacity: 0.9;}
+.l-letter-list{position: absolute; top: 0; bottom: 0; right: 0; z-index: 999;  }
+.l-letter-list ._inner{width: 1.5rem;margin: 0 0.375rem; font-size: 0.7rem;opacity: 0.6;text-align: center; padding: 0.75rem 0;border-radius: 0.75rem;}
+.l-letter-list ._inner:active{ opacity: 0.9;background-color: #f3f3f3;}
 .l-letter-list a{display: block; color: #999; width: 100%;}
 .l-car-model-list{margin:0; backface-visibility: visible;}
 .l-car-model-list .l-thumb{width: 3.0rem; height: 2.0rem;}
 .l-car-model-list .list-group-title{text-transform: uppercase;}
+.l-car-model-list ul{-webkit-transform: translate3d(0,0,0);}
 </style>

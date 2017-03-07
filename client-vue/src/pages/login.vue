@@ -4,10 +4,10 @@
       <l-header></l-header>
       <div class="content">
         <div class="l-login">
-          <img class="l-avatar" :src="headimgurl" alt="">
+          <div class="l-avatar" :style="{'background-image': 'url(' +headimgurl+ ')'}"></div>
           <div class="l-login-form">
             <div class="l-login-ipt l-flex-hc">
-              <input class="l-rest" type="tel" maxlength="11" placeholder="请输入您手机号码" v-model="formData.username">
+              <input class="l-rest" type="tel" autofocus maxlength="11" placeholder="请输入您手机号码" v-model="formData.username">
             </div>
             <div class="l-login-ipt l-flex-hc">
               <input class="l-rest" type="tel" maxlength="6" placeholder="请输入手机验证码" v-model="formData.code">
@@ -40,7 +40,7 @@ export default {
     return{
       submiting: false,
       nickname: '',
-      headimgurl: '',
+      headimgurl: avatar,
       formData: {
         username: '',
         code: '',
@@ -109,8 +109,9 @@ function wxHead(src) {
 /* 登录 */
 .l-login{
   height: 100%;text-align: center; overflow: hidden;
-  background:#fff url('../assets/login-bg.jpg') no-repeat 0 bottom;
+  background:#fff url('~assets/login-bg.jpg') no-repeat 0 bottom;
   background-size: contain;
+  background-attachment: fixed;
 }
 .l-login .l-avatar{
   display:block;width: 4.0rem; height: 4.0rem; margin:3rem auto 2rem;

@@ -89,6 +89,8 @@ export let storage = {
   },
   local: {
     set(key, value = '', ms = 1000*3600*24*365) {
+
+
       if(!key) return false
       
       key = STORE_PREFIX + key
@@ -97,6 +99,7 @@ export let storage = {
         expires: ms,
         time: new Date().getTime()
       }
+
       window.localStorage.setItem(key, JSON.stringify(newValue))
     },
     get(key) {

@@ -34,10 +34,7 @@
           <div class="l-service-info">
             <ul>
               <li><p>单次工时费：{{item.service_price}}元，工时次数：{{item.service_num}}</p></li>
-              <template v-if="item.is_goods == 0">
-                <li><p>适用配件：无</p></li>
-              </template>
-              <template v-else>
+              <template v-if="item.is_goods == 1">
                 <li><p>适用配件：{{item.service_goods.goods_name}}</p></li>
                 <li><p>配件单价：{{item.service_goods.goods_price}}元，配件数量：{{item.service_goods.goods_num}}</p></li>  
               </template>
@@ -87,7 +84,7 @@
       </header>
       <div class="content">
         <div class="l-service-parts" v-for="item in partsList">
-          <div class="_item" @click="changeParts(item)" :class="{'active': currentService.service_goods.goods_id === item.goods_id}">
+          <div class="_item l-triangle-slt" @click="changeParts(item)" :class="{'active': currentService.service_goods.goods_id === item.goods_id}">
             <p v-text="item.goods_name"></p>
             <p class="l-fs-m l-text-gray">
               配件单价：<i class="l-icon">&#xe6cb;</i>{{item.market_price}}&nbsp;&nbsp;
@@ -267,9 +264,9 @@ export default {
 }
 </script>
 <style scoped lang="less">
-.l-page-footer{height: 3.2rem;}
-.l-page-footer ~ .content{bottom: 3.2rem;}
-.l-page-footer .button{height: 3.2rem; line-height: 3.2rem;}
+.page .l-page-footer{height: 3.2rem;}
+.page .l-page-footer ~ .content{bottom: 3.2rem;}
+.page .l-page-footer .button{height: 3.2rem; line-height: 3.2rem;}
 .l-service-parts{
   ._item{
     margin: 0.75rem;

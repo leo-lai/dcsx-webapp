@@ -8,8 +8,9 @@
       <div class="content">
         <p class="l-margin l-fs-s l-text-gray">注：最多只能添加5辆车辆信息</p>
         <transition-group class="l-car-list" tag="div" name="l-car-list">
-          <div class="l-flex-hc l-padding l-car-list-item l-link" v-for="item in carList" :key="item.id" v-if="!item.isDel" @click="editCar(item.id)">
-            <img class="l-thumb l-margin-r" :src="item.logo">
+          <div class="l-flex-hc l-padding l-car-list-item l-link" 
+            v-for="item in carList" :key="item.id" v-if="!item.isDel" @click.stop="editCar(item.id)">
+            <div class="l-thumb-bg l-margin-r" :style="{'background-image': 'url(' +item.logo+ ')'}"></div>
             <div class="l-rest">
               <h4 class="l-margin-0 l-text-wrap2 l-fs-m" v-text="item.model_name"></h4>
               <i class="_carnum" v-text="item.car_license"></i>
@@ -72,14 +73,15 @@ export default {
 
 </script>
 <style>
-.l-car-list-enter, .l-car-list-leave-active {
+.l-car-list-enter, 
+.l-car-list-leave-active {
   opacity: 0;
   transform: translateY(-30px);
 }
 .l-car-list-leave-active {position: absolute; left:0; right: 0; }
 
 .l-car-list{margin:0 0.75rem; position: relative;}
-.l-car-list .l-car-list-item{margin-bottom: 0.75rem; transition: all 1s;}
+.l-car-list .l-car-list-item{margin-bottom: 0.75rem; transition: all 0.8s;}
 .l-car-list-item ._del_edit{
   position: absolute;
   right: 0;

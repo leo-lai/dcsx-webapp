@@ -31,8 +31,10 @@ const router = new VueRouter({
 // 验证登陆
 if(window.location.hostname === '192.168.0.134'){ // 本地测试
   storage.local.set('openid', 'odjF11oC5FsVYkaKgsyoE7fsmglQ')
-  storage.local.set('token', 'UfD0a7yJGtnINJR6q4wenQrJbd80HBr5OJ5S56x2FEuVwtK1J7fNt_b_bv0azgvqHs49bnNbkdTYQUJRLnwQi6PhvUzxIxw6QdUNnNL6COMKo_c')  
+  storage.local.set('token', 'UfD0a7yJGtnINJR6q4wenQrJbd80HBr5OJ5S56x2FEuVwtK1J7fNt_b_bv0azgvqHs49bnNbkdTYQUJRLnwQi6PhvUzxIxw6QdUNnNL6COMKo_c')
 }
+
+
 
 router.beforeEach((to, from, next) => {
   let isCheckLogin = to.meta.auth
@@ -191,6 +193,7 @@ router.onReady(()=>{
     $.init()
   }, 50) 
 })
+
 
 Vue._router = router
 /* eslint-disable no-new */

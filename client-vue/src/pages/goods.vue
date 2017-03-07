@@ -41,8 +41,8 @@
       </header>
       <div class="content">
         <ul class="l-goods-category2">
-          <li class="active" @click="sltCategory2({cateid: 0}, $event)">全部</li>
-          <li v-for="item in category2" @click="sltCategory2(item, $event)" v-text="item.name"></li>
+          <li class="active l-triangle-slt" @click="sltCategory2({cateid: 0}, $event)">全部</li>
+          <li class="l-triangle-slt" v-for="item in category2" @click="sltCategory2(item, $event)" v-text="item.name"></li>
         </ul>
       </div>
     </div>

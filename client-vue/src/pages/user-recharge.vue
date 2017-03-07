@@ -23,9 +23,9 @@
         <div class="content-block-title">选择充值金额</div>
         <div class="l-recharge-list">
           <div class="row">
-            <div class="col-33 _item" :class="{'active': index === 1}" @click="sltMoney(1)">100元</div>
-            <div class="col-33 _item" :class="{'active': index === 2}" @click="sltMoney(2)">500元</div>
-            <div class="col-33 _item" :class="{'active': index === 9}" @click="sltMoney(9)">
+            <div class="col-33 _item l-triangle-slt" :class="{'active': index === 1}" @click="sltMoney(1)">100元</div>
+            <div class="col-33 _item l-triangle-slt" :class="{'active': index === 2}" @click="sltMoney(2)">500元</div>
+            <div class="col-33 _item l-triangle-slt" :class="{'active': index === 9}" @click="sltMoney(9)">
               <input type="tel" placeholder="其他金额" v-model="otherVal">
             </div>
           </div>
