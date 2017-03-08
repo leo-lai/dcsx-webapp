@@ -91,7 +91,7 @@ export default {
         order_id: item.order_id,
         order_sn: item.order_sn,
         time: item.add_time,
-        total_money: item.total_amount
+        total_money: item.order_amount
       })
 
       window.location.href = '/order/pay'

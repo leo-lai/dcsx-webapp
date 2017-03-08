@@ -7,10 +7,10 @@
       </footer>
       <div class="content" v-show="combosInfo.suit_id">
         <!-- Slider -->
-        <div class="swiper-container" data-space-between='0'>
+        <div class="swiper-container">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-              <img :src="combosInfo.banner" alt="">
+              <img :src="combosInfo.banner">
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import login from './pages/login'
 import index from './pages/index'
-import message from './pages/message'
+import report from './pages/report'
+import reportInfo from './pages/report-info'
 import shopcar from './pages/shopcar'
 import coupons from './pages/coupons'
 import user from './pages/user'
@@ -35,9 +36,14 @@ const routes = [
     component: index
   },
   {
-    path: '/message',
-    meta: { title: '动态', cache: true,  mainPage: true },
-    component: message
+    path: '/report',
+    meta: { title: '检测报告', cache: true,  mainPage: true },
+    component: report
+  },
+  {
+    path: '/report/info/:id',
+    meta: { title: '检查明细'},
+    component: reportInfo
   },
   {
     path: '/shopcar',
@@ -88,16 +94,6 @@ const routes = [
     path: '/combos/info/slt/:id',
     meta: { title: '选择套餐' , lazy: true},
     component: (resolve) => require(['./pages/combos-service'], resolve)
-  },
-  {
-    path: '/message/info',
-    meta: { title: '检查明细' , lazy: true},
-    component: (resolve) => require(['./pages/message-info'], resolve)
-  },
-  {
-    path: '/message/info/all',
-    meta: { title: '检查明细' , lazy: true},
-    component: (resolve) => require(['./pages/message-all-info'], resolve)
   },
   {
     path: '/alicar',

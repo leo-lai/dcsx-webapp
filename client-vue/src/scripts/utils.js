@@ -23,6 +23,24 @@ Promise.prototype.finally = Promise.prototype.finally || function (callback) {
   )
 }
 
+Array.prototype.find = Array.prototype.find || function(func) {
+  let returnArray = false
+  for (let i=0; i<this.length; i++) {
+    if (typeof(func) == 'function') {
+      if (func(this[i])) {
+        if (!returnArray) { returnArray = [] }
+        returnArray.push(i)
+      }
+    } else {
+      if (this[i]===func) {
+        if (!returnArray) { returnArray = [] }
+        returnArray.push(i)
+      }
+    }
+  }
+  return returnArray
+}
+
 
 
 /*========本地存储===========*/

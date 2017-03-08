@@ -34,8 +34,6 @@ if(window.location.hostname === '192.168.0.134'){ // 本地测试
   storage.local.set('token', 'UfD0a7yJGtnINJR6q4wenQrJbd80HBr5OJ5S56x2FEuVwtK1J7fNt_b_bv0azgvqHs49bnNbkdTYQUJRLnwQi6PhvUzxIxw6QdUNnNL6COMKo_c')
 }
 
-
-
 router.beforeEach((to, from, next) => {
   let isCheckLogin = to.meta.auth
   

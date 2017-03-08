@@ -177,7 +177,7 @@ export default {
 .l-list-block-user{background-color: #fff;}
 /*.l-list-block-user .item-content:last-child .item-inner:after{visibility: hidden;}*/
 .l-list-block-user .l-icon{font-size: 1rem;}
-.l-panel-user-qrcode{background-color: #fff;border-radius: 5px;padding: 1.0rem;}
+.l-panel-user-qrcode{background-color: #fff;border-radius: 2px;padding: 1.0rem;}
 .l-panel-user-qrcode .l-qrcode{padding: 1.5rem;}
 .l-panel-user-qrcode .l-qrcode img{width: 10.0rem;height: 10.0rem;}
 </style>

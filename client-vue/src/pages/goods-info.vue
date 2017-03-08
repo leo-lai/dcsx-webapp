@@ -16,7 +16,7 @@
       </footer>
       <div class="content" v-show="goodsInfo.id">
         <!-- Slider -->
-        <div class="swiper-container" data-space-between='0'>
+        <div class="swiper-container">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
               <img :src="goodsInfo.picpath" alt="">

@@ -69,7 +69,7 @@ export default {
             }
           })    
         }else{
-          $.alert('请在微信内打开')
+          $.alert('请在微信浏览器打开')
         }
       }).finally(()=>{
         $.hideIndicator()

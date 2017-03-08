@@ -37,8 +37,8 @@
           <div class="l-panel-title l-border-b">
             <span class="l-text-gray">门店照片</span>
           </div>
-          <div class="l-panel-content l-padding-s l-store-images">
-            <img v-for="item in images" :src="item.picpath" alt="">
+          <div id="photoBrowser" class="l-panel-content l-padding-s l-store-images">
+            <img v-for="(item, index) in images" :src="item" alt="" @click="previewImage(index)">
           </div>
         </div>
       </div>
@@ -60,12 +60,20 @@ export default {
       storeInfo: {}  
     }
   },
+  methods: {
+    previewImage(index = 0) {
+      this.$server.previewImage(this.images, index)
+    }
+  },
   created() {
+    const self = this
     $.showIndicator()
-    this.$server.store.getInfo(this.$route.params.id)
+    self.$server.store.getInfo(self.$route.params.id)
     .then(({obj, list})=>{
-      this.storeInfo = obj
-      this.images = list
+      self.storeInfo = obj
+      self.images = list.map((item)=>{
+        return item.picpath
+      })
     }).finally(()=>{
       $.hideIndicator()
     })

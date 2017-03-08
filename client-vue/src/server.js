@@ -81,7 +81,7 @@ class List {
     this.alldata = []               // 累计分页已返回数据
     this.data = []                  // 当前分页数据
     this.page = 1                   // 当前页数
-    this.row = 10                  // 条数
+    this.row = 10                   // 条数
     
     this.beforeAjax = utils.noop
     this.callback = utils.noop
@@ -318,13 +318,15 @@ const _server = {
               signType: obj.signType,
               paySign: obj.paySign, 
               success(res) {
-                if(res.err_msg == 'get_brand_wcpay_request：ok') {
+                if(res.err_msg === 'get_brand_wcpay_request:ok') {
                   resolve('ok')
-                }else if(res.err_msg == 'get_brand_wcpay_request：cancel'){
+                }else if(res.err_msg === 'get_brand_wcpay_request:cancel'){
                   reject('cancel')
-                }else{
-                  $.alert('支付失败，如有疑问请联系客服。')
+                }else if(res.err_msg === 'get_brand_wcpay_request:fail'){
+                  $.alert('支付失败，如有疑问请联系客服')
                   reject('fail')
+                }else{
+                  resolve('支付回调成功')
                 }
               }
             })
@@ -337,7 +339,7 @@ const _server = {
     })
     return promise
   },
-  chooseWXPay2(order_id){
+  chooseWXPay2(order_id) {
     let promise = new Promise((resolve, reject)=>{
       if(!utils.device.isWechat){
         $.alert('请在微信浏览器进行支付')
@@ -351,7 +353,7 @@ const _server = {
           }else if(res.err_msg === 'get_brand_wcpay_request:cancel'){
             reject('cancel')
           }else if(res.err_msg === 'get_brand_wcpay_request:fail'){
-            $.alert('未成功支付，如有疑问请联系客服。')
+            $.alert('支付失败，如有疑问请联系客服')
             reject('fail')
           }else{
             resolve('支付回调成功')
@@ -361,6 +363,24 @@ const _server = {
     })
 
     return promise
+  },
+  previewImage(imgs = [], index = 0) {
+    $.showIndicator()
+    this.getWxConfig().then((wx)=>{
+      if(wx._ready){
+        wx.previewImage({
+          current: imgs[index],     // 当前显示图片的http链接
+          urls: imgs,               // 需要预览的图片http链接列表
+          fail(err) {
+            $.alert('预览图片失败：' + err.errMsg)
+          }
+        })    
+      }else{
+        $.alert('请在微信浏览器打开')
+      }
+    }).finally(()=>{
+      $.hideIndicator()
+    })
   },
   // 获取当前经纬度 成功失败都返回一个对象
   getPosition() {
@@ -539,6 +559,10 @@ const _server = {
   // 登录
   login(formData) {
     return _http.post('/Member/login', formData)
+  },
+  // 电子报告
+  getReport(carid) {
+    return _http.get('/Member/electronic/report', carid)
   },
   // 车主资料
   user: {

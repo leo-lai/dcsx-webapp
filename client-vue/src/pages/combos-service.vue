@@ -221,40 +221,41 @@ export default {
 
       self.jsonData.goods = service
       // self.buyPay = buyPay
-
     }, { deep: true })
 
-    setTimeout(()=>{
-      $.showIndicator()
-      // 获取车辆信息
-      self.$server.car.getList().then(({list})=>{
+
+    $.showIndicator()
+    // 获取车辆信息
+    self.$server.car.getList().then(({list})=>{
+      setTimeout(()=>{
         self.carList = list
-        if(list.length === 0){
-          $.hideIndicator()
-          $.modal({
-            text: '请先添加车辆',
-            buttons: [
-              {
-                text: '返回',
-                onClick() {
-                  self.$router.back()
-                }
-              },
-              {
-                text: '立即添加',
-                bold: true,
-                onClick() {
-                  self.$router.push('/car/add')
-                }
-              },
-            ]
-          })
-        }else{
-          self.sltedCar = list.filter( item => item.is_default == 1 )[0] || list[0]
-          self.getService()
-        }
-      })
-    }, 600)
+      }, 600)
+      if(list.length === 0){
+        $.hideIndicator()
+        $.modal({
+          text: '请先添加车辆',
+          buttons: [
+            {
+              text: '返回',
+              onClick() {
+                self.$router.back()
+              }
+            },
+            {
+              text: '立即添加',
+              bold: true,
+              onClick() {
+                self.$link('/car/add', 'page-in')
+              }
+            },
+          ]
+        })
+      }else{
+        self.sltedCar = list.filter( item => item.is_default == 1 )[0] || list[0]
+        self.getService()
+      }
+    })
+    
   },
   beforeRouteLeave(to, from, next) {
     $.closePanel()

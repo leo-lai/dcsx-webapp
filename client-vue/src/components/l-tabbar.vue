@@ -5,9 +5,9 @@
       <span class="icon l-icon">&#xe604;</span>
       <span class="tab-label">首页</span>
     </router-link>
-    <router-link class="tab-item" to="/message" replace active-class="active">
+    <router-link class="tab-item" to="/report" replace active-class="active">
       <span class="icon l-icon">&#xe685;</span>
-      <span class="tab-label">动态</span>
+      <span class="tab-label">检测报告</span>
     </router-link>
     <router-link class="tab-item" to="/shopcar" replace active-class="active">
       <span class="icon l-icon">&#xe60a;</span>

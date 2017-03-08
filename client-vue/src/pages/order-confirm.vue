@@ -162,7 +162,10 @@ export default {
     },
     usePoint() { // 使用积分
 
-      if(this.buyInfo.point_money <= 0) return
+      if(this.buyInfo.point_money <= 0) {
+        $.alert('您的积分不足，不能使用')
+        return
+      }
 
       if(this.pointType !== 1){
         this.pointType = 1
