@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="车方案">
+  <meta name="description" content="车方案">
+  <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="renderer" content="webkit">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
+  <link rel="stylesheet" href="../static/css/webapp.css">
+  <link rel="shortcut icon" href="../static/favicon.ico" />
+  <title>车方案</title>
+</head>
+
+<body>
+  <div class="page-group">
+    <!-- 单个page ,第一个.page默认被展示-->
+    <div class="page disable-router">
+      <!-- 标题栏 -->
+      <header class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left nav-back"></a>
+        <a class="icon icon-refresh pull-right"></a>
+        <h1 class="title">超值套餐</h1>
+      </header>
+      <!-- 这里是页面内容区 -->
+      <div class="content">
+        <div class="l-shop-goods-list">
+          <div class="row">
+            <a v-for="item in 8" class="col-50 l-shop-goods-item l-text-default" href="shop-taocan-details.html">
+              <img class="l-thumb" src="https://placeholdit.imgix.net/~text?txtsize=28&bg=0894ec&txtclr=fff&txt=%E7%BC%A9%E7%95%A5%E5%9B%BE&w=344&h=344">
+              <div class="l-padding-sm">
+                <h4 class="l-text-clamp">[年度大促销] 汽车保养大套餐都放到打飞机的咖啡机</h4>
+                <div class="l-shop-goods-price">
+                  <span class="l-shop-goods-coupon">9折优惠</span>
+                  <strong class="l-text-hot"><i class="l-icon">&#xe6cb;</i>200.00</strong>
+                </div>
+                <p class="l-fs-s l-text-gray">已售2445份</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../static/plugs/require.min.js" data-main="../static/js/main.js"></script>
+  <script>
+  // requireCallback作为requirejs的回调
+  function requireCallback($, utils, Vue) {
+    var vm = new Vue({
+      el: document.body
+    });
+  }
+  </script>
+</body>
+</html>

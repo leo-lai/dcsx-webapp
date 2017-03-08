@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="车方案">
+  <meta name="description" content="车方案">
+  <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="renderer" content="webkit">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
+  <link rel="stylesheet" href="../static/css/webapp.css">
+  <link rel="shortcut icon" href="../static/favicon.ico" />
+  <title>车方案</title>
+</head>
+
+<body>
+  <div class="page-group">
+    <!-- 单个page ,第一个.page默认被展示-->
+    <div class="page disable-router">
+      <!-- 标题栏 -->
+      <header class="bar bar-nav l-bar-nav">
+        <a class="icon icon-refresh pull-right"></a>
+        <h1 class="title">首页</h1>
+      </header>
+      <!-- 工具栏 -->
+      <nav class="bar bar-tab l-bar-tab">
+        <a class="tab-item external active" href="index.html">
+          <span class="icon l-icon">&#xe64f;</span>
+          <span class="tab-label">首页</span>
+        </a>
+        <a class="tab-item external" href="message.html">
+          <span class="icon l-icon">&#xe622;</span>
+          <span class="tab-label">动态</span>
+        </a>
+        <a class="tab-item external" href="shopcar.html">
+          <span class="icon l-icon">&#xe63f;</span>
+          <span class="tab-label">购物车</span>
+        </a>
+        <a class="tab-item external" href="user.html">
+          <span class="icon l-icon">&#xe666;</span>
+          <span class="tab-label">我的</span>
+        </a>
+      </nav>
+      <!-- 这里是页面内容区 -->
+      <div class="content">
+        <!-- Slider -->
+        <div class="swiper-container" data-space-between='10'>
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <img src="../static/images/banner-001.jpg" alt="">
+            </div>
+            <div class="swiper-slide">
+              <img src="../static/images/banner-001.jpg" alt="">
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+        <!-- Slider end-->
+
+        <!-- 车辆信息 -->
+        <div class="l-index-carinfo l-margin-b">
+          <!-- 没有车辆信息 -->
+          <div class="list-block l-margin-0">
+            <ul>
+              <li>
+                <a class="item-content item-link" href="car-info.html">
+                  <div class="item-media"><i class="l-icon l-fs-l">&#xe603;</i></div>
+                  <div class="item-inner">
+                    <div class="item-title">请添加您的车辆信息</div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- 已有车辆信息 -->
+          <div class="l-flex-h l-padding">
+            <img class="l-thumb-circle l-margin-r-s" src="https://placeholdit.imgix.net/~text?txtsize=28&bg=0894ec&txtclr=fff&txt=Logo&w=120&h=120">
+            <div class="l-rest l-margin-r-s">
+              <h4 class="l-margin-0 l-text-clamp">宝马 WRANGLER RUBICON 3.6L越野的飞机的扩大解放车</h4>
+              <p class="l-margin-0 l-fs-s l-text-gray">粤A 38343</p>  
+            </div>
+            <i class="l-icon">&#xe675;</i>
+          </div>
+        </div>
+        <!-- 车辆信息 end-->
+
+        <div class="l-flex-h l-bg">
+          <a class="l-rest l-padding l-border-r l-text-default" href="coupons.html">
+            <div class="l-text-right">
+              <img style="width: 6.75rem;" src="../static/images/img-011.jpg">
+            </div>
+            <h3 style="margin-top: -1.0rem;">优惠中心</h3>
+            <p class="l-fs-s l-text-gray">优惠搭配，价低质优</p>
+          </a>
+          <a class="l-rest l-padding l-text-default" href="shop-taocan.html">
+            <div class="l-text-right">
+              <img style="width: 6.75rem;" src="../static/images/img-012.jpg">
+            </div>
+            <h3 style="margin-top: -1.0rem;">套餐年卡</h3>
+            <p class="l-fs-s l-text-gray">优惠套餐，智能匹配</p>
+          </a>
+        </div>
+        <a class="l-flex-hc l-padding l-bg l-border-t l-margin-b l-text-default" href="shop.html">
+          <div class="l-rest l-margin-l">
+            <h3>特惠商城</h3>
+            <p class="l-fs-s l-text-gray">全网最低价汽车配件</p>
+          </div>
+          <div class="l-rest l-text-center">
+            <img style="width: 6.75rem;" src="../static/images/img-013.jpg">  
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <script src="../static/plugs/require.min.js" data-main="../static/js/main.js"></script>
+  <script>
+  // requireCallback作为requirejs的回调
+  function requireCallback($, utils) {
+    $('.swiper-container').swiper({
+
+    });
+  }
+  </script>
+</body>
+
+</html>
