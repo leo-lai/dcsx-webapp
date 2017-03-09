@@ -29,53 +29,41 @@
         <!-- 检测结果 -->
         <div class="l-panel l-margin-tb l-technician-work">
           <div class="l-panel-title l-border-b"><span class="l-text-gray">检测结果</span></div>
-          <div class="l-check-result">
-            <ul>
-              <li class="l-border-t l-link-arrow" @click="showInfo">
-                <div><span class="pull-right l-text-error">异常</span>仪表信息</div>
-                <div class="l-img-list l-flex-wrap">
-                  <img src="https://placeholdit.imgix.net/~text?txtsize=16&bg=0894ec&txtclr=fff&txt=180x140&w=180&h=140">
-                  <img src="https://placeholdit.imgix.net/~text?txtsize=16&bg=0894ec&txtclr=fff&txt=180x140&w=180&h=140">
-                  <img src="https://placeholdit.imgix.net/~text?txtsize=16&bg=0894ec&txtclr=fff&txt=180x140&w=180&h=140">
-                </div>
-              </li>
-              <li class="l-border-t l-link-arrow" @click="showInfo">
-                <div><span class="pull-right l-text-error">异常</span>仪表信息</div>
-              </li>
-              <li class="l-border-t l-link-arrow" @click="showInfo">
-                <div><span class="pull-right l-text-error">异常</span>仪表信息</div>
-              </li>
-              <li class="l-border-t l-link-arrow" @click="showInfo">
-                <div><span class="pull-right l-text-error">异常</span>仪表信息</div>
-              </li>
-            </ul>
-          </div>
+          <ul class="l-check-cate1">
+            <li class="l-border-t l-link-arrow" v-for="(cate1, index) in abnormalList" @click="showInfo(index)">
+              <div>
+                <span v-if="cate1.check_status == 0" class="pull-right l-text-error">异常</span>
+                <span v-else class="pull-right l-text-ok">正常</span>
+                {{cate1.cate_name}}
+              </div>
+            </li>
+          </ul>
         </div>
         <!-- 检测结果 end-->
-
-        <!-- 技师建议 -->
-        <div class="l-panel l-margin-tb l-technician-work">
-          <div class="l-panel-title l-border-b"><span class="l-text-gray">技师建议</span></div>
-          <div class="l-panel-content l-padding"> 胎压是影响轮胎寿命的重要因素，不要过高或者过低，要 按照车辆标示的胎压进行充气。夏天尽量让胎压低一些冬 季寒冷，尽量保证汽车的轮胎气比夏天足一些。 
+        <template v-if="reportInfo">
+          <!-- 技师建议 -->
+          <div class="l-panel l-margin-tb l-technician-work">
+            <div class="l-panel-title l-border-b"><span class="l-text-gray">技师建议</span></div>
+            <div class="l-panel-content l-padding" v-text="reportInfo.advice_note"></div>
           </div>
-        </div>
-        <!-- 技师建议 end-->
+          <!-- 技师建议 end-->
 
-        <!-- 建议项目 -->
-        <div class="l-panel l-margin-tb l-technician-work">
-          <div class="l-panel-title l-border-b"><span class="l-text-gray">建议项目</span></div>
-          <div class="l-technician-suggest">
-            <ul>
-              <li class="l-border-t"><p>更换机油滤清器</p></li>
-            </ul>
+          <!-- 建议项目 -->
+          <!-- <div class="l-panel l-margin-tb l-technician-work">
+            <div class="l-panel-title l-border-b"><span class="l-text-gray">建议项目</span></div>
+            <div class="l-technician-suggest">
+              <ul>
+                <li class="l-border-t"><p></p></li>
+              </ul>
+            </div>
+          </div> -->
+          <!-- 建议项目 end-->
+
+          <div class="l-panel l-margin-tb l-technician-work">
+            <div class="l-panel-title l-border-b"><span class="l-text-gray">预估报价</span></div>
+            <div class="l-panel-content l-padding"><span class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{ reportInfo.advice_price }}</span></div>
           </div>
-        </div>
-        <!-- 建议项目 end-->
-
-        <div class="l-panel l-margin-tb l-technician-work">
-          <div class="l-panel-title l-border-b"><span class="l-text-gray">预估报价</span></div>
-          <div class="l-panel-content l-padding"><span class="l-text-warn"><i class="l-icon">&#xe6cb;</i>0.00</span></div>
-        </div>
+        </template>
       </div>
     </div>
     <!-- 车辆列表 -->
@@ -112,118 +100,29 @@
 
     <!-- 报告详情 -->
     <transition name="fade">
-      <div class="l-layer l-flex-vhc" v-show="isShowInfo">
+      <div class="l-layer l-flex-vhc" v-cloak v-show="isShowInfo">
         <div class="l-report-info">
-          <div class="l-report-item">
+          <div class="l-report-item" v-for="cate2 in infoData">
             <div class="_tit">
-              <h4><span class="l-text-error pull-right">异常</span>轮胎压力</h4>  
+              <h4>
+                <span v-if="cate2.check_status == 0" class="pull-right l-text-error">异常</span>
+                <span v-else class="pull-right l-text-ok">正常</span>
+                {{cate2.item_name}}
+              </h4>
             </div>
             <div class="_cont">
               <table class="l-check-cate3">
-                <tr>
+                <tr v-for="cate3 in cate2.list">
                   <td>
-                    <p class="l-text-wrap2"><i class="l-icon l-text-error">&#xe6d4;</i> 左前轮左前轮左前轮左前轮左前轮左前轮</p>
+                    <p class="l-text-wrap2">
+                      <span v-show="cate3.check_status == 0"><i class="l-icon l-text-error">&#xe6d4;</i>&ensp;</span>{{cate3.sub_name}}
+                    </p>
                   </td>
-                  <td>10-80mpa</td>
-                  <td class="l-text-error">90mpa</td>
-                </tr>
-                <tr>
-                  <td>左前轮</td>
-                  <td>10-80mpa</td>
-                  <td class="l-text-error">90mpa</td>
-                </tr>
-                <tr>
-                  <td>左前轮</td>
-                  <td>10-80mpa</td>
-                  <td class="l-text-error">90mpa</td>
+                  <td>{{cate3.remark}}</td>
+                  <td class="l-text-error">{{cate3.abnormal_note}}</td>
                 </tr>
               </table>
-              <p class="_desc">二级分类描述二级分类描述</p>
-            </div>
-          </div>
-          <div class="l-report-item">
-            <div class="_tit">
-              <h4><span class="l-text-error pull-right">异常</span>轮胎压力</h4>  
-            </div>
-            <div class="_cont">
-              <table class="l-check-cate3">
-                <tr>
-                  <td>左前轮 <i class="l-icon l-text-error">&#xe6d4;</i></td>
-                  <td>10-80mpa</td>
-                  <td class="l-text-error">90mpa</td>
-                </tr>
-                <tr>
-                  <td>左前轮</td>
-                  <td>10-80mpa</td>
-                  <td class="l-text-error">90mpa</td>
-                </tr>
-                <tr>
-                  <td>左前轮</td>
-                  <td>10-80mpa</td>
-                  <td class="l-text-error">90mpa</td>
-                </tr>
-              </table>
-              <p class="_desc">二级分类描述二级分类描述</p>
-            </div>
-          </div>
-          <div class="l-report-item">
-            <div class="_tit">
-              <h4><span class="l-text-ok pull-right">正常</span>轮胎压力</h4>  
-            </div>
-            <div class="_cont">
-              <table class="l-check-cate3">
-                <tr>
-                  <td>左前轮</td>
-                  <td>10-80mpa</td>
-                  <td class="l-text-error"></td>
-                </tr>
-                <tr>
-                  <td>左前轮</td>
-                  <td>10-80mpa</td>
-                  <td class="l-text-error"></td>
-                </tr>
-              </table>
-              <p class="_desc">二级分类描述二级分类描述</p>
-            </div>
-          </div>
-          <div class="l-report-item">
-            <div class="_tit">
-              <h4><span class="l-text-ok pull-right">正常</span>轮胎压力</h4>  
-            </div>
-            <div class="_cont">
-              <table class="l-check-cate3">
-                <tr>
-                  <td>左前轮</td>
-                  <td>10-80mpa</td>
-                  <td class="l-text-error"></td>
-                </tr>
-                <tr>
-                  <td>左前轮</td>
-                  <td>10-80mpa</td>
-                  <td class="l-text-error"></td>
-                </tr>
-              </table>
-              <p class="_desc">二级分类描述二级分类描述</p>
-            </div>
-          </div>
-          <div class="l-report-item">
-            <div class="_tit">
-              <h4><span class="l-text-ok pull-right">正常</span>轮胎压力</h4>  
-            </div>
-            <div class="_cont">
-              <table class="l-check-cate3">
-                <tr>
-                  <td>左前轮左前轮左前轮左前轮</td>
-                  <td>10-80mpa</td>
-                  <td class="l-text-error"></td>
-                </tr>
-                <tr>
-                  <td>左前轮</td>
-                  <td>10-80mpa</td>
-                  <td class="l-text-error"></td>
-                </tr>
-              </table>
-              <p class="_desc">二级分类描述二级分类描述</p>
+              <p v-show="cate2.remark" class="_desc">{{cate2.remark}}</p>
             </div>
           </div>
         </div>
@@ -245,6 +144,7 @@ export default {
   data () {
     return {
       isShowInfo: false,
+      infoData: [],
       sltedCar: null,
       reportInfo: null,
       abnormalList: null,
@@ -265,12 +165,15 @@ export default {
     getReporte() {
       this.$server.getReport(this.sltedCar.id).then(({checkInfoObj, list})=>{
         this.reportInfo = checkInfoObj
-        this.abnormalList = this.abnormal(list)
+        this.abnormalList = list
         $.hideIndicator()
       })
     },
-    showInfo() {
+    showInfo(index) {
       this.isShowInfo = !this.isShowInfo
+      if(this.isShowInfo){
+        this.infoData = this.abnormalList[index].list  
+      }
     }
   },
   created() {
@@ -302,7 +205,7 @@ export default {
           ]
         })
       }else{
-        self.sltedCar = list.filter( item => item.is_default == 1 )[0] || list[0]
+        self.sltedCar = list.filter( item => item.id == this.$route.params.id )[0] || list[0]
         self.getReporte()
       }
     })

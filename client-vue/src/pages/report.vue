@@ -41,7 +41,7 @@
           <template v-if="abnormalList.length > 0">
             <div class="l-panel l-margin-tb l-technician-work">
               <div class="l-panel-title l-border-b l-text-gray">
-                <span>检测报告</span>
+                <span>检测结果</span>
                 <!-- <span class="l-fs-s">(共{{abnormalList.length}}项异常)</span> -->
               </div>
               <ul class="l-check-cate1">

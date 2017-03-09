@@ -104,7 +104,7 @@ export default {
             self.agentInfo = obj
           }
         }
-        self.scroll.next()
+        self.scroll.init()
       }
     }) 
   }
