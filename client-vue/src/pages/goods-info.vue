@@ -15,15 +15,9 @@
         </button>
       </footer>
       <div class="content" v-show="goodsInfo.id">
-        <!-- Slider -->
-        <div class="swiper-container">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img :src="goodsInfo.picpath" alt="">
-            </div>
-          </div>
+        <div class="l-banner">
+          <img :src="goodsInfo.picpath">
         </div>
-        <!-- Slider end-->
         <div class="l-padding l-bg l-border-b">
           <h3 v-text="goodsInfo.goods_name"></h3>
           <div class="l-margin-t-s">

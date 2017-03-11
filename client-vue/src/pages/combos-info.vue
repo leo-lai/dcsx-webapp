@@ -6,15 +6,9 @@
         <router-link class="button button-fill l-btn l-rest" :to="'/combos/info/slt/' + combosInfo.suit_id">下单购买</a>
       </footer>
       <div class="content" v-show="combosInfo.suit_id">
-        <!-- Slider -->
-        <div class="swiper-container">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img :src="combosInfo.banner">
-            </div>
-          </div>
+        <div class="l-banner">
+          <img :src="combosInfo.banner">
         </div>
-        <!-- Slider end-->
         <div class="l-padding l-bg l-border-b">
           <div class="l-flex-hc">
             <h3 class="l-rest" v-text="combosInfo.name"></h3>

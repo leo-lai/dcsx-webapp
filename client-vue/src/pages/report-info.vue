@@ -27,7 +27,7 @@
         </div>
 
         <!-- 检测结果 -->
-        <div class="l-panel l-margin-tb l-technician-work">
+        <div class="l-panel l-margin-tb l-technician-work" v-if="abnormalList && abnormalList.length > 0">
           <div class="l-panel-title l-border-b"><span class="l-text-gray">检测结果</span></div>
           <ul class="l-check-cate1">
             <li class="l-border-t l-link-arrow" v-for="(cate1, index) in abnormalList" @click="showInfo(index)">
@@ -64,6 +64,10 @@
             <div class="l-panel-content l-padding"><span class="l-text-warn"><i class="l-icon">&#xe6cb;</i>{{ reportInfo.advice_price }}</span></div>
           </div>
         </template>
+        <div v-else class="l-fs-m l-text-center">
+          <br><br><br><br>
+          <span class="l-text-gray">该车辆没有检测报告</span>
+        </div>
       </div>
     </div>
     <!-- 车辆列表 -->
@@ -160,7 +164,7 @@ export default {
       $.closePanel()
     },
     abnormal(list = []) {
-      return list.filter(item => item.check_status == 0)
+      return list.filter(item => item && item.check_status == 0)
     },
     getReporte() {
       this.$server.getReport(this.sltedCar.id).then(({checkInfoObj, list})=>{

@@ -7,7 +7,7 @@
         <div class="l-panel-carinfo l-bg-full">
           <template v-if="sltedCar">
             <div style="height:4.5rem;">
-              <div v-if="sltedCar.id" class="l-flex-hc l-padding">
+              <div v-if="sltedCar.id" class="l-flex-hc l-padding l-link-arrow" onclick="$.openPanel('#panelCarList')">
                 <div class="l-thumb-bg l-margin-r" :style="{'background-image': 'url(' +sltedCar.logo+ ')'}"></div>
                 <div class="l-rest">
                   <h4 class="l-margin-0 l-text-wrap2 l-fs-m" v-text="sltedCar.model_name"></h4>
@@ -77,10 +77,6 @@
           </div>
           <!-- 检测报告 end-->
         </template>
-
-        <div class="l-text-center l-margin">
-          <img src="~assets/kaifazhong.jpg" style="width: 10rem;" alt="">
-        </div>
       </div>
     </div>
     <!-- 车辆列表 -->
@@ -141,11 +137,12 @@ export default {
       $.closePanel()
     },
     abnormal(list = []) {
-      return list.filter(item => item.check_status == 0)
+      console.log(list)
+      return list.filter(item => item && item.check_status == 0)
     },
     getReporte() {
       this.$server.getReport(this.sltedCar.id).then(({list})=>{
-        // this.abnormalList = this.abnormal(list)
+        this.abnormalList = this.abnormal(list)
         $.hideIndicator()  
       })
     }

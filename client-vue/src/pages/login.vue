@@ -109,7 +109,7 @@ function wxHead(src) {
 /* 登录 */
 .l-login{
   height: 100%;text-align: center; overflow: hidden;
-  background:#fff url('~assets/login-bg.jpg') no-repeat 0 bottom;
+  background:#fff url('~assets/login-bg.jpg') no-repeat 50% bottom;
   background-size: contain;
   background-attachment: fixed;
 }
