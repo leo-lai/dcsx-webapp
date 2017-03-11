@@ -79,12 +79,11 @@ export default {
   created() {
     $.showIndicator()
     this.$server.getPosition().then((position)=>{
+      $.hideIndicator()
       this.scroll = this.$server.store.getList(position.longitude, position.latitude)
       setTimeout(()=>{
         this.scroll.init()
       }, 600)
-    }).finally(()=>{
-      $.hideIndicator()
     })
   }
 }

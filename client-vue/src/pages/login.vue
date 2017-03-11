@@ -7,7 +7,7 @@
           <div class="l-avatar" :style="{'background-image': 'url(' +headimgurl+ ')'}"></div>
           <div class="l-login-form">
             <div class="l-login-ipt l-flex-hc">
-              <input class="l-rest" type="tel" autofocus maxlength="11" placeholder="请输入您手机号码" v-model="formData.username">
+              <input class="l-rest" type="tel" maxlength="11" placeholder="请输入您手机号码" v-model="formData.username">
             </div>
             <div class="l-login-ipt l-flex-hc">
               <input class="l-rest" type="tel" maxlength="6" placeholder="请输入手机验证码" v-model="formData.code">

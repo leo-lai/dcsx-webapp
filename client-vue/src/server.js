@@ -1,7 +1,16 @@
 import Vue from 'vue'
 import { storage, utils } from 'src/scripts/utils'
-const appid = 'wx8069d2775c2f68ab'
-const baseUrl = 'http://twww.dongcheshixiong.com'
+
+// 测试
+let appid = 'wx8069d2775c2f68ab'
+let baseUrl = 'http://twww.dongcheshixiong.com'
+
+// 正式
+if(window.location.origin === 'http://wx.dongcheshixiong.com'){
+  appid = 'wxa68cfebf01268d68'
+  baseUrl = 'http://sas.dongcheshixiong.com'
+}
+
 const _http = {
   ajax(url = '', data = {}, type  = 'GET', contentType = 'form') {
     url = baseUrl + url
