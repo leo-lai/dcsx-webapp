@@ -18,7 +18,7 @@
             有效期：{{combosInfo.valid}}
           </div>
         </div>
-        <div class="l-panel-title l-margin-t">
+        <!-- <div class="l-panel-title l-margin-t">
           <span class="l-text-gray">套餐内容</span>
         </div>
         <div class="l-border-t l-bg l-padding-tb">
@@ -27,7 +27,7 @@
               {{item.service_name}} x{{item.number}}
             </li>
           </ul>
-        </div>
+        </div> -->
 
         <div class="l-panel-title l-border-b l-margin-t">
           <span class="l-text-gray">套餐描述</span>

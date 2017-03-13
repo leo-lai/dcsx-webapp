@@ -2,7 +2,6 @@ require.config({
   paths: {
     'zepto':  'http://g.alicdn.com/sj/lib/zepto/zepto.min',
     'sui':    'http://g.alicdn.com/msui/sm/0.6.2/js/??sm.min.js,sm-extend.min.js',
-    'vue':    '../plugs/vue.min',
     'utils':  '../js/utils'
   },
   shim : {
@@ -42,15 +41,16 @@ require(['zepto'], function($){
       return true;
     }
   };
-  require(['sui', 'utils', 'vue'], function($, utils, Vue) {
+  require(['sui', 'utils'], function($, utils) {
     $('body').on('click' ,'.nav-back:not(.back)', function(){
       window.history.back();
     });
     $('body').on('click' ,'header.bar-nav>.icon-refresh', function(){
       window.location.reload();
     });
-    // console.log($, utils)
-    $.isFunction(window.requireCallback) && window.requireCallback($, utils, Vue);
+
+    $.init();
+    $.isFunction(window.requireCallback) && window.requireCallback($, utils);
   }); 
 });
 

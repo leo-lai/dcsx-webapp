@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="懂车师兄">
+  <meta name="description" content="懂车师兄">
+  <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="format-detection" content="telephone=no"/> 
+  <meta name="renderer" content="webkit">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
+  <link rel="stylesheet" href="../static/css/webapp.css">
+  <link rel="shortcut icon" href="../static/favicon.ico" />
+  <title>开单</title>
+</head>
+
+<body>
+  <div class="page-group">
+    <!-- 单个page ,第一个.page默认被展示-->
+    <div class="page disable-router">
+      <!-- 标题栏 -->
+      <header id="app-header" class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left nav-back"></a>
+        <a class="icon icon-refresh pull-right"></a>
+        <h1 class="title">开单</h1>
+      </header>
+      <nav class="bar bar-tab l-bar-tab">
+        <a class="tab-item external" href="index.html">
+          <span class="icon _home"></span>
+          <span class="tab-label">首页</span>
+        </a>
+        <a class="tab-item external active" href="order.html">
+          <span class="icon _order"></span>
+          <span class="tab-label">开单</span>
+        </a>
+        <a class="tab-item external" href="user.html">
+          <span class="icon _user"></span>
+          <span class="tab-label">我的</span>
+        </a>
+      </nav>
+      <!-- 这里是页面内容区 -->
+      <div class="content">
+        <div class="l-search l-flex-hc">
+          <div class="l-rest">
+            <input type="text" placeholder="请输入服务项名称或拼音首字母" maxlength="100">  
+          </div>
+          <i class="icon icon-search"></i>
+        </div>
+        <div class="list-block cards-list l-order-list">
+          <ul>
+            <li class="card l-order-item">
+              <div class="card-header">
+                <span class="l-text-link">普通会员</span>
+                <div class="l-rest">粤A56733</div>
+                <span class="_status-1">已接车</span>
+              </div>
+              <div class="card-content">
+                <div class="card-content-inner">
+                  <p class="l-fs-m">
+                    <span class="pull-right">1860202954</span>
+                    <span>编号：52124455454</span>
+                  </p>
+                  <h3 class="l-fs-l l-margin-t">胡杨树/车主</h3>
+                  <p>一汽大众 1.6 自动挡 2006款 时尚型 5座</p>
+                  <p class="l-margin-t l-text-gray">2016-05-12 11:56:23</p>
+                </div>
+              </div>
+              <a class="card-footer l-text-link" href="order-create.html">查看</a>
+            </li>
+            <li class="card l-order-item">
+              <div class="card-header">
+                <span class="l-text-link">普通会员</span>
+                <div class="l-rest">粤A56733</div>
+                <span class="_status-2">已领料</span>
+              </div>
+              <div class="card-content">
+                <div class="card-content-inner">
+                  <p class="l-fs-m">
+                    <span class="pull-right">1860202954</span>
+                    <span>编号：52124455454</span>
+                  </p>
+                  <h3 class="l-fs-l l-margin-t">胡杨树/车主</h3>
+                  <p>一汽大众 1.6 自动挡 2006款 时尚型 5座</p>
+                  <p class="l-margin-t l-text-gray">2016-05-12 11:56:23</p>
+                </div>
+              </div>
+              <a class="card-footer l-text-link" href="order-create.html">查看</a>
+            </li>
+            <li class="card l-order-item">
+              <div class="card-header">
+                <span class="l-text-link">普通会员</span>
+                <div class="l-rest">粤A56733</div>
+                <span class="_status-3">已完工</span>
+              </div>
+              <div class="card-content">
+                <div class="card-content-inner">
+                  <p class="l-fs-m">
+                    <span class="pull-right">1860202954</span>
+                    <span>编号：52124455454</span>
+                  </p>
+                  <h3 class="l-fs-l l-margin-t">胡杨树/车主</h3>
+                  <p>一汽大众 1.6 自动挡 2006款 时尚型 5座</p>
+                  <p class="l-margin-t l-text-gray">2016-05-12 11:56:23</p>
+                </div>
+              </div>
+              <a class="card-footer l-text-link" href="order-create.html">查看</a>
+            </li>
+          </ul>
+          <div class="infinite-scroll-preloader"><div class="preloader"></div>加载中...</div>
+          <div class="infinite-scroll-preloader"><span>没有更多了</span></div>
+        </div>
+      </div>
+      <div class="l-side-right l-flex-vhc">
+        <div class="_inner">
+          <div id="order-type" class="l-order-type">
+            <i class="_btn">类型</i>
+            <ul class="_menu">
+              <li>全部</li>
+              <li>已支付</li>
+              <li>已完工</li>
+              <li>已出库</li>
+              <li>未出库</li>
+              <li>我的订单</li>
+            </ul>
+          </div>
+          <div class="l-order-add">
+            <i class="_btn">+</i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-overlay"></div>
+    <div class="panel l-panel-big panel-right panel-cover" id="panel-store">
+      <header id="app-header" class="bar bar-nav">
+        <h1 class="title">更换门店</h1>
+      </header>
+      <div class="content">
+        <div id="store-checklist" class="l-store-checklist">
+          <label class="_item l-flex-hc l-border-b">
+            <img class="l-thumb-xs l-margin-r-s" src="https://placeholdit.imgix.net/~text?txtsize=28&bg=0a70bf&txtclr=fff&txt=logo&w=120&h=120" alt="">
+            <div class="l-rest">
+              <h3 class="l-text-wrap2">华洲店华洲店华洲店华洲店华洲店华洲店华洲店</h3>  
+            </div>
+            <div class="l-check l-margin-l-s">
+              <input type="radio" name="radio"><i></i>
+            </div>
+          </label>
+          <label class="_item l-flex-hc l-border-b">
+            <img class="l-thumb-xs l-margin-r-s" src="https://placeholdit.imgix.net/~text?txtsize=28&bg=0a70bf&txtclr=fff&txt=logo&w=120&h=120" alt="">
+            <div class="l-rest">
+              <h3 class="l-text-wrap2">华洲店</h3>  
+            </div>
+            <div class="l-check l-margin-l-s">
+              <input type="radio" name="radio"><i></i>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../static/plugs/require.min.js" data-main="../static/js/main.js"></script>
+  <script>
+  window.requireCallback = function($, utils) {
+    // 在这里编写您的js 已加载zepto.js, sui-mobile框架
+
+    // 订单类型
+    $('#order-type').on('click', '._btn', function(){
+      $(this).siblings('._menu').toggle();
+    }).on('click', '._menu>li', function(){
+      $.alert('你选择了：' +  $(this).text())
+      $(this).closest('._menu').hide();
+    })
+  }
+  </script>
+</body>
+</html>

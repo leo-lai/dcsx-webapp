@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
   <link rel="stylesheet" href="../static/css/webapp.css">
   <link rel="shortcut icon" href="../static/favicon.ico" />
-  <title>首页</title>
+  <title>库存查询</title>
 </head>
 
 <body>
@@ -23,78 +23,73 @@
       <header id="app-header" class="bar bar-nav l-bar-nav">
         <a class="icon icon-left pull-left nav-back"></a>
         <a class="icon icon-refresh pull-right"></a>
-        <h1 class="title">首页</h1>
+        <h1 class="title">库存查询</h1>
       </header>
-      <nav class="bar bar-tab l-bar-tab">
-        <a class="tab-item external active" href="index.html">
-          <span class="icon _home"></span>
-          <span class="tab-label">首页</span>
-        </a>
-        <a class="tab-item external" href="order.html">
-          <span class="icon _order"></span>
-          <span class="tab-label">开单</span>
-        </a>
-        <a class="tab-item external" href="user.html">
-          <span class="icon _user"></span>
-          <span class="tab-label">我的</span>
-        </a>
-      </nav>
+      <footer class="l-page-footer">
+        <a class="button button-big button-fill" href="stock-slted.html">点击查看已选择商品</a>
+      </footer>
       <!-- 这里是页面内容区 -->
-      <div class="content l-bg">
-        <div class="l-card-index">
-          <div class="_now l-flex-hc">
-            <span id="slted-store" class="l-rest l-text-wrap1">华州店//所属组织名称</span>
-            <a class="_btn l-border-l" onclick="$.openPanel('#panel-store')">更换</a>
+      <div class="content">
+        <div class="l-slted-store l-flex-hc">
+          <span id="slted-store" class="l-rest l-text-wrap1">华州店//所属组织名称</span>
+          <a class="_btn l-border-l" onclick="$.openPanel('#panel-store')">更换</a>
+        </div>
+        <div class="l-search l-flex-hc">
+          <div class="l-rest">
+            <input type="text" placeholder="请输入服务项名称或拼音首字母" maxlength="100">  
           </div>
-          <div class="row no-gutter _count">
-            <div class="col-50 l-border-r">
-              <p>今日营业额</p>
-              <p><strong>96542.00</strong></p>
-              <p><span class="_date">2016-12-12</span></p>
-            </div>
+          <i class="icon icon-search"></i>
+        </div>
+        <!-- list start -->
+        <div id="stock-list" class="l-stock-list">
+          <div class="row _item">
             <div class="col-50">
-              <p>本月营业额</p>
-              <p><strong>96542.00</strong></p>
-              <p><span class="_date">2016-12</span></p>
+              <h4 class="l-text-wrap2">博士机油格</h4>
+              <p class="l-fs-s">编号：50021221</p>
+              <p class="l-text-warn">50.00</p>
+            </div>
+            <div class="col-50 l-text-right">
+              <p class="l-fs-s">当前库存：3000</p>
+              <i class="_btn-add l-margin-t-s">+</i>
+            </div>
+          </div>
+          <div class="row _item">
+            <div class="col-50">
+              <h4 class="l-text-wrap2">博士机油格</h4>
+              <p class="l-fs-s">编号：50021221</p>
+              <p class="l-text-warn">50.00</p>
+            </div>
+            <div class="col-50 l-text-right">
+              <p class="l-fs-s">当前库存：3000</p>
+              <i class="_btn-add l-margin-t-s">+</i>
+            </div>
+          </div>
+          <div class="row _item">
+            <div class="col-50">
+              <h4 class="l-text-wrap2">博士机油格</h4>
+              <p class="l-fs-s">编号：50021221</p>
+              <p class="l-text-warn">50.00</p>
+            </div>
+            <div class="col-50 l-text-right">
+              <p class="l-fs-s">当前库存：3000</p>
+              <i class="_btn-add l-margin-t-s">+</i>
+            </div>
+          </div>
+          <div class="row _item">
+            <div class="col-50">
+              <h4 class="l-text-wrap2">博士机油格</h4>
+              <p class="l-fs-s">编号：50021221</p>
+              <p class="l-text-warn">50.00</p>
+            </div>
+            <div class="col-50 l-text-right">
+              <p class="l-fs-s">当前库存：3000</p>
+              <i class="_btn-add l-margin-t-s">+</i>
             </div>
           </div>
         </div>
-        <div class="l-user-menu">
-          <div class="row">
-            <a class="col-33 _item">
-              <img src="../static/images/icon-010.jpg" alt="">
-              <p>快速报价</p>
-            </a>
-            <a class="col-33 _item" href="remind.html">
-              <img src="../static/images/icon-011.jpg" alt="">
-              <p>智能提醒</p>
-            </a>
-            <a class="col-33 _item" href="stock-query.html">
-              <img src="../static/images/icon-012.jpg" alt="">
-              <p>库存查询</p>
-            </a>
-          </div>
-          <div class="row">
-            <a class="col-33 _item" href="customer-analysis.html">
-              <img src="../static/images/icon-013.jpg" alt="">
-              <p>客户分析</p>
-            </a>
-            <a class="col-33 _item" href="stock-analysis.html">
-              <img src="../static/images/icon-014.jpg" alt="">
-              <p>库存分析</p>
-            </a>
-            <a class="col-33 _item">
-              <img src="../static/images/icon-015.jpg" alt="">
-              <p>业绩分析</p>
-            </a>
-          </div>
-          <div class="row">
-            <a class="col-33 _item">
-              <img src="../static/images/icon-016.jpg" alt="">
-              <p>员工绩效</p>
-            </a>
-          </div>
-        </div>
+        <div class="infinite-scroll-preloader"><div class="preloader"></div>加载中...</div>
+        <div class="infinite-scroll-preloader"><span>没有更多了</span></div>
+        <!-- list start end-->
       </div>
     </div>
     <div class="panel-overlay"></div>
@@ -137,6 +132,11 @@
       $.closePanel();
     }).on('click', 'input', function(){
       return false;
+    });
+
+    // 添加
+    $('#stock-list').on('click', '._btn-add', function(){
+      $.toast('添加成功')
     });
   }
   </script>

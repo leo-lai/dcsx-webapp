@@ -3,162 +3,112 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="keywords" content="车方案">
-  <meta name="description" content="车方案">
+  <meta name="keywords" content="懂车师兄">
+  <meta name="description" content="懂车师兄">
   <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1">
-  <meta name="format-detection" content="telephone=no" />
+  <meta name="format-detection" content="telephone=no"/> 
   <meta name="renderer" content="webkit">
   <meta name="format-detection" content="telephone=no,email=no">
   <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
   <link rel="stylesheet" href="../static/css/webapp.css">
   <link rel="shortcut icon" href="../static/favicon.ico" />
-  <title>车方案</title>
+  <title>我的</title>
 </head>
+
 <body>
   <div class="page-group">
     <!-- 单个page ,第一个.page默认被展示-->
     <div class="page disable-router">
       <!-- 标题栏 -->
-      <header class="bar bar-nav l-bar-nav">
+      <header id="app-header" class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left nav-back"></a>
         <a class="icon icon-refresh pull-right"></a>
-        <h1 class="title">个人中心</h1>
+        <h1 class="title">我的</h1>
       </header>
-      <!-- 工具栏 -->
       <nav class="bar bar-tab l-bar-tab">
         <a class="tab-item external" href="index.html">
-          <span class="icon l-icon">&#xe64f;</span>
+          <span class="icon _home"></span>
           <span class="tab-label">首页</span>
         </a>
-        <a class="tab-item external" href="message.html">
-          <span class="icon l-icon">&#xe622;</span>
-          <span class="tab-label">动态</span>
-        </a>
-        <a class="tab-item external" href="shopcar.html">
-          <span class="icon l-icon">&#xe63f;</span>
-          <span class="tab-label">购物车</span>
+        <a class="tab-item external" href="order.html">
+          <span class="icon _order"></span>
+          <span class="tab-label">开单</span>
         </a>
         <a class="tab-item external active" href="user.html">
-          <span class="icon l-icon">&#xe666;</span>
+          <span class="icon _user"></span>
           <span class="tab-label">我的</span>
         </a>
       </nav>
       <!-- 这里是页面内容区 -->
-      <div class="content">
-        <!-- user info -->
-        <div class="l-panel-user l-flex-v">
-          <div class="l-panel-user-bg" style="background-image: url('../static/images/temp-001.jpg')"></div>
-          <div class="l-panel-user-avatar l-rest l-flex-vhc">
-            <i class="l-icon l-icon-qrcode" @click="this.showQrCode = true">&#xe62d;</i>
-            <div class="l-avatar" style="background-image: url('../static/images/temp-002.jpg')"></div>
-            <h3>胡杨树</h3>
-            <p class="l-fs-s"><i class="l-icon">&#xe610;</i>&nbsp;<span>金牌会员</span></p>
+      <div class="content l-bg">
+        <div class="l-card-user">
+          <div class="_grade">金牌会员</div>
+          <div class="l-avatar" style="background-image: url('https://placeholdit.imgix.net/~text?txtsize=33&bg=ffffff&txtclr=999&txt=%E5%A4%B4%E5%83%8F&w=120&h=120')"></div>
+          <h3 class="l-margin-tb-xs">胡杨树</h3>
+          <p class="l-fs-m">华州店//当前登录人员所属组织</p>
+        </div>
+
+        <div class="l-user-menu">
+          <div class="row">
+            <a class="col-33 _item" href="user-job.html">
+              <img src="../static/images/icon-004.jpg" alt="">
+              <p>我的业绩</p>
+            </a>
+            <a class="col-33 _item" href="user-customer.html">
+              <img src="../static/images/icon-005.jpg" alt="">
+              <p>我的客户</p>
+            </a>
+            <a class="col-33 _item" href="user-pwd.html">
+              <img src="../static/images/icon-006.jpg" alt="">
+              <p>更改密码</p>
+            </a>
           </div>
-          <div class="l-panel-user-bar l-flex-h l-border-t l-fs-s">
-            <div class="l-rest l-flex-hvc l-border-r">
-              账户余额：<strong>3899.00</strong>
-            </div>
-            <div class="l-rest l-flex-hvc">
-              账户积分：<strong>3899.00</strong>
-            </div>
-          </div>  
+          <div class="row">
+            <a class="col-33 _item" onclick="$('#user-qrcode').removeClass('l-none')">
+              <img src="../static/images/icon-007.jpg" alt="">
+              <p>我的二维码</p>
+            </a>
+            <a class="col-33 _item" href="stores.html">
+              <img src="../static/images/icon-008.jpg" alt="">
+              <p>门店列表</p>
+            </a>
+            <a class="col-33 _item" onclick="logout()">
+              <img src="../static/images/icon-009.jpg" alt="">
+              <p>退出登录</p>
+            </a>
+          </div>
         </div>
-        <!-- list -->
-        <div class="list-block l-list-block-user">
-          <ul>
-            <li>
-              <a class="item-content item-link" href="user-taocan.html">
-                <div class="item-media"><i class="l-icon">&#xe673;</i></div>
-                <div class="item-inner">
-                  <div class="item-title">套餐</div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a class="item-content item-link" href="user-coupons.html">
-                <div class="item-media"><i class="l-icon">&#xe611;</i></div>
-                <div class="item-inner">
-                  <div class="item-title">优惠券</div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a class="item-content item-link" href="user-goods.html">
-                <div class="item-media"><i class="l-icon">&#xe600;</i></div>
-                <div class="item-inner">
-                  <div class="item-title">商品</div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a class="item-content item-link" href="store-list.html">
-                <div class="item-media"><i class="l-icon">&#xe662;</i></div>
-                <div class="item-inner">
-                  <div class="item-title">门店</div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a class="item-content item-link" href="user-buy-records.html">
-                <div class="item-media"><i class="l-icon">&#xe6cc;</i></div>
-                <div class="item-inner">
-                  <div class="item-title">消费记录</div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a class="item-content item-link" href="user-agent-records.html">
-                <div class="item-media"><i class="l-icon">&#xe638;</i></div>
-                <div class="item-inner">
-                  <div class="item-title">分销记录</div>
-                </div>
-              </a>
-            </li>
-          </ul>
+
+        <div id="user-qrcode" class="l-layer l-flex-vhc l-none">
+          <div class="l-user-qrcode">
+            <div class="l-flex-hc">
+              <div class="l-avatar l-margin-r" style="background-image: url('https://placeholdit.imgix.net/~text?txtsize=33&bg=ffffff&txtclr=999&txt=%E5%A4%B4%E5%83%8F&w=120&h=120')"></div>
+              <div class="l-rest">
+                <h3>胡杨树</h3>
+                <p class="l-fs-m l-text-wrap1">华州店//当前登录人员所属组织</p>
+              </div>
+            </div>
+            <div class="_qrcode">
+              <img src="https://placeholdit.imgix.net/~text?txtsize=33&bg=0a70bf&txtclr=fff&txt=%E4%BA%8C%E7%BB%B4%E7%A0%81&w=300&h=300" alt="">
+            </div>
+          </div>
+          <div class="_close" onclick="$('#user-qrcode').addClass('l-none')">
+            <i class="l-icon">&#xe61a;</i>
+          </div>
         </div>
-        <div class="list-block l-list-block-user">
-          <ul>
-            <li>
-              <a class="item-content item-link" @click="exit">
-                <div class="item-media"><i class="l-icon">&#xe62f;</i></div>
-                <div class="item-inner">
-                  <div class="item-title">退出</div>
-                </div>
-              </a>
-            </li>
-          </ul>
-        </div> 
       </div>
     </div>
-  </div>
-  <!-- 二维码弹窗 -->
-  <div class="l-layer l-flex-vhc" v-cloak v-show="showQrCode" transition="fade">
-    <div class="l-panel-user-qrcode">
-      <div class="l-flex-hc l-margin-b">
-        <div class="l-avatar l-margin-r" style="background-image: url('../static/images/temp-002.jpg')"></div>
-        <h3>胡杨树</h3>
-      </div>
-      <div class="l-qrcode l-bg-cover l-mask" style="background-image: url('../static/images/temp-001.jpg')">
-        <img src="../static/images/temp-003.jpg" alt="">
-      </div>
-    </div>
-    <i class="l-icon l-close-radius" @click="this.showQrCode = false">&#xe62e;</i>
   </div>
   <script src="../static/plugs/require.min.js" data-main="../static/js/main.js"></script>
   <script>
-  // requireCallback作为requirejs的回调
-  function requireCallback($, utils, Vue) {
-    var vm = new Vue({
-      el: document.body,
-      data: {
-        showQrCode: false  // 显示二维码
-      },
-      methods: {
-        exit: function(){
-          $.confirm('是否退出？', function(){
-            window.location.href = 'login.html';
-          })
-        }
-      }
+  window.requireCallback = function($, utils) {
+    // 在这里编写您的js 已加载zepto.js, sui-mobile框架
+  }
+
+  // 退出登录
+  window.logout = function(){
+    $.confirm('确定退出？', function(){
+      window.location.href = 'login.html';
     })
   }
   </script>

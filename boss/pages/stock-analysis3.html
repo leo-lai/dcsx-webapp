@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
   <link rel="stylesheet" href="../static/css/webapp.css">
   <link rel="shortcut icon" href="../static/favicon.ico" />
-  <title>首页</title>
+  <title>库存预警</title>
 </head>
 
 <body>
@@ -23,78 +23,87 @@
       <header id="app-header" class="bar bar-nav l-bar-nav">
         <a class="icon icon-left pull-left nav-back"></a>
         <a class="icon icon-refresh pull-right"></a>
-        <h1 class="title">首页</h1>
+        <h1 class="title">库存预警</h1>
       </header>
-      <nav class="bar bar-tab l-bar-tab">
-        <a class="tab-item external active" href="index.html">
-          <span class="icon _home"></span>
-          <span class="tab-label">首页</span>
-        </a>
-        <a class="tab-item external" href="order.html">
-          <span class="icon _order"></span>
-          <span class="tab-label">开单</span>
-        </a>
-        <a class="tab-item external" href="user.html">
-          <span class="icon _user"></span>
-          <span class="tab-label">我的</span>
-        </a>
-      </nav>
+      <footer class="l-page-footer l-flex-hc l-bg">
+        <a class="button button-big l-rest _white"></a>
+        <div class="l-rest l-rel">
+          <a class="button button-big button-fill l-rest" onclick="$('#btn-list').toggle()">库存预警</a>
+          <ul id="btn-list" class="_btn-list" onclick="$('#btn-list').toggle()">
+            <li><a class="button button-big button-fill" href="stock-analysis2.html">滞销库存</a></li>
+            <li><a class="button button-big button-fill" href="stock-analysis.html">库存统计</a></li>
+          </ul>
+        </div>
+      </footer>
       <!-- 这里是页面内容区 -->
-      <div class="content l-bg">
-        <div class="l-card-index">
-          <div class="_now l-flex-hc">
-            <span id="slted-store" class="l-rest l-text-wrap1">华州店//所属组织名称</span>
-            <a class="_btn l-border-l" onclick="$.openPanel('#panel-store')">更换</a>
-          </div>
-          <div class="row no-gutter _count">
-            <div class="col-50 l-border-r">
-              <p>今日营业额</p>
-              <p><strong>96542.00</strong></p>
-              <p><span class="_date">2016-12-12</span></p>
-            </div>
-            <div class="col-50">
-              <p>本月营业额</p>
-              <p><strong>96542.00</strong></p>
-              <p><span class="_date">2016-12</span></p>
-            </div>
-          </div>
+      <div class="content">
+        <div class="l-slted-store l-flex-hc">
+          <span id="slted-store" class="l-rest l-text-wrap1">华州店//所属组织名称</span>
+          <a class="_btn l-border-l" onclick="$.openPanel('#panel-store')">更换</a>
         </div>
-        <div class="l-user-menu">
-          <div class="row">
-            <a class="col-33 _item">
-              <img src="../static/images/icon-010.jpg" alt="">
-              <p>快速报价</p>
-            </a>
-            <a class="col-33 _item" href="remind.html">
-              <img src="../static/images/icon-011.jpg" alt="">
-              <p>智能提醒</p>
-            </a>
-            <a class="col-33 _item" href="stock-query.html">
-              <img src="../static/images/icon-012.jpg" alt="">
-              <p>库存查询</p>
-            </a>
-          </div>
-          <div class="row">
-            <a class="col-33 _item" href="customer-analysis.html">
-              <img src="../static/images/icon-013.jpg" alt="">
-              <p>客户分析</p>
-            </a>
-            <a class="col-33 _item" href="stock-analysis.html">
-              <img src="../static/images/icon-014.jpg" alt="">
-              <p>库存分析</p>
-            </a>
-            <a class="col-33 _item">
-              <img src="../static/images/icon-015.jpg" alt="">
-              <p>业绩分析</p>
-            </a>
-          </div>
-          <div class="row">
-            <a class="col-33 _item">
-              <img src="../static/images/icon-016.jpg" alt="">
-              <p>员工绩效</p>
-            </a>
-          </div>
+
+        <div class="l-stock-count">
+          <p>库存预警</p>
+          <div class="_item6">低于库存下限商品：<span class="l-fs-xl">1548</span></div>
+          <div class="_item7">高于库存下限商品：<span class="l-fs-xl">154882</span></div>
         </div>
+        
+        <div class="l-block-title">低于库存下限商品</div>  
+        <table class="l-table-1 l-fs-m">
+          <tr>
+            <th>名称、编码</th>
+            <th>仓位</th>
+            <th>库存</th>
+            <th>库龄</th>
+          </tr>
+          <tr>
+            <td>机油及安排</td>
+            <td>东北仓</td>
+            <td>52000</td>
+            <td>10年</td>
+          </tr>
+          <tr>
+            <td>机油及安排</td>
+            <td>东北仓</td>
+            <td>52000</td>
+            <td>10年</td>
+          </tr>
+          <tr>
+            <td>机油及安排</td>
+            <td>东北仓</td>
+            <td>52000</td>
+            <td>10年</td>
+          </tr>
+        </table>
+
+        <div class="l-block-title">高于库存下限商品</div>  
+        <table class="l-table-1 l-fs-m">
+          <tr>
+            <th>名称、编码</th>
+            <th>仓位</th>
+            <th>库存</th>
+            <th>库龄</th>
+          </tr>
+          <tr>
+            <td>机油及安排</td>
+            <td>东北仓</td>
+            <td>52000</td>
+            <td>10年</td>
+          </tr>
+          <tr>
+            <td>机油及安排</td>
+            <td>东北仓</td>
+            <td>52000</td>
+            <td>10年</td>
+          </tr>
+          <tr>
+            <td>机油及安排</td>
+            <td>东北仓</td>
+            <td>52000</td>
+            <td>10年</td>
+          </tr>
+        </table>
+        <br>
       </div>
     </div>
     <div class="panel-overlay"></div>

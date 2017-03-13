@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="懂车师兄">
+  <meta name="description" content="懂车师兄">
+  <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="format-detection" content="telephone=no"/> 
+  <meta name="renderer" content="webkit">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
+  <link rel="stylesheet" href="../static/css/webapp.css">
+  <link rel="shortcut icon" href="../static/favicon.ico" />
+  <title>添加服务项目</title>
+</head>
+
+<body>
+  <div class="page-group">
+    <!-- 单个page ,第一个.page默认被展示-->
+    <div class="page disable-router">
+      <!-- 标题栏 -->
+      <header id="app-header" class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left nav-back"></a>
+        <a class="icon icon-refresh pull-right"></a>
+        <h1 class="title">添加服务项目</h1>
+      </header>
+      <footer class="l-page-footer">
+        <div class="_inner l-bg l-flex-hc">
+          <div class="l-rest l-text-center" onclick="$('#footer-list').toggleClass('l-show')">已选择3项，点击查看</div>
+          <a class="button button-big button-fill" href="stock-slted.html">&nbsp;添加至订单&nbsp;</a>  
+        </div>
+        <!-- 已选择 -->
+        <div id="footer-list" class="l-footer-list">
+          <div class="_inner">
+            <table class="l-table-1 l-fs-m">
+              <tr>
+                <th class="_tl">服务项目</th>
+                <th>次数</th>
+                <th>工时总价</th>
+                <th>删除</th>
+              </tr>
+              <tr>
+                <td class="_tl">美容洗车美容洗车美容洗车美容洗车</td>
+                <td>20</td>
+                <td>4000.00</td>
+                <td class="_del" data-index="0"><i class="l-icon l-fs-l">&#xe600;</i></td>
+              </tr>
+              <tr>
+                <td class="_tl">美容洗车车</td>
+                <td>20</td>
+                <td>4000.00</td>
+                <td class="_del" data-index="1"><i class="l-icon l-fs-l">&#xe600;</i></td>
+              </tr>
+              <tr>
+                <td class="_tl">美容洗车车</td>
+                <td>20</td>
+                <td>4000.00</td>
+                <td class="_del" data-index="2"><i class="l-icon l-fs-l">&#xe600;</i></td>
+              </tr>
+              <tr>
+                <td class="_tl">美容洗车车</td>
+                <td>20</td>
+                <td>4000.00</td>
+                <td class="_del" data-index="3"><i class="l-icon l-fs-l">&#xe600;</i></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <!-- 已选择 end-->
+      </footer>
+      
+
+      <!-- 这里是页面内容区 -->
+      <div class="content">
+        <div class="l-search l-flex-hc">
+          <div class="l-rest">
+            <input type="text" placeholder="请输入服务项名称或拼音首字母" maxlength="100">  
+          </div>
+          <i class="icon icon-search"></i>
+        </div>
+        <!-- list start -->
+        <div id="stock-list" class="l-stock-list">
+          <div class="row _item">
+            <div class="col-50">
+              <h4 class="l-text-wrap2">博士机油格</h4>
+              <p class="l-fs-s">编号：50021221</p>
+              <p class="l-text-warn">50.00</p>
+            </div>
+            <div class="col-50 l-text-right">
+              <p class="l-fs-s">当前库存：3000</p>
+              <i class="_btn-add l-margin-t-s">+</i>
+            </div>
+          </div>
+          <div class="row _item">
+            <div class="col-50">
+              <h4 class="l-text-wrap2">博士机油格</h4>
+              <p class="l-fs-s">编号：50021221</p>
+              <p class="l-text-warn">50.00</p>
+            </div>
+            <div class="col-50 l-text-right">
+              <p class="l-fs-s">当前库存：3000</p>
+              <i class="_btn-add l-margin-t-s">+</i>
+            </div>
+          </div>
+          <div class="row _item">
+            <div class="col-50">
+              <h4 class="l-text-wrap2">博士机油格</h4>
+              <p class="l-fs-s">编号：50021221</p>
+              <p class="l-text-warn">50.00</p>
+            </div>
+            <div class="col-50 l-text-right">
+              <p class="l-fs-s">当前库存：3000</p>
+              <i class="_btn-add l-margin-t-s">+</i>
+            </div>
+          </div>
+          <div class="row _item">
+            <div class="col-50">
+              <h4 class="l-text-wrap2">博士机油格</h4>
+              <p class="l-fs-s">编号：50021221</p>
+              <p class="l-text-warn">50.00</p>
+            </div>
+            <div class="col-50 l-text-right">
+              <p class="l-fs-s">当前库存：3000</p>
+              <i class="_btn-add l-margin-t-s">+</i>
+            </div>
+          </div>
+        </div>
+        <!-- list start end-->
+      </div>
+    </div>
+  </div>
+  <script src="../static/plugs/require.min.js" data-main="../static/js/main.js"></script>
+  <script>
+  window.requireCallback = function($, utils) {
+    // 在这里编写您的js 已加载zepto.js, sui-mobile框架
+
+    // 删除
+    $('#footer-list').on('click',  function(e){
+      $(this).toggleClass('l-show');
+    }).children('._inner').on('click', '._del', function(){
+      $(this).closest('tr').remove();
+      $.toast('你删除了第'+this.dataset.index+'个');
+      return false;
+    });
+  }
+  </script>
+</body>
+</html>

@@ -1,22 +1,22 @@
 define(function(){
   // 检测设备
-  var ua = navigator.userAgent;
+  var ua = navigator.userAgent
   var device = {
     isAndroid: /(Android);?[\s\/]+([\d.]+)?/.test(ua),
     isIpad: /(iPad).*OS\s([\d_]+)/.test(ua),
     isIpod: /(iPod)(.*OS\s([\d_]+))?/.test(ua),
     isIphone: !this.isIpad && /(iPhone\sOS)\s([\d_]+)/.test(ua),
     isWechat: /micromessenger/i.test(ua)
-  };
+  }
 
   /*utils********************************/
   var class2type = (function(){
-    var ret = {};
+    var ret = {}
     'Boolean Number String Function Array Date RegExp Object Error'.split(' ').forEach(function(name){
-      ret[ '[object ' + name + ']' ] = name.toLowerCase();
-    });
-    return ret;
-  })();
+      ret[ '[object ' + name + ']' ] = name.toLowerCase()
+    })
+    return ret
+  })()
   var utils = {
     noop: function(){},
     extend: function(target, ...objs) {
@@ -45,57 +45,57 @@ define(function(){
       // Must be an Object.
       // Because of IE, we also have to check the presence of the constructor property.
       // Make sure that DOM nodes and window objects don't pass through, as well
-      if ( !obj || utils.type(obj) !== "object" || obj.nodeType || utils.isWindow( obj ) ) {
-        return false;
+      if ( !obj || utils.type(obj) !== 'object' || obj.nodeType || utils.isWindow( obj ) ) {
+        return false
       }
       try {
         // Not own constructor property must be Object
         if ( obj.constructor &&
-          !class2type.hasOwnProperty.call(obj, "constructor") &&
-          !class2type.hasOwnProperty.call(obj.constructor.prototype, "isPrototypeOf") ) {
-          return false;
+          !class2type.hasOwnProperty.call(obj, 'constructor') &&
+          !class2type.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf') ) {
+          return false
         }
       } catch ( e ) {
         // IE8,9 Will throw exceptions on certain host objects #9897
-        return false;
+        return false
       }
       // Own properties are enumerated firstly, so to speed up,
       // if last one is own, then all properties are own.
-      var key = undefined;
+      var key = undefined
       for ( key in obj ) {}
-      return key === undefined || class2type.hasOwnProperty.call( obj, key );
+      return key === undefined || class2type.hasOwnProperty.call( obj, key )
     },
     isEmptyObject: function(obj) {
       for ( var key in obj ) {
-        return false;
+        return false
       }
-      return true;
+      return true
     },
     isFunction: function(obj){
-      return utils.type(obj) === 'function';
+      return utils.type(obj) === 'function'
     },
     isArray: Array.isArray || function(obj) {
-      return utils.type(obj) === 'array';
+      return utils.type(obj) === 'array'
     },
     isWindow: function(obj) {
-      return obj != null && obj == obj.window;
+      return obj != null && obj == obj.window
     },
     isString: function(value) {
-      return typeof value === 'string';
+      return typeof value === 'string'
     },
     isNumber: function(value) {
-      return !isNaN( parseFloat(value) ) && isFinite( value );
+      return !isNaN( parseFloat(value) ) && isFinite( value )
     },
     toptip: function(text) {
-      window.alert(text);
+      window.alert(text)
     }
-  };
+  }
 
   /*storage********************************/
   var STORE_PREFIX = 'vehicle_plan_'
   var storage = {
     getPrefix: function(){
-      return STORE_PREFIX;
+      return STORE_PREFIX
     },
     cookies: {
       get(sKey) {
@@ -176,7 +176,7 @@ define(function(){
         return value
       } 
     }
-  };
+  }
 
   /*url********************************/
   var url =  {
@@ -216,7 +216,7 @@ define(function(){
         var val = urlArgs[key]
         if(val != undefined && val !== ''){
           if(key === '_hash'){
-            hash = val;
+            hash = val
           }else{
             params.push(encodeURIComponent(key) +'=' + encodeURIComponent(val)) 
           }
@@ -233,12 +233,12 @@ define(function(){
     assign(url) {
       window.location.assign(url)
     }
-  };
+  }
 
-	utils.url = url;
-  utils.storage = storage;
-  utils.device = device;
-	window.utils = utils;
-	return utils;
-});
+	utils.url = url
+  utils.storage = storage
+  utils.device = device
+	window.utils = utils
+	return utils
+})
 

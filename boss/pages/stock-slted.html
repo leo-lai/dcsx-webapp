@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
   <link rel="stylesheet" href="../static/css/webapp.css">
   <link rel="shortcut icon" href="../static/favicon.ico" />
-  <title>登录</title>
+  <title>已选择库存商品</title>
 </head>
 
 <body>
@@ -23,31 +23,41 @@
       <header id="app-header" class="bar bar-nav l-bar-nav">
         <a class="icon icon-left pull-left nav-back"></a>
         <a class="icon icon-refresh pull-right"></a>
-        <h1 class="title">登录</h1>
+        <h1 class="title">已选择库存商品</h1>
       </header>
+      <footer class="l-page-footer">
+        <a class="button button-big button-fill" onclick="clearSlted()">清空</a>
+      </footer>
       <!-- 这里是页面内容区 -->
-      <div class="content l-bg">
-        <div class="l-login">
-          <div class="l-logo-img">
-            <img src="../static/images/img-001.jpg" alt="">
-          </div>
-          <div class="l-login-form">
-            <label class="_tr">
-              <i class="l-icon l-margin-r-xs">&#xe70d;</i>
-              <input class="_ipt" type="tel" placeholder="请输入手机号码" maxlength="11">
-            </label>
-            <label class="_tr">
-              <i class="l-icon l-margin-r-xs">&#xe70d;</i>
-              <input class="_ipt" type="password" placeholder="请输入密码" maxlength="50">
-            </label>
-            <br>
-            <div class="_submit">
-              <button class="button button-big button-round button-fill l-block" onclick="location.href='user.html'">立即登录</button>
-            </div>
-            <br><br>
-            <p class="l-text-gray l-fs-xs l-text-center">忘记密码请联系管理员重置</p>
-          </div>
-        </div>
+      <div class="content">
+        <table class="l-table-1">
+          <tr>
+            <th>名称、编号</th>
+            <th><div class="l-border-r" style="height: 1.2rem;"></div></th>
+            <th width="150">当前库存数量</th>
+          </tr>
+          <tr>
+            <td colspan="2" class="_tl">
+              <p>博士机油格</p>
+              <p class="l-fs-m">编号：1254564645</p>
+            </td>
+            <td>50</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="_tl">
+              <p>博士机油格</p>
+              <p class="l-fs-m">编号：1254564645</p>
+            </td>
+            <td>50</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="_tl">
+              <p>博士机油格</p>
+              <p class="l-fs-m">编号：1254564645</p>
+            </td>
+            <td>50</td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
@@ -55,7 +65,16 @@
   <script>
   window.requireCallback = function($, utils) {
     // 在这里编写您的js 已加载zepto.js, sui-mobile框架
-  }
+
+    
+  };
+  
+  // 清空
+  window.clearSlted = function(){
+    $.confirm('是否确定清空？', function(){
+      $.alert('选择了确定')
+    })
+  };
   </script>
 </body>
 </html>

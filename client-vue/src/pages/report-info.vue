@@ -176,7 +176,7 @@ export default {
     showInfo(index) {
       this.isShowInfo = !this.isShowInfo
       if(this.isShowInfo){
-        this.infoData = this.abnormalList[index].list  
+        this.infoData = this.abnormalList[index].list ? this.abnormalList[index].list.filter(item => item) : []
       }
     }
   },
@@ -234,4 +234,5 @@ export default {
   .l-check-cate3{margin-top: 0;}
   ._desc{color: #999; margin-top: 0.25rem;}
 }
+.l-report-item:last-child{border:none;}
 </style>
