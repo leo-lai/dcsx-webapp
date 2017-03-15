@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="懂车师兄">
+  <meta name="description" content="懂车师兄">
+  <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="renderer" content="webkit">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
+  <link rel="stylesheet" href="../static/css/webapp.css">
+  <link rel="shortcut icon" href="../static/favicon.ico" />
+  <title>车组排量</title>
+</head>
+
+<body>
+  <div class="page-group">
+    <!-- 单个page ,第一个.page默认被展示-->
+    <div class="page disable-router">
+      <!-- 标题栏 -->
+      <header id="app-header" class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left nav-back"></a>
+        <a class="icon icon-refresh pull-right"></a>
+        <h1 class="title">车组排量</h1>
+      </header>
+      <!-- 这里是页面内容区 -->
+      <div class="content">
+        <div id="car-model-list" class="list-block l-margin-0">
+          <ul>
+            <li class="item-content item-link">
+              <div class="item-inner">
+                <div class="item-title">宝马3系 E36(90-99)</div>
+              </div>
+            </li>
+            <li class="item-content item-link">
+              <div class="item-inner">
+                <div class="item-title">宝马3系 E46(97-06)</div>
+              </div>
+            </li>
+            <li class="item-content item-link">
+              <div class="item-inner">
+                <div class="item-title">宝马3系 E90 LCI(08-12)</div>
+              </div>
+            </li>
+            <li class="item-content item-link">
+              <div class="item-inner">
+                <div class="item-title">宝马3系 E90(05-08)</div>
+              </div>
+            </li>
+            <li class="item-content item-link">
+              <div class="item-inner">
+                <div class="item-title">宝马3系 E92 LCI(10/06-)</div>
+              </div>
+            </li>
+            <li class="item-content item-link">
+              <div class="item-inner">
+                <div class="item-title">宝马3系 E92(06-10)</div>
+              </div>
+            </li>
+            <li class="item-content item-link">
+              <div class="item-inner">
+                <div class="item-title">宝马3系 E93 LCI(10/06-)</div>
+              </div>
+            </li>
+            <li class="item-content item-link">
+              <div class="item-inner">
+                <div class="item-title">宝马3系 E93(07-10)</div>
+              </div>
+            </li>
+            <li class="item-content item-link">
+              <div class="item-inner">
+                <div class="item-title">宝马3系 F30(12/07-)</div>
+              </div>
+            </li>
+            <li class="item-content item-link">
+              <div class="item-inner">
+                <div class="item-title">宝马3系 F31(13/08-)</div>
+              </div>
+            </li>
+            <li class="item-content item-link">
+              <div class="item-inner">
+                <div class="item-title">宝马3系 F34 GT(13/06-) </div>
+              </div>
+            </li>
+            <li class="item-content item-link">
+              <div class="item-inner">
+                <div class="item-title">宝马3系 F80 M3(14/08-)</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="panel-overlay"></div>
+    <div id="panel-right" class="panel panel-right panel-cover l-panel-big">
+      <div class="l-flex-v l-panel-inner">
+        <header class="l-panel-hd">
+          <div class="l-flex-hvc l-padding-s">
+            <h3>宝马3系 E90 LCI(08-12)</h3></div>
+          <div class="_sub-tit">车排量</div>
+        </header>
+        <div class="l-panel-bd l-rest">
+          <div class="list-block l-margin-0">
+            <ul>
+              <li class="item-content item-link">
+                <div class="item-inner">
+                  <div class="item-title">4.0L</div>
+                </div>
+              </li>
+              <li class="item-content item-link">
+                <div class="item-inner">
+                  <div class="item-title">3.0T</div>
+                </div>
+              </li>
+              <li class="item-content item-link">
+                <div class="item-inner">
+                  <div class="item-title">2.5L</div>
+                </div>
+              </li>
+              <li class="item-content item-link">
+                <div class="item-inner">
+                  <div class="item-title">2.0L</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../static/plugs/require.min.js" data-main="../static/js/main.js"></script>
+  <script>
+  window.requireCallback = function($, utils) {
+    // 在这里编写您的js 已加载zepto.js, sui-mobile框架
+    // 选择车组
+    $('#car-model-list').on('click', '.item-content', function() {
+      $.openPanel('#panel-right');
+      console.log($(this).find('.item-title').text());
+    });
+    // 选择排量
+    $('#panel-right').on('click', '.item-content', function() {
+      $.closePanel();
+      $.alert($(this).find('.item-title').text(), function() {
+        window.location.assign('car-model.html')
+      });
+    });
+  }
+  </script>
+</body>
+
+</html>

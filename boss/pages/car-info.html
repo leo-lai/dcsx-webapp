@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="懂车师兄">
+  <meta name="description" content="懂车师兄">
+  <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="renderer" content="webkit">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
+  <link rel="stylesheet" href="../static/css/webapp.css">
+  <link rel="shortcut icon" href="../static/favicon.ico" />
+  <title>车辆资料</title>
+</head>
+
+<body>
+  <div class="page-group">
+    <!-- 单个page ,第一个.page默认被展示-->
+    <div class="page" id="car-info">
+      <!-- 标题栏 -->
+      <header class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left nav-back"></a>
+        <a class="icon icon-refresh pull-right"></a>
+        <h1 class="title">车辆资料</h1>
+      </header>
+      <footer class="l-page-footer">
+        <div class="_inner l-bg l-flex-hc">
+          <a class="button button-big button-fill l-rest">保存</a>
+        </div>
+      </footer>
+      <!-- 这里是页面内容区 -->
+      <div class="content">
+        <div class="list-block l-margin-0">
+          <ul>
+            <!-- Text inputs -->
+            <li>
+              <div class="item-content item-link" onclick="$.router.load('#car-brands');">
+                <div class="item-inner">
+                  <div class="item-title label">车辆型号</div>
+                  <div class="item-input">
+                    <input readonly type="text" placeholder="请选择车辆型号" maxlength="100">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content l-not-null">
+                <div class="item-inner">
+                  <div class="item-title label">车牌车主</div>
+                  <div class="item-input">
+                    <input type="text" placeholder="请填写" maxlength="10">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content l-not-null">
+                <div class="item-inner">
+                  <div class="item-title label">行驶里程</div>
+                  <div class="item-input">
+                    <input type="tel" placeholder="请填写" maxlength="9">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content l-allow-null">
+                <div class="item-inner">
+                  <div class="item-title label">车架号</div>
+                  <div class="item-input">
+                    <input type="tel" placeholder="请填写车架号后6位" maxlength="6">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content l-allow-null">
+                <div class="item-inner">
+                  <div class="item-title label">发动机号</div>
+                  <div class="item-input">
+                    <input type="tel" placeholder="请填写发动机号后6位" maxlength="6">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content l-allow-null">
+                <div class="item-inner">
+                  <div class="item-title label">驾驶证号</div>
+                  <div class="item-input">
+                    <input type="email" placeholder="请填写" maxlength="50">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-title label">上牌时间</div>
+                  <div class="item-input">
+                    <input type="text" placeholder="请选择" data-toggle='date' />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-title label">保险日期</div>
+                  <div class="item-input">
+                    <input type="text" placeholder="请选择" data-toggle='date' />
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-title label">年审日期</div>
+                  <div class="item-input">
+                    <input type="text" placeholder="请选择" data-toggle='date' />
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 车辆品牌及车系 -->
+    <div class="page" id="car-brands">
+      <header class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left back"></a>
+        <a class="icon icon-refresh pull-right"></a>
+        <h1 class="title">车辆品牌</h1>
+      </header>
+      <div class="content">
+        <div id="car-brands-list" class="list-block contacts-block l-car-model-list">
+          <div id="A" class="list-group">
+            <ul>
+              <li class="list-group-title">A</li>
+              <li>
+                <div class="item-content">
+                  <div class="item-media"><img src="http://olnk1vudg.bkt.clouddn.com/carlogo/ADA0.png" class="l-thumb"></div>
+                  <div class="item-inner">
+                    <div class="item-title">奥迪</div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item-content">
+                  <div class="item-media"><img src="http://olnk1vudg.bkt.clouddn.com/carlogo/AEA0.png" class="l-thumb"></div>
+                  <div class="item-inner">
+                    <div class="item-title">阿尔法罗米欧</div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="B" class="list-group">
+            <ul>
+              <li class="list-group-title">B</li>
+              <li>
+                <div class="item-content">
+                  <div class="item-media"><img src="http://olnk1vudg.bkt.clouddn.com/carlogo/BZA0.png" class="l-thumb"></div>
+                  <div class="item-inner">
+                    <div class="item-title">标致</div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item-content">
+                  <div class="item-media"><img src="http://olnk1vudg.bkt.clouddn.com/carlogo/BMA0.png" class="l-thumb"></div>
+                  <div class="item-inner">
+                    <div class="item-title">宝马</div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="C" class="list-group">
+            <ul>
+              <li class="list-group-title">C</li>
+              <li>
+                <div class="item-content">
+                  <div class="item-media"><img src="http://olnk1vudg.bkt.clouddn.com/carlogo/FTB1.png" class="l-thumb"></div>
+                  <div class="item-inner">
+                    <div class="item-title">长安福特</div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item-content">
+                  <div class="item-media"><img src="http://olnk1vudg.bkt.clouddn.com/carlogo/CHA0.png" class="l-thumb"></div>
+                  <div class="item-inner">
+                    <div class="item-title">昌河</div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="D" class="list-group">
+            <ul>
+              <li class="list-group-title">D</li>
+              <li>
+                <div class="item-content">
+                  <div class="item-media"><img src="http://olnk1vudg.bkt.clouddn.com/carlogo/FTB1.png" class="l-thumb"></div>
+                  <div class="item-inner">
+                    <div class="item-title">长安福特</div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item-content">
+                  <div class="item-media"><img src="http://olnk1vudg.bkt.clouddn.com/carlogo/CHA0.png" class="l-thumb"></div>
+                  <div class="item-inner">
+                    <div class="item-title">昌河</div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="E" class="list-group">
+            <ul>
+              <li class="list-group-title">E</li>
+              <li>
+                <div class="item-content">
+                  <div class="item-media"><img src="http://olnk1vudg.bkt.clouddn.com/carlogo/FTB1.png" class="l-thumb"></div>
+                  <div class="item-inner">
+                    <div class="item-title">长安福特</div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item-content">
+                  <div class="item-media"><img src="http://olnk1vudg.bkt.clouddn.com/carlogo/CHA0.png" class="l-thumb"></div>
+                  <div class="item-inner">
+                    <div class="item-title">昌河</div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="l-letter-list" class="l-letter-list l-flex-vhc disable-router">
+        <div class="_inner">
+          <a href="#A" letter="A">A</a>
+          <a href="#B" letter="B">B</a>
+          <a href="#C" letter="C">C</a>
+          <a href="#D" letter="D">D</a>
+          <a href="#F" letter="F">F</a>
+        </div>
+      </div>
+    </div>
+    <div id="panel-chexi" class="panel panel-right panel-cover l-panel-big">
+      <div class="l-flex-v l-panel-inner">
+        <header class="l-panel-hd">
+          <div class="l-flex-hvc l-padding-s"><img class="l-thumb l-margin-r-s" style="height: 2rem;" src="http://olnk1vudg.bkt.clouddn.com/carlogo/AEA0.png">
+            <h3>阿尔法罗米欧</h3></div>
+          <div class="_sub-tit">车系</div>
+        </header>
+        <div class="l-panel-bd l-rest">
+          <div class="list-block l-margin-0">
+            <ul>
+              <li class="item-content item-link">
+                <div class="item-inner">
+                  <div class="item-title">阿尔法罗米欧147</div>
+                </div>
+              </li>
+              <li class="item-content item-link">
+                <div class="item-inner">
+                  <div class="item-title">阿尔法罗米欧146</div>
+                </div>
+              </li>
+              <li class="item-content item-link">
+                <div class="item-inner">
+                  <div class="item-title">阿尔法罗米欧GIULIETTA</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 车辆品牌及车系 end-->
+
+    <!-- 车组及排量 -->
+    <div class="page" id="car-group">
+      <!-- 标题栏 -->
+      <header class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left back"></a>
+        <a class="icon icon-refresh pull-right"></a>
+        <h1 class="title">车组排量</h1>
+      </header>
+      <!-- 这里是页面内容区 -->
+      <div class="content">
+        <div id="car-group-list" class="list-block l-margin-0">
+          <ul>
+            <li class="item-content item-link">
+              <div class="item-inner">
+                <div class="item-title">宝马3系 E36(90-99)</div>
+              </div>
+            </li>
+            <li class="item-content item-link">
+              <div class="item-inner">
+                <div class="item-title">宝马3系 E46(97-06)</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="panel-pailiang" class="panel panel-right panel-cover l-panel-big">
+      <div class="l-flex-v l-panel-inner">
+        <header class="l-panel-hd">
+          <div class="l-flex-hvc l-padding-s">
+            <h3>宝马3系 E90 LCI(08-12)</h3></div>
+          <div class="_sub-tit">车排量</div>
+        </header>
+        <div class="l-panel-bd l-rest">
+          <div class="list-block l-margin-0">
+            <ul>
+              <li class="item-content item-link">
+                <div class="item-inner">
+                  <div class="item-title">4.0L</div>
+                </div>
+              </li>
+              <li class="item-content item-link">
+                <div class="item-inner">
+                  <div class="item-title">3.0T</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 车组及排量 end-->
+
+    <!-- 车型 -->
+    <div class="page" id="car-model">
+      <header class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left back"></a>
+        <a class="icon icon-refresh pull-right"></a>
+        <h1 class="title">车型</h1>
+      </header>
+      <div class="content">
+        <div id="car-model-list" class="l-check-list">
+          <label class="_item l-flex-hc l-border-b">
+            <div class="l-rest">车辆型号xxxx</div>
+            <div class="l-check l-margin-l-s">
+              <input type="radio" name="radio" value="0"><i></i>
+            </div>
+          </label>
+          <label class="_item l-flex-hc l-border-b">
+            <div class="l-rest">车辆型号xxxx</div>
+            <div class="l-check l-margin-l-s">
+              <input type="radio" name="radio" value="1"><i></i>
+            </div>
+          </label>
+          <label class="_item l-flex-hc l-border-b">
+            <div class="l-rest">车辆型号xxxx</div>
+            <div class="l-check l-margin-l-s">
+              <input type="radio" name="radio" value="2"><i></i>
+            </div>
+          </label>
+          <label class="_item l-flex-hc l-border-b">
+            <div class="l-rest">车辆型号xxxx</div>
+            <div class="l-check l-margin-l-s">
+              <input type="radio" name="radio" value="3"><i></i>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+    <!-- 车型 end-->
+  </div>
+  <div class="panel-overlay"></div>
+  <script src="../static/plugs/require.min.js" data-main="../static/js/main.js"></script>
+  <script>
+  window.requireCallback = function($, utils) {
+    // 在这里编写您的js 已加载zepto.js, sui-mobile框架
+
+    // 选择字母
+    $('#l-letter-list').on('click', 'a', function() {
+      var $letter = $('#' + $(this).attr('letter'));
+      if ($letter.length > 0) {
+        $('.content').scrollTop($('.content').scrollTop() + $letter.position().top);
+      }
+      return false;
+    }).on('touchmove', function(e) {
+      if (e.target.tagName.toLowerCase() === 'a') {
+        var a = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY);
+        var $letter = $('#' + $(a).attr('letter'));
+        if ($letter.length > 0) {
+          $('.content').scrollTop($('.content').scrollTop() + $letter.position().top)
+        }
+      }
+      return false
+    });
+
+    // 选择车品牌
+    $('#car-brands-list').on('click', '.item-content', function(){
+      console.log($(this).find('.item-title').text());
+      $.openPanel('#panel-chexi');
+    });
+    // 选择车系
+    $('#panel-chexi').on('click', '.item-content', function(){
+      console.log($(this).find('.item-title').text());
+      $.closePanel();
+      $.router.load('#car-group');
+    });
+    // 选择车组
+    $('#car-group-list').on('click', '.item-content', function() {
+      console.log($(this).find('.item-title').text());
+      $.openPanel('#panel-pailiang');
+    });
+    // 选择排量
+    $('#panel-pailiang').on('click', '.item-content', function() {
+      console.log($(this).find('.item-title').text());
+      $.closePanel();
+      $.router.load('#car-model');
+    });
+    // 选择车型
+    $('#car-model-list').on('click', '._item', function() {
+      console.log($(this).find('input').val());
+      window.history.go(-3);
+    });
+  }
+  </script>
+</body>
+</html>

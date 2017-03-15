@@ -1,0 +1,129 @@
+<div id="popup-add-goods" class="popup l-popup-page">
+  <!-- 标题栏 -->
+  <header class="bar bar-nav l-bar-nav">
+    <a class="icon icon-left pull-left close-popup"></a>
+    <h1 class="title">添加商品</h1>
+  </header>
+  <footer class="l-page-footer">
+    <div class="_inner l-bg l-flex-hc">
+      <div class="l-rest l-text-center" onclick="$('#footer-list').toggleClass('l-show')">已选择3项，点击查看</div>
+      <a class="button button-big button-fill" onclick="addToOrder()">&nbsp;添加至订单&nbsp;</a>  
+    </div>
+    <!-- 已选择 -->
+    <div id="footer-list" class="l-footer-list">
+      <div class="_inner">
+        <table class="l-table-1 l-fs-m">
+          <thead>
+            <tr>
+              <th width="300" class="_tl">名称编码</th>
+              <th>数量</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="_tl">
+                <h4 class="l-text-wrap2">博士机油格</h4>
+                <p class="l-fs-s">编号：50021221</p>
+              </td>
+              <td>
+                <span class="l-number">
+                  <i class="l-icon _minus">&#xe631;</i>
+                  <input class="_num" type="tel" value="1">
+                  <i class="l-icon _add">&#xe602;</i>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- 已选择 end-->
+  </footer>
+  <!-- 这里是页面内容区 -->
+  <div class="content">
+    <div class="l-search l-flex-hc">
+      <div class="l-rest">
+        <input type="text" placeholder="请输入服务项名称或拼音首字母" maxlength="100">  
+      </div>
+      <i class="icon icon-search"></i>
+    </div>
+    <!-- list start -->
+    <div id="list" class="l-stock-list">
+      <div class="row _item">
+        <div class="col-50">
+          <h4 class="l-text-wrap2">博士机油格</h4>
+          <p class="l-fs-s">编号：50021221</p>
+          <p class="l-text-warn">50.00</p>
+        </div>
+        <div class="col-50 l-text-right">
+          <p class="l-fs-s">当前库存：3000</p>
+          <i class="l-icon _btn-add">&#xe602;</i>
+        </div>
+      </div>
+      <div class="row _item">
+        <div class="col-50">
+          <h4 class="l-text-wrap2">博士机油格</h4>
+          <p class="l-fs-s">编号：50021221</p>
+          <p class="l-text-warn">50.00</p>
+        </div>
+        <div class="col-50 l-text-right">
+          <p class="l-fs-s">当前库存：3000</p>
+          <i class="l-icon _btn-add">&#xe602;</i>
+        </div>
+      </div>
+      <div class="row _item">
+        <div class="col-50">
+          <h4 class="l-text-wrap2">博士机油格</h4>
+          <p class="l-fs-s">编号：50021221</p>
+          <p class="l-text-warn">50.00</p>
+        </div>
+        <div class="col-50 l-text-right">
+          <p class="l-fs-s">当前库存：3000</p>
+          <i class="l-icon _btn-add">&#xe602;</i>
+        </div>
+      </div>
+      <div class="row _item">
+        <div class="col-50">
+          <h4 class="l-text-wrap2">博士机油格</h4>
+          <p class="l-fs-s">编号：50021221</p>
+          <p class="l-text-warn">50.00</p>
+        </div>
+        <div class="col-50 l-text-right">
+          <p class="l-fs-s">当前库存：3000</p>
+          <i class="l-icon _btn-add">&#xe602;</i>
+        </div>
+      </div>
+    </div>
+    <!-- list start end-->
+  </div>
+  <script>
+    function addToOrder(){
+      $.closeModal('#popup-add-goods');
+    }
+
+    // 添加
+    $('#list').on('click', '._btn-add', function(){
+      $.toast('添加成功');
+    });
+
+    // 删除
+    $('#footer-list').on('click',  function(e){
+      $(this).toggleClass('l-show');
+    }).children('._inner').on('click', '.l-number', function(e){
+      var $num = $(e.target).siblings('._num');
+      var num = Number($num.val()) || 0;
+      if($(e.target).hasClass('_minus')){ // 减
+        if(--num <= 0){
+          $num.val(0);
+          $num.closest('tr').remove();
+        }else{
+          $num.val(num);
+        }
+      }else if($(e.target).hasClass('_add')){ // 加
+        $num.val(++num)
+      }
+    }).on('click', function(){
+      return false;
+    });
+  </script>
+</div>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="懂车师兄">
+  <meta name="description" content="懂车师兄">
+  <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="format-detection" content="telephone=no"/> 
+  <meta name="renderer" content="webkit">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
+  <link rel="stylesheet" href="../static/css/webapp.css">
+  <link rel="shortcut icon" href="../static/favicon.ico" />
+  <title>创建订单</title>
+</head>
+
+<body>
+  <div class="page-group">
+    <!-- 单个page ,第一个.page默认被展示-->
+    <div class="page disable-router">
+      <!-- 标题栏 -->
+      <header id="app-header" class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left nav-back"></a>
+        <a class="icon icon-refresh pull-right"></a>
+        <h1 class="title">创建订单</h1>
+      </header>
+      <footer class="l-page-footer">
+        <div class="_inner l-bg l-flex-hc">
+          <a class="button button-big button-fill l-rest" href="order-create.html">创建订单</a>  
+        </div>
+      </footer>
+      <!-- 这里是页面内容区 -->
+      <div class="content">
+        <div class="l-search l-flex-hc">
+          <div class="_type l-border-r">
+            <select>
+              <option>车牌号</option>
+              <option>手机号码</option>
+            </select>
+            <i class="l-icon">&#xe6ac;</i>
+          </div>
+          <div class="l-rest l-rel">
+            <input id="search-key" type="text" placeholder="请输入关键字" maxlength="100">
+            <!-- 搜索结果 -->
+            <div id="search-result" class="_result l-scroll">
+              <div class="list-block l-margin-0 l-fs-s ">
+                <ul>
+                  <li class="item-content">
+                    <div class="item-inner">
+                      <div class="item-title">标题</div>
+                    </div>
+                  </li>
+                  <li class="item-content">
+                    <div class="item-inner">
+                      <div class="item-title">标题</div>
+                    </div>
+                  </li>
+                  <li class="item-content">
+                    <div class="item-inner">
+                      <div class="item-title">标题</div>
+                    </div>
+                  </li>
+                  <li class="item-content">
+                    <div class="item-inner">
+                      <div class="item-title">标题</div>
+                    </div>
+                  </li>
+                  <li class="item-content">
+                    <div class="item-inner">
+                      <div class="item-title">标题</div>
+                    </div>
+                  </li>
+                  <li class="item-content">
+                    <div class="item-inner">
+                      <div class="item-title">标题</div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- 搜索结果 -->
+          </div>
+          <i class="icon icon-search"></i>
+        </div>
+
+        <div class="list-block l-margin-tb">
+          <ul>
+            <li class="item-content">
+              <div class="item-inner">
+                <div class="item-title">
+                  <span class="l-text-gray">车主姓名：</span>
+                  <span>胡杨树</span>
+                </div>
+                <div class="item-after l-text-link">普通会员</div>
+              </div>
+            </li>
+            <li class="item-content">
+              <div class="item-inner">
+                <div class="item-title">
+                  <span class="l-text-gray">车主手机：</span>
+                  <span>186020295</span>
+                </div>
+              </div>
+            </li>
+            <li class="item-content">
+              <div class="item-inner">
+                <div class="item-title">
+                  <span class="l-text-gray">账户余额：</span>
+                  <span>1865.02元</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="l-check-list">
+          <label class="_item l-flex-hc l-border-b">
+            <div class="l-rest">
+              <h3>粤A526546</h3>
+              <p class="l-fs-m">奥迪R8 2014款 Spyder 5.2 FSI quattro</p>
+            </div>
+            <div class="l-check l-margin-l-s">
+              <input type="radio" name="radio"><i></i>
+            </div>
+          </label>
+          <label class="_item l-flex-hc l-border-b">
+            <div class="l-rest">
+              <h3>粤A526546</h3>
+              <p class="l-fs-m">奥迪R8 2014款 Spyder 5.2 FSI quattro</p>
+            </div>
+            <div class="l-check l-margin-l-s">
+              <input type="radio" name="radio"><i></i>
+            </div>
+          </label>
+          <label class="_item l-flex-hc l-border-b">
+            <div class="l-rest">
+              <h3>粤A526546</h3>
+              <p class="l-fs-m">奥迪R8 2014款 Spyder 5.2 FSI quattro</p>
+            </div>
+            <div class="l-check l-margin-l-s">
+              <input type="radio" name="radio"><i></i>
+            </div>
+          </label>
+        </div>
+        <div class="l-border-t l-padding l-bg">
+          <div class="row">
+            <div class="col-50"><a class="button" href="car-owner.html">完善车主资料</a></div>
+            <div class="col-50"><a class="button" href="order-history.html">查看消费记录</a></div>
+          </div>
+          <div class="row l-margin-t">
+            <div class="col-50"><a class="button" href="coupons.html">优惠券及套餐</a></div>
+            <div class="col-50"><a class="button" href="car-report.html">上次检测报告</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../static/plugs/require.min.js" data-main="../static/js/main.js"></script>
+  <script>
+  window.requireCallback = function($, utils) {
+    // 在这里编写您的js 已加载zepto.js, sui-mobile框架
+    $('#search-result').on('click', '.item-content', function(){
+      $('#search-key').val($(this).find('.item-title').text());
+      $('#search-result').hide();
+    });
+
+    $('#search-key').on('focus', function(){
+      $('#search-result').show();
+    });
+  }
+  </script>
+</body>
+</html>

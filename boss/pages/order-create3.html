@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="懂车师兄">
+  <meta name="description" content="懂车师兄">
+  <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="format-detection" content="telephone=no"/> 
+  <meta name="renderer" content="webkit">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
+  <link rel="stylesheet" href="../static/css/webapp.css">
+  <link rel="shortcut icon" href="../static/favicon.ico" />
+  <title>完工检修</title>
+</head>
+
+<body>
+  <div class="page-group">
+    <!-- 单个page ,第一个.page默认被展示-->
+    <div class="page disable-router" id="page-order-create">
+      <!-- 标题栏 -->
+      <header class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left nav-back"></a>
+        <a class="icon icon-refresh pull-right"></a>
+        <h1 class="title">完工检修</h1>
+      </header>
+      <footer class="l-page-footer">
+        <div class="_inner l-bg l-flex-hc">
+          <div class="l-rest" style="width: 50%;">
+            <div class="row no-gutter l-text-center">
+              <a class="col-50 l-text-default l-border-r" onclick="window.history.back()">返回</a>
+              <a class="col-50 l-text-default">保存</a>
+            </div>
+          </div>
+          <a class="button button-big button-fill l-rest">确定完工</a>  
+        </div>
+      </footer>
+      <!-- 这里是页面内容区 -->
+      <div class="content">
+        <div class="list-block cards-list l-order-list">
+          <ul>
+            <li class="card l-order-item">
+              <div class="card-header">
+                <span class="l-text-link">普通会员</span>
+                <div class="l-rest">粤A56733</div>
+                <span class="_status-1">已接车</span>
+              </div>
+              <div class="card-content">
+                <div class="card-content-inner">
+                  <p class="l-fs-m">
+                    <span class="pull-right">1860202954</span>
+                    <span>编号：52124455454</span>
+                  </p>
+                  <h3 class="l-fs-l l-margin-t">胡杨树/车主</h3>
+                  <p>一汽大众 1.6 自动挡 2006款 时尚型 5座</p>
+                  <p class="l-margin-t l-text-gray">2016-05-12 11:56:23</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- 服务项目 -->
+        <div class="l-margin-b">
+          <div class="l-block-title">服务项目</div>
+          <table class="l-table-1 l-fs-m">
+            <tr>
+              <th class="_tl">服务项目</th>
+              <th>预计下次保养时间</th>
+            </tr>
+            <tr>
+              <td class="_tl">美容洗车美</td>
+              <td>2015-55-55</td>
+            </tr>
+            <tr>
+              <td class="_tl">美容洗车美</td>
+              <td>2015-55-55</td>
+            </tr>
+            <tr>
+              <td class="_tl">美容洗车美</td>
+              <td>2015-55-55</td>
+            </tr>
+          </table>
+        </div>
+        <!-- 服务项目 end-->
+        <div class="l-margin-b">
+          <div class="l-block-title">检修人</div>
+          <a class="l-padding-m l-flex-hc l-bg l-link-arrow l-text-default" popup-page="./popup/order-arrange.html">
+            <div class="l-avatar l-margin-r" style="background-image: url('https://placeholdit.imgix.net/~text?txtsize=33&bg=ffffff&txtclr=999&txt=%E5%A4%B4%E5%83%8F&w=120&h=120')"></div>
+            <div class="l-rest">
+              <h3>胡杨树</h3>
+              <p class="l-text-gray l-fs-m">高级检测师</p>
+            </div>
+            <div class="l-fs-s l-text-gray">更换</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../static/plugs/require.min.js" data-main="../static/js/main.js"></script>
+  <script>
+  window.requireCallback = function($, utils) {
+    // 在这里编写您的js 已加载zepto.js, sui-mobile框架
+
+  }
+  </script>
+</body>
+</html>

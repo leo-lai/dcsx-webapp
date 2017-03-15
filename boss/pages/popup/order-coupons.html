@@ -1,0 +1,135 @@
+<div id="popup-add-coupons" class="popup l-popup-page">
+  <!-- 标题栏 -->
+  <header class="bar bar-nav l-bar-nav">
+    <a class="icon icon-left pull-left nav-back"></a>
+    <a class="icon icon-refresh pull-right"></a>
+    <h1 class="title">优惠券及套餐</h1>
+  </header>
+  <footer class="l-page-footer">
+    <div class="_inner l-bg l-flex-hc">
+      <a class="button button-big button-fill l-rest" onclick="addToOrder()">添加至订单</a>
+    </div>
+  </footer>
+  <!-- 这里是页面内容区 -->
+  <div class="content">
+    <div class="buttons-tab l-sticky">
+      <a href="#tab1" class="tab-link button active">可用优惠券</a>
+      <a href="#tab2" class="tab-link button">可用套餐</a>
+    </div>
+    <div class="tabs">
+      <div id="tab1" class="tab active">
+        <div class="l-coupon-list">
+          <div class="l-coupon-item l-link l-margin-b">
+            <div class="_bd l-flex-hc">
+              <div class="_val l-border-r l-text-wrap1"><i class="l-icon">&#xe6cb;</i><span>100.00</span></div>
+              <div class="_desc l-rest">
+                <h3 class="l-text-wrap1">代金券</h3>
+                <p class="l-text-wrap2 l-fs-s">sfsads描述描述描述描述</p>
+              </div>
+            </div>
+            <div class="_ft l-border-t l-text-gray">
+              <span class="pull-right">剩余数量：9</span>
+              <span>有效期：2017-05-10 </span>
+            </div>
+            <label class="l-check l-margin-l-s">
+              <input type="checkbox" checked name="checkbox"><i></i>
+            </label>
+          </div>
+          <div class="l-coupon-item l-link l-margin-b">
+            <div class="_bd l-flex-hc">
+              <div class="_val l-border-r l-text-wrap1"><i class="l-icon">&#xe6cb;</i><span>100.00</span></div>
+              <div class="_desc l-rest">
+                <h3 class="l-text-wrap1">代金券</h3>
+                <p class="l-text-wrap2 l-fs-s">sfsads描述描述描述描述</p>
+              </div>
+            </div>
+            <div class="_ft l-border-t l-text-gray">
+              <span class="pull-right">剩余数量：9</span>
+              <span>有效期：2017-05-10 </span>
+            </div>
+            <label class="l-check l-margin-l-s">
+              <input type="checkbox" name="checkbox"><i></i>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div id="tab2" class="tab">
+        <div class="l-combo-list">
+          <div class="l-combo-item">
+            <div class="l-combo-item-hd">
+              <h3 class="l-text-warn">减免</h3>
+              <p class="l-fs-m">购买价格：160.00 元</p>
+            </div>
+            <div class="l-combo-item-bd">
+              <table class="l-table-1 l-fs-s">
+                <tr class="l-text-gray l-text-nowrap">
+                  <td>套餐项目</td>
+                  <td>包含次数</td>
+                  <td>剩余次数</td>
+                </tr>
+                <tr>
+                  <td>车外灯光检测</td>
+                  <td>10</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td>雨刮刮水性能检测</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>雨刮喷水角度检测</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+              </table>
+            </div>
+            <div class="l-combo-item-ft l-border-t l-padding l-fs-s l-text-gray"><span>有效期至：2017-09-15</span></div>
+            <label class="l-check l-margin-l-s">
+              <input type="checkbox" checked name="checkbox"><i></i>
+            </label>
+          </div>
+          <div class="l-combo-item">
+            <div class="l-combo-item-hd">
+              <h3 class="l-text-warn">减免</h3>
+              <p class="l-fs-m">购买价格：160.00 元</p>
+            </div>
+            <div class="l-combo-item-bd">
+              <table class="l-table-1 l-fs-s">
+                <tr class="l-text-gray l-text-nowrap">
+                  <td>套餐项目</td>
+                  <td>包含次数</td>
+                  <td>剩余次数</td>
+                </tr>
+                <tr>
+                  <td>车外灯光检测</td>
+                  <td>10</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td>雨刮刮水性能检测</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>雨刮喷水角度检测</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+              </table>
+            </div>
+            <div class="l-combo-item-ft l-border-t l-padding l-fs-s l-text-gray"><span>有效期至：2017-09-15</span></div>
+            <label class="l-check l-margin-l-s">
+              <input type="checkbox" name="checkbox"><i></i>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function addToOrder(){
+      $.closeModal('#popup-add-coupons');
+    }
+  </script>
+</div>

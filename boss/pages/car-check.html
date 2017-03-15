@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="懂车师兄">
+  <meta name="description" content="懂车师兄">
+  <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="renderer" content="webkit">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
+  <link rel="stylesheet" href="../static/css/webapp.css">
+  <link rel="shortcut icon" href="../static/favicon.ico" />
+  <title>环车检查</title>
+</head>
+
+<body>
+  <div class="page-group">
+    <!-- 单个page ,第一个.page默认被展示-->
+    <div class="page disable-router">
+      <!-- 标题栏 -->
+      <header id="app-header" class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left nav-back"></a>
+        <a class="icon icon-refresh pull-right"></a>
+        <h1 class="title">环车检查</h1>
+      </header>
+      <footer class="l-page-footer">
+        <div class="_inner l-bg l-flex-hc">
+          <a class="button button-big l-rest _white" onclick="$.closeModal('#popup-arrange')">返回</a>
+          <a class="button button-big button-fill l-rest">保存</a>  
+        </div>
+      </footer>
+      <!-- 这里是页面内容区 -->
+      <div class="content">
+        <div class="l-margin-b">
+          <div class="l-panel-title l-border-b l-text-gray">
+            <span>进店照片</span>
+            <span class="l-fs-s">(最多可添加4张照片)</span>
+          </div>
+          <div class="l-panel-content l-zoom">
+            <div id="upload-imgs" class="l-upload-imgs">
+              <ul>
+                <li class="_item">
+                  <img src="https://placeholdit.imgix.net/~text?txtsize=28&bg=2098fc&txtclr=fff&txt=%E5%8D%A0%E4%BD%8D%E5%9B%BE&w=120&h=120" alt="">
+                  <i class="l-icon _close"></i>
+                </li>
+              </ul>
+              <div class="_item _btn-add">
+                <input type="file" accept="image/*" multiple>
+                <img src="../static/images/add.jpg" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="l-margin-b">
+          <div class="l-panel-title l-border-b l-text-gray">
+            <span>进店油量</span>
+          </div>
+          <div class="l-panel-content l-padding">
+            <input class="l-iptnum" type="number" placeholder="必填"> ML
+          </div>
+        </div>
+
+        <div class="l-margin-b">
+          <div class="l-panel-title l-border-b l-text-gray">
+            <span>进店里程</span>
+          </div>
+          <div class="l-panel-content l-padding">
+            <span class="l-margin-r">上次里程：5000KM</span>
+            <label>
+              本次 <input class="l-iptnum" type="number" placeholder="必填"> KM  
+            </label>
+          </div>
+        </div>
+
+        <div class="l-margin-b">
+          <div class="l-panel-title l-border-b l-text-gray">
+            <span>问题描述</span>
+          </div>
+          <div class="l-panel-content l-padding">
+            <textarea class="l-textarea" rows="3" placeholder="选填"></textarea>
+          </div>
+        </div>
+
+        <div class="l-margin-b">
+          <div class="l-panel-title l-border-b l-text-gray">
+            <span>维修建议</span>
+          </div>
+          <div class="l-panel-content l-padding">
+            <textarea class="l-textarea" rows="3" placeholder="选填"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../static/plugs/require.min.js" data-main="../static/js/main.js"></script>
+  <script>
+  window.requireCallback = function($, utils) {
+    // 在这里编写您的js 已加载zepto.js, sui-mobile框架
+    $('#upload-imgs').on('click', '._close', function(){
+      $(this).closest('li').remove();
+    });
+
+    $('#upload-imgs').find('input[type=file]').on('change', function(e){
+      var tmpl = '<li class="_item"><img src="#url#"><i class="l-icon _close"></i></li>';
+      var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
+      for (var i = 0, len = files.length; i < len; ++i) {
+        var file = files[i];
+        if (url) {
+          src = url.createObjectURL(file);
+        } else {
+          src = e.target.result;
+        }
+        $('#upload-imgs>ul').append($(tmpl.replace('#url#', src)));
+      }
+    });
+  }
+  </script>
+</body>
+
+</html>

@@ -13,6 +13,8 @@ require.config({
 });
 
 require(['zepto'], function($){
+  var rscript = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+
   // 自定义工具
   var toptipTimeid = null;
   $.toptip = function(text, ms){
@@ -28,7 +30,23 @@ require(['zepto'], function($){
     toptipTimeid = setTimeout(function(){
       $toptip.text('').removeClass('l-show')
     }, ms);
-  }
+  };
+
+  $.load = function(url, callback){
+    if(!url) return false;
+    var parts = url.split(/\s/), ajaxUrl, selector;
+
+    ajaxUrl = parts[0];
+    selector = parts[1];
+
+    $.showIndicator();
+    $.get(ajaxUrl, function(response){
+      $.hideIndicator();
+      var responseHtml = selector ? $('<div>').html(response.replace(rscript, '')).find(selector).html() : response;
+      $.popup(responseHtml, true);
+      $.isFunction(callback) && callback();
+    });
+  };
 
   $.config = {
     // router: false,
@@ -42,15 +60,40 @@ require(['zepto'], function($){
     }
   };
   require(['sui', 'utils'], function($, utils) {
-    $('body').on('click' ,'.nav-back:not(.back)', function(){
+    // 返回
+    $(document).on('click' ,'.nav-back:not(.back)', function(){
       window.history.back();
     });
-    $('body').on('click' ,'header.bar-nav>.icon-refresh', function(){
+
+    // 刷新
+    $(document).on('click' ,'header.bar-nav>.icon-refresh', function(){
       window.location.reload();
     });
 
-    $.init();
+    // 防止重复点击
+    $(document).on('click', '.l-check>input', function(e){
+      e.stopPropagation();
+    });
+
+    // 弹窗页面
+    $(document).on('click', 'a[popup-page]', function(e){
+      var url = $(this).attr('popup-page');
+      $.load(url);
+      return false;
+    });
+
+    // 监听页面初始化
+    $(document).on('pageInit', function(e, pageId, $page) {
+      // 页面初始化回调
+      $.isFunction(window[pageId + '-init']) && window[pageId + '-init']($, utils);
+      $.isFunction(window['pageInit']) && window['pageInit']($, utils);
+    });
+
+    // 框架加载完毕回调
     $.isFunction(window.requireCallback) && window.requireCallback($, utils);
+
+    // 触发初始化
+    $.init();
   }); 
 });
 

@@ -18,9 +18,9 @@
 <body>
   <div class="page-group">
     <!-- 单个page ,第一个.page默认被展示-->
-    <div class="page disable-router">
+    <div class="page disable-router" id="page-order-create">
       <!-- 标题栏 -->
-      <header id="app-header" class="bar bar-nav l-bar-nav">
+      <header class="bar bar-nav l-bar-nav">
         <a class="icon icon-left pull-left nav-back"></a>
         <a class="icon icon-refresh pull-right"></a>
         <h1 class="title">创建订单</h1>
@@ -29,7 +29,7 @@
         <div class="_inner l-bg l-flex-hc">
           <div class="l-rest" style="width: 50%;">
             <div class="row no-gutter l-text-center">
-              <a class="col-50 l-text-default l-border-r">返回</a>
+              <a class="col-50 l-text-default l-border-r" onclick="window.history.back()">返回</a>
               <a class="col-50 l-text-default">保存</a>
             </div>
           </div>
@@ -61,21 +61,19 @@
             </li>
           </ul>
         </div>
-        
         <div class="l-margin-xl">
           <div class="row">
             <div class="col-33">
-              <a class="button l-btn-defualt">环车检查</a>
+              <a class="button l-btn-defualt" href="car-check.html">环车检查</a>
             </div>
             <div class="col-33">
-              <a class="button l-btn-defualt">电子报告</a>
+              <a class="button l-btn-defualt" href="car-report.html">电子报告</a>
             </div>
             <div class="col-33">
-              <a class="button l-btn-defualt">维修历史</a>
+              <a class="button l-btn-defualt" href="order-history.html">维修历史</a>
             </div>
           </div>
         </div>
-        
         <!-- 服务项目 -->
         <div class="l-margin-b">
           <div class="l-block-title">服务项目</div>
@@ -90,29 +88,29 @@
               <td class="_tl">美容洗车美容洗车美容洗车美容洗车</td>
               <td>20</td>
               <td>4000.00</td>
-              <td><i class="l-icon l-fs-l">&#xe600;</i></td>
+              <td class="_del"><i class="l-icon l-fs-l">&#xe600;</i></td>
             </tr>
             <tr>
               <td class="_tl">美容洗车车</td>
               <td>20</td>
               <td>4000.00</td>
-              <td><i class="l-icon l-fs-l">&#xe600;</i></td>
+              <td class="_del"><i class="l-icon l-fs-l">&#xe600;</i></td>
             </tr>
             <tr>
               <td class="_tl">美容洗车车</td>
               <td>20</td>
               <td>4000.00</td>
-              <td><i class="l-icon l-fs-l">&#xe600;</i></td>
+              <td class="_del"><i class="l-icon l-fs-l">&#xe600;</i></td>
             </tr>
             <tr>
               <td class="_tl">美容洗车车</td>
               <td>20</td>
               <td>4000.00</td>
-              <td><i class="l-icon l-fs-l">&#xe600;</i></td>
+              <td class="_del"><i class="l-icon l-fs-l">&#xe600;</i></td>
             </tr>
           </table>
-          <div class="l-bg l-padding">
-            <a class="button" href="order-add-service.html">添加服务</a>
+          <div class="l-bg l-padding l-border-t">
+            <a class="button" popup-page="./popup/order-add-service.html">添加服务</a>
           </div>
         </div>
         <!-- 服务项目 end-->
@@ -134,7 +132,7 @@
               </td>
               <td>20</td>
               <td>4000.00</td>
-              <td><i class="l-icon l-fs-l">&#xe600;</i></td>
+              <td class="_del"><i class="l-icon l-fs-l">&#xe600;</i></td>
             </tr>
             <tr>
               <td class="_tl">
@@ -143,11 +141,11 @@
               </td>
               <td>20</td>
               <td>4000.00</td>
-              <td><i class="l-icon l-fs-l">&#xe600;</i></td>
+              <td class="_del"><i class="l-icon l-fs-l">&#xe600;</i></td>
             </tr>
           </table>
-          <div class="l-bg l-padding">
-            <a class="button">添加商品</a>
+          <div class="l-bg l-padding l-border-t">
+            <a class="button" popup-page="./popup/order-add-goods.html">添加商品</a>
           </div>
         </div>
         <!-- 商品配件 end-->
@@ -164,11 +162,11 @@
             <tr>
               <td class="_tl">美容洗车</td>
               <td><input class="_ipt" type="number" step="0.01" value="4000.00"></td>
-              <td><i class="l-icon l-fs-l">&#xe600;</i></td>
+              <td class="_del"><i class="l-icon l-fs-l">&#xe600;</i></td>
             </tr>
           </table>
-          <div class="l-bg l-padding">
-            <a class="button">添加项目</a>
+          <div class="l-bg l-padding l-border-t">
+            <a class="button" popup-page="./popup/order-add-other.html">添加项目</a>
           </div>
         </div>
         <!-- 其他收费 end-->
@@ -187,17 +185,17 @@
               <td class="_tl">美容洗车</td>
               <td>套餐</td>
               <td>1500.00</td>
-              <td><i class="l-icon l-fs-l">&#xe600;</i></td>
+              <td class="_del"><i class="l-icon l-fs-l">&#xe600;</i></td>
             </tr>
             <tr>
               <td class="_tl">美容洗车</td>
               <td>套餐</td>
               <td>1500.00</td>
-              <td><i class="l-icon l-fs-l">&#xe600;</i></td>
+              <td class="_del"><i class="l-icon l-fs-l">&#xe600;</i></td>
             </tr>
           </table>
-          <div class="l-bg l-padding">
-            <a class="button">添加优惠</a>
+          <div class="l-bg l-padding l-border-t">
+            <a class="button" popup-page="./popup/order-coupons.html">添加优惠</a>
           </div>
         </div>
         <!-- 优惠项目 end-->
@@ -208,6 +206,12 @@
   <script>
   window.requireCallback = function($, utils) {
     // 在这里编写您的js 已加载zepto.js, sui-mobile框架
+
+    // 删除
+    $('#page-order-create').on('click', '.l-table-1 ._del', function(){
+      $(this).closest('tr').remove();
+      $.toast('已删除');
+    });
   }
   </script>
 </body>

@@ -133,10 +133,8 @@
 
     // 更换门店
     $('#store-checklist').on('click', '._item', function(){
-      $('#slted-store').text($(this).find('h3').text())
+      $('#slted-store').text($(this).find('h3').text());
       $.closePanel();
-    }).on('click', 'input', function(){
-      return false;
     });
   }
   </script>

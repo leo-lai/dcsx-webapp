@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
   <link rel="stylesheet" href="../static/css/webapp.css">
   <link rel="shortcut icon" href="../static/favicon.ico" />
-  <title>客户分析</title>
+  <title>重点客户</title>
 </head>
 
 <body>
@@ -23,18 +23,17 @@
       <header id="app-header" class="bar bar-nav l-bar-nav">
         <a class="icon icon-left pull-left nav-back"></a>
         <a class="icon icon-refresh pull-right"></a>
-        <h1 class="title">客户分析</h1>
+        <h1 class="title">重点客户</h1>
       </header>
       <footer class="l-page-footer l-flex-hc l-bg">
-        <div class="button button-big l-rest _white l-rel">
-          <span>查看以往月份</span>
-          <input class="_hidden" type="month">
+        <div class="button button-big l-rest _white">
+          <span>设置年平均消费额度</span>
         </div>
         <div class="l-rest l-rel">
-          <a class="button button-big button-fill l-rest" onclick="$('#btn-list').toggle()">新增客户</a>
+          <a class="button button-big button-fill l-rest" onclick="$('#btn-list').toggle()">重点客户</a>
           <ul id="btn-list" class="_btn-list" onclick="$('#btn-list').toggle()">
             <li><a class="button button-big button-fill" href="customer-analysis3.html">忠诚客户</a></li>
-            <li><a class="button button-big button-fill" href="customer-analysis2.html">重点客户</a></li>
+            <li><a class="button button-big button-fill" href="customer-analysis.html">新增客户</a></li>
           </ul>
         </div>
       </footer>
@@ -44,53 +43,37 @@
         <div class="l-chart-count l-scroll">
           <div class="_inner l-rel">
             <canvas id="chart"></canvas>  
-            <i class="_x">(月份)</i>
+            <i class="_x">(万元)</i>
             <i class="_y">(人数)</i>
           </div>
         </div>
         <!-- 图形统计 end-->
-        <div class="l-today-count l-text-center">
-          2016年8月新增客户：
-          <div class="l-inline">
-            <span class="l-text-warn l-fs-xl">58888</span> 人
-          </div>
-        </div>
+        <div class="l-today-count l-text-center">重点客户</div>
         <div class="l-margin-tb">
           <table class="l-table-1 l-fs-m">
             <tr>
-              <th>日期</th>
-              <th>新增人数</th>
-              <th>消费总额</th>
+              <th>年消费额度(元)</th>
+              <th>消费人数</th>
             </tr>
             <tr>
-              <td>2016-12-12</td>
+              <td>5000-10000</td>
               <td><a class="l-block" href="user-customer-list.html">8</a></td>
-              <td>2500.00</td>
             </tr>
             <tr>
-              <td>2016-12-12</td>
+              <td>10000-15000</td>
               <td><a class="l-block" href="user-customer-list.html">8</a></td>
-              <td>2500.00</td>
             </tr>
             <tr>
-              <td>2016-12-12</td>
+              <td>15000-20000</td>
               <td><a class="l-block" href="user-customer-list.html">8</a></td>
-              <td>2500.00</td>
             </tr>
             <tr>
-              <td>2016-12-12</td>
+              <td>20000-25000</td>
               <td><a class="l-block" href="user-customer-list.html">8</a></td>
-              <td>2500.00</td>
             </tr>
             <tr>
-              <td>2016-12-12</td>
+              <td>25000-30000</td>
               <td><a class="l-block" href="user-customer-list.html">8</a></td>
-              <td>2500.00</td>
-            </tr>
-            <tr>
-              <td>2016-12-12</td>
-              <td><a>8</a></td>
-              <td>2500.00</td>
             </tr>
           </table>
         </div>
@@ -106,29 +89,22 @@
     // 图形统计
     GM.Global.pixelRatio = 2;
     var data = [
-      { num: 100, month: 1},
-      { num: 100, month: 2},
-      { num: 30, month: 3},
-      { num: 44, month: 4},
-      { num: 150, month: 5},
-      { num: 66, month: 6},
-      { num: 1, month: 7},
-      { num: 22, month: 8},
-      { num: 33, month: 9},
-      { num: 44, month: 10},
-      { num: 55, month: 11},
-      { num: 666, month: 12}
+      { num: 100, money: '0.5-1'},
+      { num: 100, money: '1-1.5'},
+      { num: 30, money: '1.5-2'},
+      { num: 44, money: '2-2.5'},
+      { num: 150, money: '2.5-3'}
     ];
     var chart = new GM.Chart({
       id: 'chart'
     });
     chart.source(data, {
-      month: {
-        tickCount: 12
+      money: {
+        tickCount: 5
       }
     });
     //配置刻度文字大小，供PC端显示用(移动端可以使用默认值20px)
-    chart.axis('month', {
+    chart.axis('money', {
       label:{
         fontSize: 14
       },
@@ -140,7 +116,7 @@
       }
     });
 
-    chart.interval().position('month*num');
+    chart.interval().position('money*num');
     chart.render();
   }
   </script>
