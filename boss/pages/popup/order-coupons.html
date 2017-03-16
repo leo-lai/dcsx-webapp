@@ -18,7 +18,7 @@
     </div>
     <div class="tabs">
       <div id="tab1" class="tab active">
-        <div class="l-coupon-list">
+        <div id="coupon-list" class="l-coupon-list">
           <div class="l-coupon-item l-link l-margin-b">
             <div class="_bd l-flex-hc">
               <div class="_val l-border-r l-text-wrap1"><i class="l-icon">&#xe6cb;</i><span>100.00</span></div>
@@ -32,7 +32,7 @@
               <span>有效期：2017-05-10 </span>
             </div>
             <label class="l-check l-margin-l-s">
-              <input type="checkbox" checked name="checkbox"><i></i>
+              <input type="checkbox" checked name="checkbox" value="1"><i></i>
             </label>
           </div>
           <div class="l-coupon-item l-link l-margin-b">
@@ -48,80 +48,100 @@
               <span>有效期：2017-05-10 </span>
             </div>
             <label class="l-check l-margin-l-s">
-              <input type="checkbox" name="checkbox"><i></i>
+              <input type="checkbox" name="checkbox" value="2"><i></i>
             </label>
           </div>
         </div>
       </div>
       <div id="tab2" class="tab">
-        <div class="l-combo-list">
-          <div class="l-combo-item">
-            <div class="l-combo-item-hd">
-              <h3 class="l-text-warn">减免</h3>
-              <p class="l-fs-m">购买价格：160.00 元</p>
+        <div id="combo-list" class="l-combo-list2">
+          <div class="l-combo-item2">
+            <div class="_hd">
+              <span class="_tit">减免套餐</span>
             </div>
-            <div class="l-combo-item-bd">
+            <div class="_bd">
               <table class="l-table-1 l-fs-s">
-                <tr class="l-text-gray l-text-nowrap">
-                  <td>套餐项目</td>
-                  <td>包含次数</td>
-                  <td>剩余次数</td>
-                </tr>
-                <tr>
-                  <td>车外灯光检测</td>
-                  <td>10</td>
-                  <td>10</td>
-                </tr>
-                <tr>
-                  <td>雨刮刮水性能检测</td>
-                  <td>1</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>雨刮喷水角度检测</td>
-                  <td>1</td>
-                  <td>1</td>
-                </tr>
+                <thead class="l-text-nowrap">
+                  <tr>
+                    <th width="50">
+                      <label class="l-check">
+                        <input type="checkbox"><i class="_square"></i>
+                      </label>
+                    </th>
+                    <th class="_tl">服务项目</th>
+                    <th>剩余次数</th>
+                    <th>单次抵扣</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <label class="l-check">
+                        <input type="checkbox" value="1"><i class="_square"></i>
+                      </label>
+                    </td>
+                    <td class="_tl">美容汽车</td>
+                    <td>65</td>
+                    <td>100.00</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label class="l-check">
+                        <input type="checkbox" value="2"><i class="_square"></i>
+                      </label>
+                    </td>
+                    <td class="_tl">美容汽车</td>
+                    <td>65</td>
+                    <td>100.00</td>
+                  </tr>
+                </tbody>
               </table>
             </div>
-            <div class="l-combo-item-ft l-border-t l-padding l-fs-s l-text-gray"><span>有效期至：2017-09-15</span></div>
-            <label class="l-check l-margin-l-s">
-              <input type="checkbox" checked name="checkbox"><i></i>
-            </label>
+            <div class="_ft l-border-t l-padding l-fs-s l-text-gray"><span>有效期至：2017-09-15</span></div>
           </div>
-          <div class="l-combo-item">
-            <div class="l-combo-item-hd">
-              <h3 class="l-text-warn">减免</h3>
-              <p class="l-fs-m">购买价格：160.00 元</p>
+          <div class="l-combo-item2">
+            <div class="_hd">
+              <span class="_tit">减免套餐</span>
             </div>
-            <div class="l-combo-item-bd">
+            <div class="_bd">
               <table class="l-table-1 l-fs-s">
-                <tr class="l-text-gray l-text-nowrap">
-                  <td>套餐项目</td>
-                  <td>包含次数</td>
-                  <td>剩余次数</td>
-                </tr>
-                <tr>
-                  <td>车外灯光检测</td>
-                  <td>10</td>
-                  <td>10</td>
-                </tr>
-                <tr>
-                  <td>雨刮刮水性能检测</td>
-                  <td>1</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>雨刮喷水角度检测</td>
-                  <td>1</td>
-                  <td>1</td>
-                </tr>
+                <thead class="l-text-nowrap">
+                  <tr>
+                    <th width="50">
+                      <label class="l-check">
+                        <input type="checkbox"><i class="_square"></i>
+                      </label>
+                    </th>
+                    <th class="_tl">服务项目</th>
+                    <th>剩余次数</th>
+                    <th>单次抵扣</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <label class="l-check">
+                        <input type="checkbox" value="3"><i class="_square"></i>
+                      </label>
+                    </td>
+                    <td class="_tl">美容汽车</td>
+                    <td>65</td>
+                    <td>100.00</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label class="l-check">
+                        <input type="checkbox" value="4"><i class="_square"></i>
+                      </label>
+                    </td>
+                    <td class="_tl">美容汽车</td>
+                    <td>65</td>
+                    <td>100.00</td>
+                  </tr>
+                </tbody>
               </table>
             </div>
-            <div class="l-combo-item-ft l-border-t l-padding l-fs-s l-text-gray"><span>有效期至：2017-09-15</span></div>
-            <label class="l-check l-margin-l-s">
-              <input type="checkbox" name="checkbox"><i></i>
-            </label>
+            <div class="_ft l-border-t l-padding l-fs-s l-text-gray"><span>有效期至：2017-09-15</span></div>
           </div>
         </div>
       </div>
@@ -129,7 +149,37 @@
   </div>
   <script>
     function addToOrder(){
+      
+
+      // 选择的优惠券
+      var couponSlted = [];
+      $('#coupon-list').find('input:checked').each(function(){
+        couponSlted.push(this.value);
+      });
+      console.log('优惠券选择：', couponSlted);
+
+      // 选择的套餐
+      var comboSlted = [];
+      $('#combo-list').find('tbody input:checked').each(function(){
+        comboSlted.push(this.value);
+      });
+      console.log('套餐选择：', comboSlted);
+
       $.closeModal('#popup-add-coupons');
     }
+
+    // 全选
+    $('#combo-list').on('change', 'thead .l-check>input', function(){
+      var checked = this.checked;
+      $(this).closest('table').find('tbody .l-check>input').each(function(){
+        this.checked = checked;
+      });
+    });
+    $('#combo-list').on('change', 'tbody .l-check>input', function(){
+      var checked = this.checked;
+      if(!checked){
+        $(this).closest('table').find('thead .l-check>input')[0].checked = false;
+      }
+    });
   </script>
 </div>

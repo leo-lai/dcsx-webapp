@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="懂车师兄">
+  <meta name="description" content="懂车师兄">
+  <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="format-detection" content="telephone=no"/> 
+  <meta name="renderer" content="webkit">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
+  <link rel="stylesheet" href="../static/css/webapp.css">
+  <link rel="shortcut icon" href="../static/favicon.ico" />
+  <title>员工绩效</title>
+</head>
+
+<body>
+  <div class="page-group">
+    <!-- 单个page ,第一个.page默认被展示-->
+    <div class="page disable-router">
+      <!-- 标题栏 -->
+      <header id="app-header" class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left nav-back"></a>
+        <a class="icon icon-refresh pull-right"></a>
+        <h1 class="title">员工绩效</h1>
+      </header>
+      <footer class="l-page-footer l-flex-hc l-bg">
+        <div class="button button-big l-rest _white l-rel" onclick="$.popup('#popup-reward')">
+          <span>员工奖励</span>
+        </div>
+        <div class="l-rest l-rel">
+          <a class="button button-big button-fill l-rest" onclick="$('#btn-list').toggle()">员工绩效</a>
+          <ul id="btn-list" class="_btn-list" onclick="$('#btn-list').toggle()">
+            <li><a class="button button-big button-fill" href="staff-analysis.html">员工工资</a></li>
+          </ul>
+        </div>
+      </footer>
+      <!-- 这里是页面内容区 -->
+      <div class="content">
+        <div class="l-chart-count l-scroll">
+          <div class="l-slted-store l-flex-hc" style="margin:0 0 0.75rem 0;">
+            <span id="slted-store" class="l-rest l-text-wrap1">华州店//所属组织名称</span>
+            <a class="_btn l-border-l" onclick="$.openPanel('#panel-store')">更换</a>
+          </div>
+        </div>
+        <div class="l-today-count l-text-center">
+          <div class="buttons-tab">
+            <a href="#tab1" class="tab-link button active">本日</a>
+            <a href="#tab2" class="tab-link button">本月</a>
+            <a href="#tab3" class="tab-link button">本年</a>
+          </div>
+        </div>
+        <div class="l-margin-tb">
+          <table class="l-table-1 l-fs-m">
+            <tr>
+              <th>姓名</th>
+              <th>工时累计</th>
+              <th>销售累计</th>
+              <th>客户贡献</th>
+            </tr>
+            <tr>
+              <td>李大宝</td>
+              <td>582</td>
+              <td>5222.00</td>
+              <td>5222.00</td>
+            </tr>
+            <tr>
+              <td>李大宝</td>
+              <td>582</td>
+              <td>5222.00</td>
+              <td>5222.00</td>
+            </tr>
+            <tr>
+              <td>李大宝</td>
+              <td>582</td>
+              <td>5222.00</td>
+              <td>5222.00</td>
+            </tr>
+            <tr>
+              <td>李大宝</td>
+              <td>582</td>
+              <td>5222.00</td>
+              <td>5222.00</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="panel-overlay"></div>
+    <!-- 门店列表 -->
+    <div class="panel l-panel-big panel-right panel-cover" id="panel-store">
+      <header id="app-header" class="bar bar-nav">
+        <h1 class="title">更换门店</h1>
+      </header>
+      <div class="content">
+        <div id="store-checklist" class="l-store-checklist">
+          <label class="_item l-flex-hc l-border-b">
+            <img class="l-thumb-xs l-margin-r-s" src="https://placeholdit.imgix.net/~text?txtsize=28&bg=0a70bf&txtclr=fff&txt=logo&w=120&h=120" alt="">
+            <div class="l-rest">
+              <h3 class="l-text-wrap2">华洲店华洲店华洲店华洲店华洲店华洲店华洲店</h3>  
+            </div>
+            <div class="l-check l-margin-l-s">
+              <input type="radio" name="radio"><i></i>
+            </div>
+          </label>
+          <label class="_item l-flex-hc l-border-b">
+            <img class="l-thumb-xs l-margin-r-s" src="https://placeholdit.imgix.net/~text?txtsize=28&bg=0a70bf&txtclr=fff&txt=logo&w=120&h=120" alt="">
+            <div class="l-rest">
+              <h3 class="l-text-wrap2">华洲店</h3>  
+            </div>
+            <div class="l-check l-margin-l-s">
+              <input type="radio" name="radio"><i></i>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div id="popup-reward" class="popup l-popup-page">
+      <header class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left close-popup"></a>
+        <h1 class="title">员工奖励</h1>
+      </header>
+      <footer class="l-page-footer">
+        <div class="_inner l-bg l-flex-hc">
+          <a class="l-rest l-text-center close-popup l-text-default">返回</a>
+          <a class="l-rest button button-big button-fill" onclick="$.closeModal('#popup-reward')">确定</a>  
+        </div>  
+      </footer>
+      <div class="content">
+        <div class="l-margin">
+          <span class="pull-right">员工岗位：高级技师</span> 
+          <span>员工姓名：李大草</span>
+        </div>
+        <div class="l-margin l-bg l-zoom" style="border-radius: 10px;">
+          <table class="l-table-border">
+            <tr>
+              <td class="l-text-center" width="100">奖励</td>
+              <td>
+                <input type="number"  placeholder="请填写奖励金额">
+              </td>
+            </tr>
+            <tr>
+              <td class="l-text-center">原因</td>
+              <td>
+                <textarea class="l-textarea" placeholder="请填写奖励原因" rows="5"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td class="l-text-center">时间</td>
+              <td>2019-21-11 20:22:00</td>
+            </tr>
+            <tr>
+              <td class="l-text-center">奖励人员</td>
+              <td>当前登录者</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://a.alipayobjects.com/g/datavis/g2-mobile-all/2.1.14/index.js"></script>
+  <script src="../static/plugs/require.min.js" data-main="../static/js/main.js"></script>
+  <script>
+  window.requireCallback = function($, utils) {
+    // 在这里编写您的js 已加载zepto.js, sui-mobile框架
+
+  }
+  </script>
+</body>
+</html>

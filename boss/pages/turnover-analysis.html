@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
   <link rel="stylesheet" href="../static/css/webapp.css">
   <link rel="shortcut icon" href="../static/favicon.ico" />
-  <title>客户分析</title>
+  <title>业绩分析</title>
 </head>
 
 <body>
@@ -23,7 +23,7 @@
       <header id="app-header" class="bar bar-nav l-bar-nav">
         <a class="icon icon-left pull-left nav-back"></a>
         <a class="icon icon-refresh pull-right"></a>
-        <h1 class="title">客户分析</h1>
+        <h1 class="title">业绩分析</h1>
       </header>
       <footer class="l-page-footer l-flex-hc l-bg">
         <div class="button button-big l-rest _white l-rel">
@@ -31,10 +31,9 @@
           <input class="_hidden" type="month">
         </div>
         <div class="l-rest l-rel">
-          <a class="button button-big button-fill l-rest" onclick="$('#btn-list').toggle()">新增客户</a>
+          <a class="button button-big button-fill l-rest" onclick="$('#btn-list').toggle()">营业额增长</a>
           <ul id="btn-list" class="_btn-list" onclick="$('#btn-list').toggle()">
-            <li><a class="button button-big button-fill" href="customer-analysis3.html">忠诚客户</a></li>
-            <li><a class="button button-big button-fill" href="customer-analysis2.html">重点客户</a></li>
+            <li><a class="button button-big button-fill">结构占比</a></li>
           </ul>
         </div>
       </footer>
@@ -42,57 +41,84 @@
       <div class="content">
         <!-- 图形统计 -->
         <div class="l-chart-count l-scroll">
+          <div class="l-slted-store l-flex-hc" style="margin:0 0 0.75rem 0;">
+            <span id="slted-store" class="l-rest l-text-wrap1">华州店//所属组织名称</span>
+            <a class="_btn l-border-l" onclick="$.openPanel('#panel-store')">更换</a>
+          </div>
           <div class="_inner l-rel">
             <canvas id="chart"></canvas>  
             <i class="_x">(月份)</i>
-            <i class="_y">(人数)</i>
+            <i class="_y">(营业额：万元)</i>
           </div>
         </div>
         <!-- 图形统计 end-->
         <div class="l-today-count l-text-center">
-          2016年8月新增客户：
+          2016年8月营业额：
           <div class="l-inline">
-            <span class="l-text-warn l-fs-xl">58888</span> 人
+            <span class="l-text-warn l-fs-xl">5888800.00</span> 元
           </div>
         </div>
         <div class="l-margin-tb">
           <table class="l-table-1 l-fs-m">
             <tr>
-              <th>日期</th>
-              <th>新增人数</th>
-              <th>消费总额</th>
+              <th width="100">日期</th>
+              <th width="200">营业额</th>
+              <th width="60">占比</th>
             </tr>
             <tr>
               <td>2016-12-12</td>
-              <td><a class="l-block" href="user-customer-list.html">8</a></td>
-              <td>2500.00</td>
+              <td>522455.00</td>
+              <td>5%</td>
             </tr>
             <tr>
               <td>2016-12-12</td>
-              <td><a class="l-block" href="user-customer-list.html">8</a></td>
-              <td>2500.00</td>
+              <td>522455.00</td>
+              <td>5%</td>
             </tr>
             <tr>
               <td>2016-12-12</td>
-              <td><a class="l-block" href="user-customer-list.html">8</a></td>
-              <td>2500.00</td>
+              <td>522455.00</td>
+              <td>5%</td>
             </tr>
             <tr>
               <td>2016-12-12</td>
-              <td><a class="l-block" href="user-customer-list.html">8</a></td>
-              <td>2500.00</td>
+              <td>522455.00</td>
+              <td>5%</td>
             </tr>
             <tr>
               <td>2016-12-12</td>
-              <td><a class="l-block" href="user-customer-list.html">8</a></td>
-              <td>2500.00</td>
-            </tr>
-            <tr>
-              <td>2016-12-12</td>
-              <td><a>8</a></td>
-              <td>2500.00</td>
+              <td>522455.00</td>
+              <td>5%</td>
             </tr>
           </table>
+        </div>
+      </div>
+    </div>
+    <div class="panel-overlay"></div>
+    <div class="panel l-panel-big panel-right panel-cover" id="panel-store">
+      <header id="app-header" class="bar bar-nav">
+        <h1 class="title">更换门店</h1>
+      </header>
+      <div class="content">
+        <div id="store-checklist" class="l-store-checklist">
+          <label class="_item l-flex-hc l-border-b">
+            <img class="l-thumb-xs l-margin-r-s" src="https://placeholdit.imgix.net/~text?txtsize=28&bg=0a70bf&txtclr=fff&txt=logo&w=120&h=120" alt="">
+            <div class="l-rest">
+              <h3 class="l-text-wrap2">华洲店华洲店华洲店华洲店华洲店华洲店华洲店</h3>  
+            </div>
+            <div class="l-check l-margin-l-s">
+              <input type="radio" name="radio"><i></i>
+            </div>
+          </label>
+          <label class="_item l-flex-hc l-border-b">
+            <img class="l-thumb-xs l-margin-r-s" src="https://placeholdit.imgix.net/~text?txtsize=28&bg=0a70bf&txtclr=fff&txt=logo&w=120&h=120" alt="">
+            <div class="l-rest">
+              <h3 class="l-text-wrap2">华洲店</h3>  
+            </div>
+            <div class="l-check l-margin-l-s">
+              <input type="radio" name="radio"><i></i>
+            </div>
+          </label>
         </div>
       </div>
     </div>
@@ -106,18 +132,18 @@
     // 图形统计
     GM.Global.pixelRatio = 2;
     var data = [
-      { num: 100,  month: '1'},
-      { num: 100,  month: '2'},
-      { num: 130,  month: '3'},
-      { num: 414,  month: '4'},
-      { num: 150,  month: '5'},
-      { num: 616,  month: '6'},
-      { num: 112,  month: '7'},
-      { num: 212,  month: '8'},
-      { num: 313,  month: '9'},
-      { num: 414,  month: '10'},
-      { num: 515,  month: '11'},
-      { num: 112,  month: '12'}
+      { num: 1.5,  month: '1'},
+      { num: 2.6,  month: '2'},
+      { num: 10,  month: '3'},
+      { num: 2.3,  month: '4'},
+      { num: 6.6,  month: '5'},
+      { num: 5.9,  month: '6'},
+      { num: 6,  month: '7'},
+      { num: 3,  month: '8'},
+      { num: 4,  month: '9'},
+      { num: 5,  month: '10'},
+      { num: 6,  month: '11'},
+      { num: 2,  month: '12'}
     ];
     var chart = new GM.Chart({
       id: 'chart',

@@ -27,32 +27,32 @@
       </header>
       <!-- 这里是页面内容区 -->
       <div class="content">
-        <div class="l-card-remind">
+        <div id="card-remind" class="l-card-remind">
           <div class="row no-gutter">
-            <div class="col-25 _item">
+            <a class="col-25 _item" href="#baoxian" hash="baoxian">
               <img class="_thumb" src="../static/images/icon-027.png" alt="">
-              <p>智能提醒</p>
+              <p>保险提醒</p>
               <p>15</p>
-            </div>
-            <div class="col-25 _item">
+            </a>
+            <a class="col-25 _item" href="#baoyang" hash="baoyang">
               <img class="_thumb" src="../static/images/icon-028.png" alt="">
               <p>保养提醒</p>
               <p>15</p>
-            </div>
-            <div class="col-25 _item">
+            </a>
+            <a class="col-25 _item" href="#weixiu" hash="weixiu">
               <img class="_thumb" src="../static/images/icon-029.png" alt="">
               <p>维修回访</p>
               <p>15</p>
-            </div>
-            <div class="col-25 _item">
+            </a>
+            <a class="col-25 _item" href="#shengri" hash="shengri">
               <img class="_thumb" src="../static/images/icon-030.png" alt="">
               <p>生日提醒</p>
               <p>15</p>
-            </div>
+            </a>
           </div>
         </div>
 
-        <div class="l-remind-item">
+        <div class="l-remind-item l-fs-m" id="baoxian">
           <div class="_hd">
             <img src="../static/images/img-002.png" alt="保险到期">  
           </div>
@@ -61,20 +61,23 @@
               <th>姓名</th>
               <th>手机</th>
               <th>车牌</th>
+              <th>详细信息</th>
             </tr>
             <tr>
               <td>李大宝</td>
               <td>18602029524</td>
               <td>粤A10215</td>
+              <td><a href="car-owner-details.html">查看</a></td>
             </tr>
             <tr>
               <td>李大宝</td>
               <td>18602029524</td>
               <td>粤A10215</td>
+              <td><a href="car-owner-details.html">查看</a></td>
             </tr>
           </table>
         </div>
-        <div class="l-remind-item">
+        <div class="l-remind-item l-fs-m" id="baoyang">
           <div class="_hd">
             <img src="../static/images/img-003.png" alt="保险到期">  
           </div>
@@ -83,20 +86,23 @@
               <th>姓名</th>
               <th>手机</th>
               <th>车牌</th>
+              <th>详细信息</th>
             </tr>
             <tr>
               <td>李大宝</td>
               <td>18602029524</td>
               <td>粤A10215</td>
+              <td><a href="car-owner-details.html">查看</a></td>
             </tr>
             <tr>
               <td>李大宝</td>
               <td>18602029524</td>
               <td>粤A10215</td>
+              <td><a href="car-owner-details.html">查看</a></td>
             </tr>
           </table>
         </div>
-        <div class="l-remind-item">
+        <div class="l-remind-item l-fs-m" id="weixiu">
           <div class="_hd">
             <img src="../static/images/img-004.png" alt="保险到期">  
           </div>
@@ -105,20 +111,23 @@
               <th>姓名</th>
               <th>手机</th>
               <th>车牌</th>
+              <th>详细信息</th>
             </tr>
             <tr>
               <td>李大宝</td>
               <td>18602029524</td>
               <td>粤A10215</td>
+              <td><a href="car-owner-details.html">查看</a></td>
             </tr>
             <tr>
               <td>李大宝</td>
               <td>18602029524</td>
               <td>粤A10215</td>
+              <td><a href="car-owner-details.html">查看</a></td>
             </tr>
           </table>
         </div>
-        <div class="l-remind-item">
+        <div class="l-remind-item l-fs-m" id="shengri">
           <div class="_hd">
             <img src="../static/images/img-005.png" alt="保险到期">  
           </div>
@@ -127,16 +136,19 @@
               <th>姓名</th>
               <th>手机</th>
               <th>车牌</th>
+              <th>详细信息</th>
             </tr>
             <tr>
               <td>李大宝</td>
               <td>18602029524</td>
               <td>粤A10215</td>
+              <td><a href="car-owner-details.html">查看</a></td>
             </tr>
             <tr>
               <td>李大宝</td>
               <td>18602029524</td>
               <td>粤A10215</td>
+              <td><a href="car-owner-details.html">查看</a></td>
             </tr>
           </table>
         </div>
@@ -147,6 +159,10 @@
   <script>
   window.requireCallback = function($, utils) {
     // 在这里编写您的js 已加载zepto.js, sui-mobile框架
+    $('#card-remind').on('click', 'a', function() {
+      $('.content').scrollTop($('.content').scrollTop() + $('#' + $(this).attr('hash')).position().top);
+      return false;
+    })
   }
   </script>
 </body>

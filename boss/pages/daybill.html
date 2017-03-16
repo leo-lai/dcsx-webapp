@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
   <link rel="stylesheet" href="../static/css/webapp.css">
   <link rel="shortcut icon" href="../static/favicon.ico" />
-  <title>首页</title>
+  <title>报表</title>
 </head>
 
 <body>
@@ -23,76 +23,87 @@
       <header id="app-header" class="bar bar-nav l-bar-nav">
         <a class="icon icon-left pull-left nav-back"></a>
         <a class="icon icon-refresh pull-right"></a>
-        <h1 class="title">首页</h1>
+        <h1 class="title">报表</h1>
       </header>
-      <nav class="bar bar-tab l-bar-tab">
-        <a class="tab-item external active" href="index.html">
-          <span class="icon _home"></span>
-          <span class="tab-label">首页</span>
-        </a>
-        <a class="tab-item external" href="order.html">
-          <span class="icon _order"></span>
-          <span class="tab-label">开单</span>
-        </a>
-        <a class="tab-item external" href="user.html">
-          <span class="icon _user"></span>
-          <span class="tab-label">我的</span>
-        </a>
-      </nav>
       <!-- 这里是页面内容区 -->
-      <div class="content l-bg">
+      <div class="content l-bill">
         <div class="l-card-index">
           <div class="_now l-flex-hc">
             <span id="slted-store" class="l-rest l-text-wrap1">华州店//所属组织名称</span>
             <a class="_btn l-border-l" onclick="$.openPanel('#panel-store')">更换</a>
           </div>
-          <div class="row no-gutter _count">
-            <a class="col-50 l-border-r" href="daybill.html">
-              <p>今日营业额</p>
-              <p><strong>96542.00</strong></p>
-              <p><span class="_date">2016-12-12</span></p>
-            </a>
-            <a class="col-50" href="daybill.html">
-              <p>本月营业额</p>
-              <p><strong>96542.00</strong></p>
-              <p><span class="_date">2016-12</span></p>
-            </a>
+          <div class="_count l-fs-xl l-margin-tb">
+            <p>今日营业额</p>
+            <p><strong>96542.00</strong></p>
+            <p><span class="_date">2016-12</span></p>
           </div>
         </div>
-        <div class="l-user-menu">
-          <div class="row">
-            <a class="col-33 _item">
-              <img src="../static/images/icon-010.jpg" alt="">
-              <p>快速报价</p>
-            </a>
-            <a class="col-33 _item" href="remind.html">
-              <img src="../static/images/icon-011.jpg" alt="">
-              <p>智能提醒</p>
-            </a>
-            <a class="col-33 _item" href="stock-query.html">
-              <img src="../static/images/icon-012.jpg" alt="">
-              <p>库存查询</p>
-            </a>
-          </div>
-          <div class="row">
-            <a class="col-33 _item" href="customer-analysis.html">
-              <img src="../static/images/icon-013.jpg" alt="">
-              <p>客户分析</p>
-            </a>
-            <a class="col-33 _item" href="stock-analysis.html">
-              <img src="../static/images/icon-014.jpg" alt="">
-              <p>库存分析</p>
-            </a>
-            <a class="col-33 _item" href="turnover-analysis.html">
-              <img src="../static/images/icon-015.jpg" alt="">
-              <p>业绩分析</p>
-            </a>
-          </div>
-          <div class="row">
-            <a class="col-33 _item" href="staff-analysis.html">
-              <img src="../static/images/icon-016.jpg" alt="">
-              <p>员工绩效</p>
-            </a>
+        <div class="l-bill-box">
+          <div class="_inner">
+            <div class="list-block l-margin-0 l-fs-m">
+              <ul>
+                <li class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">实收</div>
+                    <div class="item-after l-text-warn">500.66</div>
+                  </div>
+                </li>
+                <li class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">优惠总额</div>
+                    <div class="item-after l-text-warn">500.66</div>
+                  </div>
+                </li>
+                <li class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">已支付订单数量</div>
+                    <div class="item-after l-text-warn">500.66</div>
+                  </div>
+                </li>
+                <li class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">新到店客户</div>
+                    <div class="item-after l-text-warn">500.66</div>
+                  </div>
+                </li>
+                <li class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">工时费合计</div>
+                    <div class="item-after l-text-warn">500.66</div>
+                  </div>
+                </li>
+                <li class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">配件费用合计</div>
+                    <div class="item-after l-text-warn">500.66</div>
+                  </div>
+                </li>
+                <li class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">其他收费合计</div>
+                    <div class="item-after l-text-warn">500.66</div>
+                  </div>
+                </li>
+                <li class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">现金支付</div>
+                    <div class="item-after l-text-warn">500.66</div>
+                  </div>
+                </li>
+                <li class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">通联支付</div>
+                    <div class="item-after l-text-warn">500.66</div>
+                  </div>
+                </li>
+                <li class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">挂账</div>
+                    <div class="item-after l-text-warn">500.66</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

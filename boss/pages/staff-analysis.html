@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
   <link rel="stylesheet" href="../static/css/webapp.css">
   <link rel="shortcut icon" href="../static/favicon.ico" />
-  <title>库存分析</title>
+  <title>业绩分析</title>
 </head>
 
 <body>
@@ -23,7 +23,7 @@
       <header id="app-header" class="bar bar-nav l-bar-nav">
         <a class="icon icon-left pull-left nav-back"></a>
         <a class="icon icon-refresh pull-right"></a>
-        <h1 class="title">库存分析</h1>
+        <h1 class="title">业绩分析</h1>
       </header>
       <footer class="l-page-footer l-flex-hc l-bg">
         <div class="button button-big l-rest _white l-rel">
@@ -31,85 +31,68 @@
           <input class="_hidden" type="month">
         </div>
         <div class="l-rest l-rel">
-          <a class="button button-big button-fill l-rest" onclick="$('#btn-list').toggle()">库存统计</a>
+          <a class="button button-big button-fill l-rest" onclick="$('#btn-list').toggle()">员工工资</a>
           <ul id="btn-list" class="_btn-list" onclick="$('#btn-list').toggle()">
-            <li><a class="button button-big button-fill" href="stock-analysis3.html">库存预警</a></li>
-            <li><a class="button button-big button-fill" href="stock-analysis2.html">滞销库存</a></li>
+            <li><a class="button button-big button-fill" href="staff-analysis2.html">员工绩效</a></li>
           </ul>
         </div>
       </footer>
       <!-- 这里是页面内容区 -->
       <div class="content">
-        <div class="l-slted-store l-flex-hc">
-          <span id="slted-store" class="l-rest l-text-wrap1">华州店//所属组织名称</span>
-          <a class="_btn l-border-l" onclick="$.openPanel('#panel-store')">更换</a>
+        <!-- 图形统计 -->
+        <div class="l-chart-count l-scroll">
+          <div class="l-slted-store l-flex-hc" style="margin:0 0 0.75rem 0;">
+            <span id="slted-store" class="l-rest l-text-wrap1">华州店//所属组织名称</span>
+            <a class="_btn l-border-l" onclick="$.openPanel('#panel-store')">更换</a>
+          </div>
+          <div class="_inner l-rel">
+            <canvas id="chart"></canvas>  
+            <i class="_x">(月份)</i>
+            <i class="_y">(工资：万元)</i>
+          </div>
         </div>
-
-        <div class="l-stock-count">
-          <p>2016年8月库存分析</p>
-          <div class="_item1">入库金额：<span class="l-fs-xl">15488214.00</span></div>
-          <div class="_item2">库存余额：<span class="l-fs-xl">15488214.00</span></div>
-          <div class="_item3">出库金额：<span class="l-fs-xl">15488214.00</span></div>
+        <!-- 图形统计 end-->
+        <div class="l-today-count l-text-center">
+          2016年8月员工工资：
+          <div class="l-inline">
+            <span class="l-text-warn l-fs-xl">5888800.00</span> 元
+          </div>
+          <span class="l-text-gray l-fs-s">/实发</span>
         </div>
-        
-        <div class="l-block-title">入库项目</div>  
-        <table class="l-table-1 l-fs-m">
-          <tr>
-            <th>项目</th>
-            <th>金额</th>
-            <th>占比</th>
-          </tr>
-          <tr>
-            <td>采购入库</td>
-            <td>5000.00</td>
-            <td>5%</td>
-          </tr>
-          <tr>
-            <td>采购入库</td>
-            <td>5000.00</td>
-            <td>5%</td>
-          </tr>
-          <tr>
-            <td>采购入库</td>
-            <td>5000.00</td>
-            <td>5%</td>
-          </tr>
-          <tr>
-            <td>采购入库</td>
-            <td>5000.00</td>
-            <td>5%</td>
-          </tr>
-        </table>
-
-        <div class="l-block-title">出库项目</div>  
-        <table class="l-table-1 l-fs-m">
-          <tr>
-            <th>项目</th>
-            <th>金额</th>
-            <th>占比</th>
-          </tr>
-          <tr>
-            <td>采购入库</td>
-            <td>5000.00</td>
-            <td>5%</td>
-          </tr>
-          <tr>
-            <td>采购入库</td>
-            <td>5000.00</td>
-            <td>5%</td>
-          </tr>
-          <tr>
-            <td>采购入库</td>
-            <td>5000.00</td>
-            <td>5%</td>
-          </tr>
-          <tr>
-            <td>采购入库</td>
-            <td>5000.00</td>
-            <td>5%</td>
-          </tr>
-        </table>
-        <br>
+        <div class="l-margin-tb">
+          <table class="l-table-1 l-fs-m">
+            <tr>
+              <th>姓名</th>
+              <th>岗位</th>
+              <th>基本工资</th>
+              <th>实发工资</th>
+            </tr>
+            <tr>
+              <td>李大宝</td>
+              <td>中工</td>
+              <td>5222.00</td>
+              <td>5222.00</td>
+            </tr>
+            <tr>
+              <td>李大宝</td>
+              <td>中工</td>
+              <td>5222.00</td>
+              <td>5222.00</td>
+            </tr>
+            <tr>
+              <td>李大宝</td>
+              <td>中工</td>
+              <td>5222.00</td>
+              <td>5222.00</td>
+            </tr>
+            <tr>
+              <td>李大宝</td>
+              <td>中工</td>
+              <td>5222.00</td>
+              <td>5222.00</td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
     <div class="panel-overlay"></div>
@@ -141,18 +124,51 @@
       </div>
     </div>
   </div>
+  <script src="https://a.alipayobjects.com/g/datavis/g2-mobile-all/2.1.14/index.js"></script>
   <script src="../static/plugs/require.min.js" data-main="../static/js/main.js"></script>
   <script>
   window.requireCallback = function($, utils) {
     // 在这里编写您的js 已加载zepto.js, sui-mobile框架
 
-    // 更换门店
-    $('#store-checklist').on('click', '._item', function(){
-      $('#slted-store').text($(this).find('h3').text())
-      $.closePanel();
-    }).on('click', 'input', function(){
-      return false;
+    // 图形统计
+    GM.Global.pixelRatio = 2;
+    var data = [
+      { num: 1.5,  month: '1'},
+      { num: 2.6,  month: '2'},
+      { num: 10,  month: '3'},
+      { num: 2.3,  month: '4'},
+      { num: 6.6,  month: '5'},
+      { num: 5.9,  month: '6'},
+      { num: 6,  month: '7'},
+      { num: 3,  month: '8'},
+      { num: 4,  month: '9'},
+      { num: 5,  month: '10'},
+      { num: 6,  month: '11'},
+      { num: 2,  month: '12'}
+    ];
+    var chart = new GM.Chart({
+      id: 'chart',
+      margin: [40,40,30,40]
     });
+    chart.source(data, {
+      month: {
+        tickCount: 12
+      }
+    });
+    chart.axis('month', {
+      label:{
+        fontSize: 12
+      },
+      grid: null
+    });
+    chart.axis('num', {
+      label:{
+        fontSize: 12
+      }
+    });
+
+    chart.interval().position('month*num').color('#0e96ff');
+    chart.render();
   }
   </script>
 </body>

@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
   <link rel="stylesheet" href="../static/css/webapp.css">
   <link rel="shortcut icon" href="../static/favicon.ico" />
-  <title>重点客户</title>
+  <title>忠诚客户</title>
 </head>
 
 <body>
@@ -23,16 +23,16 @@
       <header class="bar bar-nav l-bar-nav">
         <a class="icon icon-left pull-left nav-back"></a>
         <a class="icon icon-refresh pull-right"></a>
-        <h1 class="title">重点客户</h1>
+        <h1 class="title">忠诚客户</h1>
       </header>
       <footer class="l-page-footer l-flex-hc l-bg">
         <div class="button button-big l-rest _white" onclick="$.popup('#popup-settings')">
-          <span>设置年平均消费额度</span>
+          <span>设置年平均消费次数</span>
         </div>
         <div class="l-rest l-rel">
-          <a class="button button-big button-fill l-rest" onclick="$('#btn-list').toggle()">重点客户</a>
+          <a class="button button-big button-fill l-rest" onclick="$('#btn-list').toggle()">忠诚客户</a>
           <ul id="btn-list" class="_btn-list" onclick="$('#btn-list').toggle()">
-            <li><a class="button button-big button-fill" href="customer-analysis3.html">忠诚客户</a></li>
+            <li><a class="button button-big button-fill" href="customer-analysis2.html">重点客户</a></li>
             <li><a class="button button-big button-fill" href="customer-analysis.html">新增客户</a></li>
           </ul>
         </div>
@@ -43,42 +43,43 @@
         <div class="l-chart-count l-scroll">
           <div class="_inner l-rel">
             <canvas id="chart"></canvas>  
-            <i class="_x">(万元)</i>
+            <i class="_x">(次数)</i>
             <i class="_y">(人数)</i>
           </div>
         </div>
         <!-- 图形统计 end-->
-        <div class="l-today-count l-text-center">重点客户</div>
+        <div class="l-today-count l-text-center">忠诚客户</div>
         <div class="l-margin-tb">
           <table class="l-table-1 l-fs-m">
             <tr>
-              <th class="_tl" width="300">年消费额度(元)</th>
+              <th class="_tl" width="300">年消费次数</th>
               <th>消费人数</th>
             </tr>
             <tr>
-              <td class="_tl">5000-10000</td>
+              <td class="_tl">0-50</td>
               <td><a class="l-block" href="user-customer-list.html">8</a></td>
             </tr>
             <tr>
-              <td class="_tl">10000-15000</td>
+              <td class="_tl">50-100</td>
               <td><a class="l-block" href="user-customer-list.html">8</a></td>
             </tr>
             <tr>
-              <td class="_tl">15000-20000</td>
+              <td class="_tl">100-150</td>
               <td><a class="l-block" href="user-customer-list.html">8</a></td>
             </tr>
             <tr>
-              <td class="_tl">20000-25000</td>
+              <td class="_tl">150-200</td>
               <td><a class="l-block" href="user-customer-list.html">8</a></td>
             </tr>
             <tr>
-              <td class="_tl">25000-30000</td>
+              <td class="_tl">200-300</td>
               <td><a class="l-block" href="user-customer-list.html">8</a></td>
             </tr>
           </table>
         </div>
       </div>
     </div>
+  
     <div class="panel-overlay"></div>
     <div id="popup-settings" class="popup l-popup-page">
       <header class="bar bar-nav l-bar-nav">
@@ -96,41 +97,41 @@
           <div class="l-flex-hc l-padding-tb l-border-b">
             <span class="l-margin-r">第一段区间</span>
             <div class="l-rest l-text-center">
-              <input type="number" class="l-iptnum" value="5000">
+              <input type="number" class="l-iptnum" value="0">
               <span class="l-text-gray l-margin-lr-s">—</span>
-              <input type="number" class="l-iptnum" value="10000">
+              <input type="number" class="l-iptnum" value="50">
             </div>
           </div>
           <div class="l-flex-hc l-padding-tb l-border-b">
             <span class="l-margin-r">第二段区间</span>
             <div class="l-rest l-text-center">
-              <input type="number" class="l-iptnum" value="10000">
+              <input type="number" class="l-iptnum" value="50">
               <span class="l-text-gray l-margin-lr-s">—</span>
-              <input type="number" class="l-iptnum" value="15000">
+              <input type="number" class="l-iptnum" value="100">
             </div>
           </div>
           <div class="l-flex-hc l-padding-tb l-border-b">
             <span class="l-margin-r">第三段区间</span>
             <div class="l-rest l-text-center">
-              <input type="number" class="l-iptnum" value="15000">
+              <input type="number" class="l-iptnum" value="100">
               <span class="l-text-gray l-margin-lr-s">—</span>
-              <input type="number" class="l-iptnum" value="20000">
+              <input type="number" class="l-iptnum" value="150">
             </div>
           </div>
           <div class="l-flex-hc l-padding-tb l-border-b">
             <span class="l-margin-r">第四段区间</span>
             <div class="l-rest l-text-center">
-              <input type="number" class="l-iptnum" value="20000">
+              <input type="number" class="l-iptnum" value="150">
               <span class="l-text-gray l-margin-lr-s">—</span>
-              <input type="number" class="l-iptnum" value="25000">
+              <input type="number" class="l-iptnum" value="200">
             </div>
           </div>
           <div class="l-flex-hc l-padding-tb">
             <span class="l-margin-r">第五段区间</span>
             <div class="l-rest l-text-center">
-              <input type="number" class="l-iptnum" value="25000">
+              <input type="number" class="l-iptnum" value="200">
               <span class="l-text-gray l-margin-lr-s">—</span>
-              <input type="number" class="l-iptnum" value="30000">
+              <input type="number" class="l-iptnum" value="300">
             </div>
           </div>
         </div>
@@ -146,35 +147,35 @@
     // 图形统计
     GM.Global.pixelRatio = 2;
     var data = [
-      { num: 100, money: '0.5-1'},
-      { num: 100, money: '1-1.5'},
-      { num: 30, money: '1.5-2'},
-      { num: 44, money: '2-2.5'},
-      { num: 150, money: '2.5-3'}
+      { num: 100, count: '0-50'},
+      { num: 100, count: '50-100'},
+      { num: 30, count: '100-150'},
+      { num: 44, count: '150-200'},
+      { num: 150, count: '200-300'}
     ];
     var chart = new GM.Chart({
       id: 'chart',
       margin: [40,40,30,40]
     });
     chart.source(data, {
-      money: {
+      count: {
         tickCount: 5
       }
     });
     //配置刻度文字大小，供PC端显示用(移动端可以使用默认值20px)
-    chart.axis('money', {
+    chart.axis('count', {
       label:{
-        fontSize: 12
+        fontSize: 11
       },
       grid: null
     });
     chart.axis('num', {
       label:{
-        fontSize: 12 
+        fontSize: 11 
       }
     });
 
-    chart.interval().position('money*num').color('#0e96ff');
+    chart.interval().position('count*num').color('#0e96ff');
     chart.render();
   }
   </script>
