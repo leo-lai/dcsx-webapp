@@ -10,7 +10,7 @@
               <h3 style="font-size: 1.6rem;">{{agentInfo.amount}}</h3>
               <p class="l-margin-t-s l-fs-m">
                 <span>返利总额</span>
-                <span class="l-fs-xs" style="opacity:0.2; vertical-align: text-bottom;">
+                <span class="l-fs-s" style="opacity:0.2; vertical-align: text-bottom;">
                   &nbsp;&nbsp;|&nbsp;&nbsp;
                 </span>
                 <span>下级人数：{{agentInfo.total}} 人</span>

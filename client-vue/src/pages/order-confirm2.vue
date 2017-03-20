@@ -100,7 +100,7 @@
                     <span class="l-fs-s l-text-gray pull-right"><i class="l-icon">&#xe634;</i>{{toFixed(item.distance)}}km</span>
                     <span v-text="item.store_name"></span>
                   </div>
-                  <div class="item-text l-fs-xs" v-text="item.address"></div>
+                  <div class="item-text l-fs-s" v-text="item.address"></div>
                 </div>
               </label>
             </li>

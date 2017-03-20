@@ -67,7 +67,7 @@
                   <div class="item-subtitle">
                     <span v-text="item.model_name"></span>
                   </div>
-                  <div class="item-text l-fs-xs" v-text="item.car_license"></div>
+                  <div class="item-text l-fs-s" v-text="item.car_license"></div>
                 </div>
               </label>
             </li>

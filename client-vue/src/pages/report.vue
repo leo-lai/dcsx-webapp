@@ -36,36 +36,43 @@
             </div>
           </template>
         </div>
-        <template v-if="abnormalList">
+        <template v-if="reportList">
           <!-- 检测报告 -->
-          <template v-if="abnormalList.length > 0">
-            <div class="l-panel l-margin-tb l-technician-work">
+          <template v-if="reportList.length > 0">
+            <div v-if="abnormalList.length > 0" class="l-panel l-margin-tb l-technician-work">
               <div class="l-panel-title l-border-b l-text-gray">
                 <span>检测结果</span>
-                <!-- <span class="l-fs-s">(共{{abnormalList.length}}项异常)</span> -->
+                <!-- <span class="l-fs-s">(以下是异常项)</span> -->
               </div>
               <ul class="l-check-cate1">
                 <li class="l-border-t" v-for="cate1 in abnormalList">
-                  <h3><span class="pull-right l-text-error">异常</span>{{cate1.cate_name}}</h3>
+                  <div class="_tit"><span class="pull-right l-text-error l-fs-s">异常</span>{{cate1.cate_name}}</div>
                   <!-- <div class="_imgs l-flex-wrap">
                     <img src="https://placeholdit.imgix.net/~text?txtsize=16&bg=0894ec&txtclr=fff&txt=180x140&w=180&h=140">
                     <img src="https://placeholdit.imgix.net/~text?txtsize=16&bg=0894ec&txtclr=fff&txt=180x140&w=180&h=140">
                     <img src="https://placeholdit.imgix.net/~text?txtsize=16&bg=0894ec&txtclr=fff&txt=180x140&w=180&h=140">
                   </div> -->
-                  <ul class="l-check-cate2">
+                  <ul class="l-check-cate2" v-if="abnormal(cate1.list).length > 0">
                     <li v-for="cate2 in abnormal(cate1.list)">
-                      <h4><i class="l-icon l-text-error">&#xe6d4;</i> {{cate2.item_name}}</h4>
+                      <h4 class="l-text-gray">{{cate2.item_name}}</h4>
                       <table class="l-check-cate3">
                         <tr v-for="cate3 in abnormal(cate2.list)">
                           <td>{{cate3.sub_name}}</td>
                           <td>{{cate3.remark}}</td>
                           <td class="l-text-error">{{cate3.abnormal_note}}</td>
+                          <td><i class="l-icon l-text-error">&#xe865;</i></td>
                         </tr>
                       </table>
                     </li>
                   </ul>
                 </li>
               </ul>
+            </div>
+            <div v-else class="l-text-center">
+              <br><br>
+              <p><img style="width:4.5rem; height: 4.5rem;" src="~assets/img-049.png" alt=""></p>
+              <p>您的一切检测均为正常</p>
+              <br><br>
             </div>
             <div class="l-margin">
               <router-link class="button l-btn-bg1" :to="'/report/info/' + sltedCar.id ">查看全部检测项目</router-link>
@@ -101,7 +108,7 @@
                   <div class="item-subtitle">
                     <span v-text="item.model_name"></span>
                   </div>
-                  <div class="item-text l-fs-xs" v-text="item.car_license"></div>
+                  <div class="item-text l-fs-s" v-text="item.car_license"></div>
                 </div>
               </label>
             </li>
@@ -124,6 +131,7 @@ export default {
   data () {
     return {
       sltedCar: null,
+      reportList: null,
       abnormalList: null,
       carList: []
     }
@@ -137,11 +145,11 @@ export default {
       $.closePanel()
     },
     abnormal(list = []) {
-      console.log(list)
       return list.filter(item => item && item.check_status == 0)
     },
     getReporte() {
       this.$server.getReport(this.sltedCar.id).then(({list})=>{
+        this.reportList = list
         this.abnormalList = this.abnormal(list)
         $.hideIndicator()  
       })

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="懂车师兄">
+  <meta name="description" content="懂车师兄">
+  <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="format-detection" content="telephone=no"/> 
+  <meta name="renderer" content="webkit">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
+  <link rel="stylesheet" href="../static/css/webapp.css">
+  <link rel="shortcut icon" href="../static/favicon.ico" />
+  <title>报价</title>
+</head>
+
+<body>
+  <div class="page-group">
+    <!-- 单个page ,第一个.page默认被展示-->
+    <div class="page disable-router">
+      <!-- 标题栏 -->
+      <header id="app-header" class="bar bar-nav l-bar-nav">
+        <a class="icon icon-left pull-left nav-back"></a>
+        <a class="icon icon-refresh pull-right"></a>
+        <h1 class="title">报价</h1>
+      </header>
+      <footer class="l-page-footer">
+        <div class="_inner l-bg l-flex-hc">
+          <div class="l-rest l-text-center" onclick="$('#footer-list').toggleClass('l-show')">已选择3项，点击查看</div>
+          <a class="button button-big button-fill" onclick="addToOrder()">总价：55555.00</a>  
+        </div>
+        <!-- 已选择 -->
+        <div id="footer-list" class="l-footer-list">
+          <div class="_inner">
+            <table class="l-table-1 l-fs-m">
+              <thead>
+                <tr>
+                  <th width="300" class="_tl">服务项目</th>
+                  <th>次数</th>
+                  <th>费用</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="_tl">美容洗车美容洗车美容洗车美容洗车</td>
+                  <td>
+                    <span class="l-number">
+                      <i class="l-icon _minus">&#xe631;</i>
+                      <input class="_num" type="tel" value="1">
+                      <i class="l-icon _add">&#xe602;</i>
+                    </span>
+                  </td>
+                  <td>1356.00</td>
+                </tr>
+                <tr>
+                  <td class="_tl">美容洗车美容洗车美容洗车美容洗车</td>
+                  <td>
+                    <span class="l-number">
+                      <i class="l-icon _minus">&#xe631;</i>
+                      <input class="_num" type="tel" value="1">
+                      <i class="l-icon _add">&#xe602;</i>
+                    </span>
+                  </td>
+                  <td>1356.00</td>
+                </tr>
+                <tr>
+                  <td class="_tl">美容洗车美容洗车美容洗车美容洗车</td>
+                  <td>
+                    <span class="l-number">
+                      <i class="l-icon _minus">&#xe631;</i>
+                      <input class="_num" type="tel" value="1">
+                      <i class="l-icon _add">&#xe602;</i>
+                    </span>
+                  </td>
+                  <td>1356.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- 已选择 end-->
+      </footer>
+      <!-- 这里是页面内容区 -->
+      <div class="content">
+        <div class="l-margin l-bg">
+          <div id="tab-1" class="buttons-row">
+            <a class="button button-big active">低端车</a>
+            <a class="button button-big">中端车</a>
+            <a class="button button-big">高端车</a>
+          </div>  
+        </div>
+
+        <div style="margin: 1.5rem 0.75rem;">
+          <div id="tab-2" class="l-tab-1">
+            <a class="active">服务项目</a>
+            <a>商品配件</a>
+          </div>
+        </div>
+
+        <div class="l-search l-flex-hc">
+          <div class="l-rest">
+            <input type="text" placeholder="请输入服务项名称或拼音首字母" maxlength="100">  
+          </div>
+          <i class="icon icon-search"></i>
+        </div>
+        <!-- list start -->
+        <div id="list" class="l-stock-list">
+          <div class="row _item">
+            <div class="col-50">
+              <h4 class="l-text-wrap2">博士机油格</h4>
+              <p class="l-fs-s">编号：50021221</p>
+              <p class="l-text-warn">50.00</p>
+            </div>
+            <div class="col-50 l-text-right">
+              <p class="l-fs-s">当前库存：3000</p>
+              <i class="l-icon _btn-add">&#xe602;</i>
+            </div>
+          </div>
+          <div class="row _item">
+            <div class="col-50">
+              <h4 class="l-text-wrap2">博士机油格</h4>
+              <p class="l-fs-s">编号：50021221</p>
+              <p class="l-text-warn">50.00</p>
+            </div>
+            <div class="col-50 l-text-right">
+              <p class="l-fs-s">当前库存：3000</p>
+              <i class="l-icon _btn-add">&#xe602;</i>
+            </div>
+          </div>
+          <div class="row _item">
+            <div class="col-50">
+              <h4 class="l-text-wrap2">博士机油格</h4>
+              <p class="l-fs-s">编号：50021221</p>
+              <p class="l-text-warn">50.00</p>
+            </div>
+            <div class="col-50 l-text-right">
+              <p class="l-fs-s">当前库存：3000</p>
+              <i class="l-icon _btn-add">&#xe602;</i>
+            </div>
+          </div>
+          <div class="row _item">
+            <div class="col-50">
+              <h4 class="l-text-wrap2">博士机油格</h4>
+              <p class="l-fs-s">编号：50021221</p>
+              <p class="l-text-warn">50.00</p>
+            </div>
+            <div class="col-50 l-text-right">
+              <p class="l-fs-s">当前库存：3000</p>
+              <i class="l-icon _btn-add">&#xe602;</i>
+            </div>
+          </div>
+        </div>
+        <!-- list start end-->
+      </div>
+    </div>
+    <div class="panel-overlay"></div>
+  </div>
+  <script src="../static/plugs/require.min.js" data-main="../static/js/main.js"></script>
+  <script>
+  window.requireCallback = function($, utils) {
+    // 在这里编写您的js 已加载zepto.js, sui-mobile框架
+
+    // 添加
+    $('#list').on('click', '._btn-add', function(){
+      $.toast('添加成功');
+    });
+
+    $('#tab-1, #tab-2').on('click', 'a', function(){
+      $(this).addClass('active').siblings().removeClass('active');
+    });
+
+    // 删除
+    $('#footer-list').on('click',  function(e){
+      $(this).toggleClass('l-show');
+    }).children('._inner').on('click', '.l-number', function(e){
+      var $num = $(e.target).siblings('._num');
+      var num = Number($num.val()) || 0;
+      if($(e.target).hasClass('_minus')){ // 减
+        if(--num <= 0){
+          $num.val(0);
+          $num.closest('tr').remove();
+        }else{
+          $num.val(num);
+        }
+      }else if($(e.target).hasClass('_add')){ // 加
+        $num.val(++num)
+      }
+    }).on('click', function(){
+      return false;
+    });
+  }
+  </script>
+</body>
+</html>

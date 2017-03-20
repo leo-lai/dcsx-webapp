@@ -344,6 +344,10 @@ width: 1rem; height: 1rem; background: url(../images/close.png) no-repeat 50% 50
 .l-title-1 ._tit:after{content: ''; width: 1rem; height: 1.25rem; background: url() no-repeat 50% 50%; background-size: contain; display: inline-block; vertical-align: -0.3rem; margin: 0 0.5rem; }
 .l-title-1 ._tit:before{background-image: url(../images/icon-033.png);}
 .l-title-1 ._tit:after{background-image: url(../images/icon-034.png);}
+
+.l-tab-1{text-align: center; font-size: 0;}
+.l-tab-1 a{color: inherit; padding: 0.375rem 1rem; border-bottom: 2px solid #bdbdbd; font-size: 0.85rem;}
+.l-tab-1 a.active{color: #0e96ff; border-bottom-color: #0e96ff;}
 /*sui mobile 本地化样式*/
 .l-popup-page{overflow: hidden; background: #efeff4;}
 .popup{

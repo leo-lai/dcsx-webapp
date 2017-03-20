@@ -81,7 +81,7 @@
             <img :src="qrcode" alt="">
           </div>
         </div>
-        <i class="l-icon l-close-radius" @click="showQrcode">&#xe62e;</i>
+        <i class="l-icon l-close-radius" @click="showQrcode">&#xe660;</i>
       </div>
     </transition>
   </div>

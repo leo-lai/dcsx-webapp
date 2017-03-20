@@ -11,7 +11,7 @@
                 <p class="l-fs-m">购买价格：{{item.order_amount}} 元</p>
               </div>
               <div class="l-combo-item-bd">
-                <table class="l-table-border-t l-fs-xs">
+                <table class="l-table-border-t l-fs-s">
                   <tr class="l-text-gray l-text-nowrap">
                     <th>套餐项目</th>
                     <th>包含次数</th>
@@ -24,7 +24,7 @@
                   </tr>
                 </table>
               </div>
-              <div class="l-combo-item-ft l-padding l-fs-xs l-text-gray">
+              <div class="l-combo-item-ft l-padding l-fs-s l-text-gray">
                 <span>有效期至：{{item.valid_date}}</span>
                 <!-- <a class="pull-right">消费记录</a> -->
               </div>

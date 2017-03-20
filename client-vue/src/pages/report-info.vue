@@ -30,8 +30,8 @@
         <div class="l-panel l-margin-tb l-technician-work" v-if="abnormalList && abnormalList.length > 0">
           <div class="l-panel-title l-border-b"><span class="l-text-gray">检测结果</span></div>
           <ul class="l-check-cate1">
-            <li class="l-border-t l-link-arrow" v-for="(cate1, index) in abnormalList" @click="showInfo(index)">
-              <div>
+            <li class="l-border-t" v-for="(cate1, index) in abnormalList" @click="showInfo(index)">
+              <div class="_tit l-link-arrow">
                 <span v-if="cate1.check_status == 0" class="pull-right l-text-error">异常</span>
                 <span v-else class="pull-right l-text-ok">正常</span>
                 {{cate1.cate_name}}
@@ -42,7 +42,7 @@
         <!-- 检测结果 end-->
         <template v-if="reportInfo">
           <!-- 技师建议 -->
-          <div class="l-panel l-margin-tb l-technician-work">
+          <div class="l-panel l-margin-tb l-technician-work" v-show="reportInfo.advice_note">
             <div class="l-panel-title l-border-b"><span class="l-text-gray">技师建议</span></div>
             <div class="l-panel-content l-padding" v-text="reportInfo.advice_note"></div>
           </div>
@@ -92,7 +92,7 @@
                   <div class="item-subtitle">
                     <span v-text="item.model_name"></span>
                   </div>
-                  <div class="item-text l-fs-xs" v-text="item.car_license"></div>
+                  <div class="item-text l-fs-s" v-text="item.car_license"></div>
                 </div>
               </label>
             </li>
@@ -116,21 +116,21 @@
             </div>
             <div class="_cont">
               <table class="l-check-cate3">
-                <tr v-for="cate3 in cate2.list">
-                  <td>
-                    <p class="l-text-wrap2">
-                      <span v-show="cate3.check_status == 0"><i class="l-icon l-text-error">&#xe6d4;</i>&ensp;</span>{{cate3.sub_name}}
-                    </p>
-                  </td>
-                  <td>{{cate3.remark}}</td>
+                <tr v-for="cate3 in cate2.list" v-if="cate3">
+                  <td><p class="l-text-wrap2">{{cate3.sub_name}}</p></td>
+                  <td class="l-text-ok">{{cate3.remark}}</td>
                   <td class="l-text-error">{{cate3.abnormal_note}}</td>
+                  <td>
+                    <i class="l-icon l-text-error" v-if="cate3.check_status == 0">&#xe865;</i>
+                    <i class="l-icon l-text-ok" v-else>&#xe627;</i>
+                  </td>
                 </tr>
               </table>
               <p v-show="cate2.remark" class="_desc">{{cate2.remark}}</p>
             </div>
           </div>
         </div>
-        <i class="l-icon l-close-radius" @click="showInfo">&#xe62e;</i>
+        <i class="l-icon l-close-radius" @click="showInfo">&#xe660;</i>
       </div>
     </transition>
     <!-- 报告详情 end-->
@@ -174,9 +174,13 @@ export default {
       })
     },
     showInfo(index) {
-      this.isShowInfo = !this.isShowInfo
-      if(this.isShowInfo){
+      if(!this.isShowInfo){
         this.infoData = this.abnormalList[index].list ? this.abnormalList[index].list.filter(item => item) : []
+        if(this.infoData.length > 0){
+          this.isShowInfo = true
+        }
+      }else{
+        this.isShowInfo = false 
       }
     }
   },
@@ -223,16 +227,16 @@ export default {
 <style scoped lang="less">
 .l-report-info{
   position: relative;
-  background-color: #fff; min-height: 7.5rem; width: 90%; max-height: 80%; border-radius: 2px;
+  background-color: #fff; width: 90%; max-height: 80%; border-radius: 2px;
   overflow: auto; -webkit-overflow-scrolling: touch;
 }
 .l-report-item{
   font-size: 0.75rem;
-  border-bottom: 1px solid #f1f1f1;
-  ._tit{padding: 0.375rem 0.75rem;border-bottom: 1px solid #f3f3f3;background-color: #f3f3f3;}
+  border-bottom: 0.05rem solid #f1f1f1;
+  ._tit{padding: 0.375rem 0.75rem ; border-bottom: 0.05rem solid #f3f3f3; margin-bottom: -0.05rem;}
   ._cont{padding: 0.375rem  0.75rem;}
   .l-check-cate3{margin-top: 0;}
-  ._desc{color: #999; margin-top: 0.25rem;}
+  ._desc{color: #999; margin-top: 0.25rem; font-size: 0.7rem;}
 }
 .l-report-item:last-child{border:none;}
 </style>
