@@ -3,7 +3,7 @@
     <div id="app-page" class="page page-current">
       <l-header></l-header>
       <footer class="l-page-footer l-border-t l-flex-hc">
-        <router-link class="button button-fill l-btn l-rest" :to="'/combos/info/slt/' + combosInfo.suit_id">下单购买</a>
+        <router-link class="button button-fill l-btn l-rest" :to="'/combos/info/slt/' + combosInfo.suit_id">下单购买</router-link>
       </footer>
       <div class="content" v-show="combosInfo.suit_id">
         <div class="l-banner">
