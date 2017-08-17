@@ -10,7 +10,9 @@
               <input class="l-rest" type="tel" maxlength="11" placeholder="请输入您手机号码" v-model="formData.username">
             </div>
             <div class="l-login-ipt l-flex-hc">
-              <input class="l-rest" type="tel" maxlength="6" placeholder="请输入手机验证码" v-model="formData.code">
+              <div class="l-rest">
+                <input type="tel" maxlength="6" placeholder="请输入手机验证码" v-model="formData.code">
+              </div>
               <button ref="sendBtn" class="l-btn-link"  @click="sendAuthCode">获取验证码</button>
             </div>
             <div class="l-margin" style="margin-top: 1.25rem;">
@@ -52,7 +54,7 @@ export default {
     sendAuthCode: function(){ 
         this.$server.sendMobiCode(this.formData.username, this.$refs.sendBtn)
         .then((response)=>{
-          this.formData.code = response.obj.code
+          // this.formData.code = response.obj.code
         })
     },
     submit: function(){

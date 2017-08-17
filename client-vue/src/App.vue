@@ -53,5 +53,5 @@ export default {
 <style lang="less">
 @import '~src/styles/base.less';
 @import '~src/styles/global.less';
-@import '~src/styles/transition.css';
+@import '~src/styles/transition.less';
 </style>

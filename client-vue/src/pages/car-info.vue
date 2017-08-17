@@ -56,7 +56,7 @@
                 <div class="item-inner">
                   <div class="item-title label">上路时间</div>
                   <div class="item-input">
-                    <input id="date-on-road" type="text" placeholder="请选择" readonly :value="formData.license_date">
+                    <input id="date-on-road" type="date" placeholder="请选择" v-model="formData.license_date">
                   </div>
                 </div>
               </div>
@@ -233,15 +233,15 @@ export default {
     const self = this
     self.$nextTick(()=>{
       // 日期
-      $('#date-on-road').calendar({
-        // value: ['2017-02-23' || self.formData.license_date],
-        onChange(p, values, displayValues) {
-          self.formData.license_date = displayValues[0]
-        },
-        onOpen() {
-          $('.picker-calendar').find('.toolbar-inner a').removeAttr('href')
-        }
-      })  
+      // $('#date-on-road').calendar({
+      //   // value: ['2017-02-23' || self.formData.license_date],
+      //   onChange(p, values, displayValues) {
+      //     self.formData.license_date = displayValues[0]
+      //   },
+      //   onOpen() {
+      //     $('.picker-calendar').find('.toolbar-inner a').removeAttr('href')
+      //   }
+      // })  
     })
   }
 }
